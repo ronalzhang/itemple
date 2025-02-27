@@ -1,0 +1,87 @@
+@use 'variables' as *;
+
+.about-container {
+  padding: $spacing-xl;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  .page-title {
+    text-align: center;
+    font-family: $title-font;
+    color: $primary-color;
+    margin-bottom: $spacing-lg;
+    position: relative;
+    letter-spacing: 2px;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, $primary-color, transparent);
+    }
+  }
+  
+  .sacred-divider {
+    border-color: rgba($primary-color, 0.2);
+    margin-bottom: $spacing-xl;
+  }
+  
+  .about-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba($primary-color, 0.1);
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      border-color: rgba($primary-color, 0.3);
+    }
+  }
+  
+  .icon-title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+    
+    h3 {
+      margin: 0;
+      color: $secondary-color;
+      font-family: $special-font;
+    }
+  }
+  
+  .about-icon {
+    font-size: 2rem;
+    color: $primary-color;
+    background-color: rgba($primary-color, 0.1);
+    padding: 12px;
+    border-radius: 50%;
+  }
+  
+  .about-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: $text-color;
+  }
+  
+  @media (max-width: $mobile-width) {
+    padding: $spacing-lg $spacing-md;
+    
+    .about-card {
+      margin-bottom: $spacing-md;
+    }
+    
+    .about-icon {
+      font-size: 1.5rem;
+      padding: 8px;
+    }
+  }
+} 

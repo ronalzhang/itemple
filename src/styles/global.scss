@@ -1,0 +1,370 @@
+@use 'variables' as *;
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+// 全局变量
+$primary-color: #d4af37; // 金色，象征佛教
+$secondary-color: #9c27b0; // 紫色，象征神秘与庄重
+$background-color: #f8f5e4; // 淡米色背景
+$text-color: #333;
+$text-color-light: #fff;
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+// 字体设置
+$font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+
+// 断点
+$mobile-width: 576px;
+$tablet-width: 768px;
+$desktop-width: 992px;
+$large-desktop-width: 1200px;
+
+// 基础样式
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: $base-font-size;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-family;
+  line-height: $line-height;
+  color: $text-color;
+  background-color: $background-color;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  margin-bottom: $spacing-sm;
+  color: $text-color;
+}
+
+h1 {
+  font-size: 2.5rem;
+  
+  @include mobile {
+    font-size: 2rem;
+  }
+}
+
+h2 {
+  font-size: 2rem;
+  
+  @include mobile {
+    font-size: 1.7rem;
+  }
+}
+
+h3 {
+  font-size: 1.75rem;
+  
+  @include mobile {
+    font-size: 1.5rem;
+  }
+}
+
+h4 {
+  font-size: 1.5rem;
+  
+  @include mobile {
+    font-size: 1.3rem;
+  }
+}
+
+p {
+  margin-bottom: $spacing-md;
+  line-height: 1.8;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-fast ease-in-out;
+  
+  &:hover {
+    color: darken-color($primary-color, 10%);
+    text-decoration: underline;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-sm;
+}
+
+.section {
+  padding: $spacing-xl 0;
+}
+
+// 辅助类
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-primary { color: $primary-color; }
+.text-secondary { color: $secondary-color; }
+.text-light { color: $text-color-light; }
+.bg-primary { background-color: $primary-color; }
+.bg-secondary { background-color: $secondary-color; }
+.bg-light { background-color: $background-color; }
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: $spacing-xs; }
+.mb-2 { margin-bottom: $spacing-sm; }
+.mb-3 { margin-bottom: $spacing-md; }
+.mb-4 { margin-bottom: $spacing-lg; }
+.mb-5 { margin-bottom: $spacing-xl; }
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: $spacing-xs; }
+.mt-2 { margin-top: $spacing-sm; }
+.mt-3 { margin-top: $spacing-md; }
+.mt-4 { margin-top: $spacing-lg; }
+.mt-5 { margin-top: $spacing-xl; }
+
+// 动画
+.fade-in {
+  opacity: 0;
+  animation: fadeIn $transition-normal forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 全局按钮样式
+.btn {
+  display: inline-block;
+  padding: $spacing-xs $spacing-lg;
+  border-radius: $button-radius;
+  border: none;
+  background-color: $primary-color;
+  color: $text-color-light;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal ease;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: $box-shadow;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $box-shadow-hover;
+  }
+  
+  &:active {
+    transform: translateY(1px);
+    box-shadow: $box-shadow;
+  }
+}
+
+.btn-large {
+  padding: $spacing-md $spacing-xl;
+  font-size: 1.2rem;
+  
+  @include mobile {
+    padding: $spacing-sm $spacing-lg;
+    font-size: 1.1rem;
+  }
+}
+
+.btn-small {
+  padding: $spacing-xs $spacing-sm;
+  font-size: 0.9rem;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: $primary-color;
+  border: 1px solid $primary-color;
+  
+  &:hover {
+    background-color: $primary-color;
+    color: $text-color-light;
+  }
+}
+
+// 卡片样式
+.card {
+  background: white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  transition: transform $transition-normal ease, box-shadow $transition-normal ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $box-shadow-hover;
+  }
+}
+
+// 自定义按钮样式 (适配Antd)
+.custom-btn-primary {
+  background-color: $primary-color;
+  color: white;
+  border-color: $primary-color;
+  
+  &:hover, &:focus {
+    background-color: darken-color($primary-color, 10%);
+    border-color: darken-color($primary-color, 10%);
+    color: white;
+  }
+  
+  &:active {
+    background-color: darken-color($primary-color, 15%);
+    border-color: darken-color($primary-color, 15%);
+  }
+}
+
+.custom-btn-secondary {
+  background-color: white;
+  color: $primary-color;
+  border-color: $primary-color;
+  
+  &:hover, &:focus {
+    background-color: lighten-color($primary-color, 35%);
+    color: darken-color($primary-color, 10%);
+    border-color: darken-color($primary-color, 10%);
+  }
+  
+  &:active {
+    background-color: lighten-color($primary-color, 25%);
+    color: darken-color($primary-color, 15%);
+    border-color: darken-color($primary-color, 15%);
+  }
+}
+
+// 全局滚动条样式
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba($primary-color, 0.5);
+  border-radius: 4px;
+  
+  &:hover {
+    background: rgba($primary-color, 0.7);
+  }
+}
+
+// 响应式辅助类
+.hide-mobile {
+  @media (max-width: $mobile-width - 1px) {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  @media (min-width: $mobile-width) {
+    display: none !important;
+  }
+}
+
+// 动画
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+// 统一动画类
+.animate-slideUp {
+  animation: slideUp 0.8s ease forwards;
+}
+
+// 延迟动画
+@for $i from 1 through 6 {
+  .delay-#{$i} {
+    animation-delay: $i * 0.1s;
+  }
+}
+
+// 边距工具类
+.ml-1 { margin-left: $spacing-xs; }
+.ml-2 { margin-left: $spacing-sm; }
+
+.mr-1 { margin-right: $spacing-xs; }
+.mr-2 { margin-right: $spacing-sm; }
+
+// 填充工具类
+.p-1 { padding: $spacing-xs; }
+.p-2 { padding: $spacing-sm; }
+.p-3 { padding: $spacing-md; }
+.p-4 { padding: $spacing-lg; }
+.p-5 { padding: $spacing-xl; }
+
+// 弹性布局辅助类
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+// 网格布局
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: $grid-gutter;
+}
+
+// 响应式列
+@media (min-width: $mobile-width) {
+  .col-sm-6 { grid-column: span 6; }
+  .col-sm-12 { grid-column: span 12; }
+}
+
+@media (min-width: $tablet-width) {
+  .col-md-4 { grid-column: span 4; }
+  .col-md-6 { grid-column: span 6; }
+  .col-md-8 { grid-column: span 8; }
+  .col-md-12 { grid-column: span 12; }
+}
+
+@media (min-width: $desktop-width) {
+  .col-lg-3 { grid-column: span 3; }
+  .col-lg-4 { grid-column: span 4; }
+  .col-lg-6 { grid-column: span 6; }
+  .col-lg-8 { grid-column: span 8; }
+  .col-lg-12 { grid-column: span 12; }
+} 

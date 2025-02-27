@@ -1,0 +1,94 @@
+@use 'variables' as *;
+
+.statistics-chart {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: $border-radius !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  transform: translateZ(0);
+  will-change: transform;
+  
+  &:hover {
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  }
+  
+  .ant-card-body {
+    padding: $spacing-md;
+  }
+  
+  .card-title {
+    text-align: center;
+    font-family: $title-font;
+    font-size: $font-size-xl;
+    color: $primary-color;
+    margin-bottom: $spacing-md;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -$spacing-xs;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background-color: $primary-color;
+    }
+  }
+  
+  .chart-container {
+    padding: $spacing-xs;
+  }
+  
+  .data-item {
+    margin-bottom: $spacing-md;
+    transition: background-color 0.3s ease;
+    border-radius: $border-radius;
+    padding: $spacing-xs $spacing-sm;
+    
+    &:hover {
+      background-color: rgba($primary-color, 0.05);
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  .data-name {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacing-xs;
+    font-weight: 500;
+    
+    .color-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: $spacing-xs;
+      display: inline-block;
+    }
+  }
+  
+  .ant-progress {
+    transform: translateZ(0);
+    
+    .ant-progress-text {
+      color: $text-color;
+      font-weight: 500;
+    }
+  }
+  
+  .empty-data {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-color;
+    font-style: italic;
+    background-color: rgba($primary-color, 0.02);
+    border-radius: $border-radius;
+  }
+} 

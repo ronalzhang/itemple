@@ -1,0 +1,351 @@
+@import './variables.scss';
+
+.temple-section-container {
+  width: 100%;
+  margin-bottom: $spacing-xl;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+  color: $primary-color;
+  font-size: 2rem;
+  font-weight: 600;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: $accent-color;
+    border-radius: $border-radius-sm;
+  }
+  
+  @media (max-width: $mobile-width) {
+    font-size: 1.5rem;
+    margin-bottom: $spacing-md;
+  }
+}
+
+// 上下布局容器
+.temple-content-vertical {
+  margin-top: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  
+  @media (max-width: $mobile-width) {
+    margin-top: $spacing-md;
+    gap: $spacing-lg;
+  }
+}
+
+/* 图片展示部分 - 上下布局 */
+.temple-gallery-vertical {
+  margin-bottom: $spacing-lg;
+  width: 100%;
+  
+  @media (max-width: $mobile-width) {
+    margin-bottom: $spacing-md;
+  }
+}
+
+.main-image-card {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: $box-shadow-lg;
+  }
+  
+  .ant-card-body {
+    padding: $spacing-md;
+    
+    @media (max-width: $mobile-width) {
+      padding: $spacing-sm;
+    }
+  }
+}
+
+.main-image-container {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  border-radius: $border-radius-sm;
+  margin-bottom: $spacing-md;
+  position: relative;
+  
+  @media (max-width: $large-desktop-width) {
+    height: 450px;
+  }
+  
+  @media (max-width: $desktop-width) {
+    height: 400px;
+  }
+  
+  @media (max-width: $mobile-width) {
+    height: 300px;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.thumbnails-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  
+  &::before, 
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    
+    @media (max-width: $mobile-width) {
+      width: 15px;
+    }
+  }
+  
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+  }
+  
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+  }
+}
+
+.thumbnails-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: $spacing-sm;
+  padding: $spacing-xs 0;
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color rgba($primary-color, 0.1);
+  
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba($primary-color, 0.1);
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 10px;
+  }
+}
+
+.thumbnail-item {
+  flex: 0 0 auto;
+  width: 100px;
+  height: 75px;
+  border-radius: $border-radius-sm;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  &.active {
+    box-shadow: 0 0 0 2px $primary-color;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba($primary-color, 0.2);
+    }
+  }
+  
+  @media (max-width: $mobile-width) {
+    width: 80px;
+    height: 60px;
+  }
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 描述部分 - 上下布局 */
+.temple-info-vertical {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.description-card {
+  height: 100%;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  background-color: $background-light;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: $box-shadow-lg;
+  }
+  
+  .ant-card-body {
+    padding: $spacing-lg;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    @media (max-width: $mobile-width) {
+      padding: $spacing-md;
+    }
+  }
+}
+
+.tab-content {
+  color: $text-color;
+  line-height: 1.8;
+  padding: $spacing-md 0;
+  
+  p {
+    margin-bottom: $spacing-md;
+    text-align: justify;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    @media (max-width: $mobile-width) {
+      margin-bottom: $spacing-sm;
+    }
+  }
+  
+  .intro-paragraph {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: $primary-color;
+    border-left: 4px solid $accent-color;
+    padding-left: $spacing-md;
+    
+    @media (max-width: $mobile-width) {
+      font-size: 1rem;
+      padding-left: $spacing-sm;
+    }
+  }
+}
+
+.temple-quote {
+  margin-top: auto;
+  padding: $spacing-md;
+  background-color: rgba($primary-color, 0.05);
+  border-radius: $border-radius-sm;
+  
+  blockquote {
+    font-style: italic;
+    font-size: 1.1rem;
+    position: relative;
+    padding: $spacing-sm $spacing-md;
+    margin: 0;
+    color: $text-color-dark;
+    
+    &::before {
+      content: '"';
+      font-size: 3rem;
+      color: rgba($primary-color, 0.2);
+      position: absolute;
+      left: -$spacing-xs;
+      top: -$spacing-md;
+      line-height: 1;
+    }
+    
+    cite {
+      display: block;
+      margin-top: $spacing-sm;
+      font-size: 0.9rem;
+      text-align: right;
+      font-style: normal;
+      color: $text-color-light;
+      
+      &::before {
+        content: '— ';
+      }
+    }
+    
+    @media (max-width: $mobile-width) {
+      font-size: 1rem;
+      padding: $spacing-xs;
+      
+      &::before {
+        font-size: 2rem;
+        top: -$spacing-sm;
+      }
+      
+      cite {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: $tablet-width) {
+  .temple-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .temple-gallery {
+    order: 1;
+  }
+  
+  .temple-info {
+    order: 2;
+  }
+} 

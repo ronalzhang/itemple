@@ -1,0 +1,21 @@
+@use 'variables' as *;
+
+.language-switcher {
+  display: flex;
+  align-items: center;
+  padding: $spacing-xs;
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-lg;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: $border-radius;
+  z-index: 100;
+  
+  @media (max-width: $mobile-width) {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: $spacing-sm 0;
+    justify-content: center;
+  }
+} 

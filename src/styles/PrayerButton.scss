@@ -1,0 +1,686 @@
+@use 'variables' as *;
+
+.prayer-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm 0;
+  margin: $spacing-sm 0;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 20px;
+    background-image: url('/images/lotus-border.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.6;
+  }
+}
+
+.lunar-date-display {
+  text-align: center;
+  font-size: $font-size-md;
+  color: $text-color;
+  margin-bottom: $spacing-xs;
+  font-family: $special-font;
+  min-height: 28px;
+  
+  @media (max-width: $mobile-width) {
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-xs / 2;
+  }
+}
+
+.prayer-explanation {
+  max-width: 600px;
+  text-align: center;
+  margin-top: $spacing-sm;
+  font-size: $font-size-sm;
+  color: rgba($text-color, 0.8);
+  line-height: 1.4;
+}
+
+.prayer-button {
+  background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%)) !important;
+  border: none !important;
+  height: 70px !important;
+  width: 280px !important;
+  font-size: $font-size-xl !important;
+  font-weight: 600 !important;
+  border-radius: 35px !important;
+  color: $text-color-dark !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 6px 12px rgba($primary-color, 0.4) !important;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease !important;
+  transform: translateZ(0);
+  will-change: transform;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.02) translateZ(0) !important;
+    box-shadow: 0 8px 16px rgba($primary-color, 0.5) !important;
+    background: linear-gradient(135deg, lighten($primary-color, 5%), darken($primary-color, 5%)) !important;
+  }
+  
+  &:active {
+    transform: translateY(2px) translateZ(0) !important;
+    box-shadow: 0 4px 8px rgba($primary-color, 0.3) !important;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.5s ease;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+  }
+}
+
+/* 祝福成功弹窗样式 */
+.blessing-modal {
+  .ant-modal-content {
+    border-radius: $border-radius !important;
+    background-color: rgba(255, 252, 240, 0.98) !important;
+    box-shadow: 0 10px 30px rgba($primary-color, 0.3) !important;
+    border: 1px solid rgba($primary-color, 0.2);
+    overflow: hidden;
+    max-width: 450px;
+    margin: 0 auto;
+    
+    .ant-modal-header {
+      background-color: rgba($primary-color, 0.08);
+      border-bottom: 1px solid rgba($primary-color, 0.15);
+      padding: $spacing-xs $spacing-sm;
+      
+      .ant-modal-title {
+        color: $primary-color;
+        font-family: $title-font;
+        text-align: center;
+        font-size: $font-size-lg;
+        font-weight: 600;
+      }
+    }
+    
+    .ant-modal-body {
+      padding: $spacing-sm;
+      position: relative;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/images/lotus-watermark.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 120px;
+        opacity: 0.05;
+        z-index: 0;
+      }
+    }
+  }
+}
+
+.blessing-content {
+  position: relative;
+  z-index: 1;
+  
+  .temple-image {
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+    margin-bottom: $spacing-sm;
+    border-radius: $border-radius-sm;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0) 60%, 
+        rgba(0, 0, 0, 0.5) 100%);
+      z-index: 1;
+    }
+    
+    .buddha-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 4s ease;
+      transform-origin: center;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+  
+  .incense-animation {
+    width: 100px;
+    height: 150px;
+    background-image: url('/images/incense.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0 auto $spacing-sm;
+    position: relative;
+    transform: translateZ(0);
+    will-change: transform;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      width: 8px;
+      height: 30px;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.8));
+      border-radius: 50%;
+      filter: blur(2px);
+      transform: translateX(-50%);
+      animation: smoke 4s ease-out infinite;
+      will-change: opacity, transform;
+    }
+    
+    @keyframes smoke {
+      0% {
+        height: 0;
+        opacity: 0;
+      }
+      10% {
+        height: 10px;
+        opacity: 0.8;
+      }
+      40% {
+        height: 30px;
+        opacity: 0.5;
+      }
+      100% {
+        height: 50px;
+        opacity: 0;
+        transform: translateX(-50%) translateY(-50px);
+      }
+    }
+  }
+  
+  .success-message {
+    font-size: $font-size-lg;
+    color: $primary-color;
+    margin-bottom: $spacing-xs;
+    font-weight: 600;
+    font-family: $special-font;
+    position: relative;
+    padding: 0 $spacing-sm;
+    text-align: center;
+    
+    &::before, &::after {
+      content: '☸';
+      position: absolute;
+      color: rgba($primary-color, 0.3);
+      font-size: 1rem;
+      top: 0;
+    }
+    
+    &::before {
+      left: 0;
+    }
+    
+    &::after {
+      right: 0;
+    }
+  }
+  
+  .prayer-achievement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: $spacing-xs 0;
+    
+    .prayer-rank {
+      font-size: $font-size-md;
+      margin-bottom: $spacing-xs;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: 15px;
+      background: linear-gradient(135deg, lighten($primary-color, 10%), $primary-color);
+      color: $text-color-dark;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      animation: pulsate 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulsate {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.03);
+      }
+    }
+    
+    .prayer-id {
+      font-family: $font-family;
+      color: rgba($text-color, 0.7);
+      font-size: $font-size-sm;
+      background: rgba($primary-color, 0.07);
+      padding: 2px 10px;
+      border-radius: 10px;
+    }
+  }
+  
+  .success-date {
+    font-size: $font-size-sm;
+    color: $text-color;
+    margin: $spacing-xs 0;
+    line-height: 1.4;
+    padding: $spacing-xs;
+    border-left: 3px solid rgba($primary-color, 0.4);
+    text-align: left;
+    background: rgba($primary-color, 0.03);
+    border-radius: $border-radius-sm;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    
+    .ceremony-note {
+      font-size: 0.8rem !important;
+      margin-top: $spacing-xs !important;
+      margin-bottom: 0 !important;
+      padding: $spacing-xs !important;
+      line-height: 1.3 !important;
+    }
+  }
+  
+  p {
+    font-size: $font-size-md;
+    color: $accent-color;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: $spacing-xs;
+    font-family: $special-font;
+    background: rgba($primary-color, 0.05);
+    padding: $spacing-xs;
+    border-radius: $border-radius;
+    position: relative;
+    
+    &::before, &::after {
+      content: '"';
+      position: absolute;
+      color: rgba($primary-color, 0.4);
+      font-size: 1.5rem;
+      font-family: serif;
+    }
+    
+    &::before {
+      left: 5px;
+      top: -3px;
+    }
+    
+    &::after {
+      right: 5px;
+      bottom: -15px;
+    }
+  }
+  
+  .merit-button-container {
+    text-align: center;
+    margin-top: $spacing-xs;
+    
+    .merit-button {
+      background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+      border: none;
+      border-radius: 20px;
+      padding: 0 $spacing-md;
+      height: 36px;
+      font-size: $font-size-sm;
+      min-width: 120px;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba($primary-color, 0.2);
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba($primary-color, 0.3);
+      }
+      
+      &:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 5px rgba($primary-color, 0.2);
+      }
+    }
+  }
+}
+
+.prayer-success-modal {
+  .ant-modal-content {
+    border-radius: $border-radius !important;
+    overflow: hidden;
+    background-color: rgba(255, 252, 240, 0.95) !important;
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3) !important;
+    border: 1px solid rgba($primary-color, 0.2);
+    
+    .ant-modal-header {
+      background-color: rgba($primary-color, 0.1);
+      border-bottom: 1px solid rgba($primary-color, 0.2);
+      
+      .ant-modal-title {
+        color: $primary-color;
+        font-family: $title-font;
+        text-align: center;
+        font-size: $font-size-xl;
+        padding: $spacing-sm 0;
+      }
+    }
+    
+    .ant-modal-body {
+      padding: $spacing-lg;
+      background-image: url('/images/lotus-watermark.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 150px;
+      background-blend-mode: normal;
+    }
+
+    .ant-modal-close {
+      color: rgba($primary-color, 0.7);
+      
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+  
+  .success-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transform: translateZ(0);
+    
+    .incense-animation {
+      width: 100px;
+      height: 150px;
+      background-image: url('/images/incense.png');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin-bottom: $spacing-md;
+      position: relative;
+      transform: translateZ(0);
+      will-change: transform;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        width: 8px;
+        height: 30px;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.8));
+        border-radius: 50%;
+        filter: blur(2px);
+        transform: translateX(-50%);
+        animation: smoke 4s ease-out infinite;
+        will-change: opacity, transform;
+      }
+    }
+    
+    .prayer-achievement {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: $spacing-md;
+      
+      .prayer-rank {
+        font-size: $font-size-md;
+        margin-bottom: $spacing-xs;
+        padding: $spacing-xs $spacing-sm;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #f7d358, $primary-color);
+        border: none;
+        color: $text-color-dark;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        animation: simple-pulse 3s ease-in-out infinite;
+        will-change: transform;
+      }
+      
+      .prayer-id {
+        font-family: $title-font;
+        color: $text-color;
+        font-size: $font-size-sm;
+        background: rgba($primary-color, 0.1);
+        padding: 2px 10px;
+        border-radius: 10px;
+        margin-top: $spacing-xs;
+      }
+    }
+    
+    .success-message {
+      font-size: $font-size-lg;
+      color: $primary-color;
+      margin-bottom: $spacing-sm;
+      font-weight: 600;
+      font-family: $special-font;
+      position: relative;
+      padding: 0 $spacing-md;
+      
+      &::before, &::after {
+        content: '☸';
+        position: absolute;
+        color: rgba($primary-color, 0.2);
+        font-size: 1.5rem;
+        top: 0;
+      }
+      
+      &::before {
+        left: 0;
+      }
+      
+      &::after {
+        right: 0;
+      }
+    }
+    
+    .blessing-effect {
+      font-size: 1.25rem;
+      color: $accent-color;
+      margin: $spacing-md 0;
+      font-family: $special-font;
+      font-weight: 500;
+      line-height: 1.6;
+      position: relative;
+      background: linear-gradient(rgba($primary-color, 0.03), rgba($primary-color, 0.08));
+      padding: $spacing-md $spacing-lg;
+      border-radius: $border-radius;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+      
+      &::before, &::after {
+        content: '"';
+        font-size: 2em;
+        position: absolute;
+        color: rgba($primary-color, 0.4);
+      }
+      
+      &::before {
+        left: 5px;
+        top: -5px;
+      }
+      
+      &::after {
+        right: 5px;
+        bottom: -20px;
+      }
+      
+      animation: gentle-glow 4s ease-in-out infinite;
+    }
+    
+    @keyframes gentle-glow {
+      0%, 100% {
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      }
+      50% {
+        box-shadow: 0 3px 15px rgba($primary-color, 0.15);
+      }
+    }
+    
+    .success-date {
+      font-size: $font-size-sm;
+      color: $text-color;
+      margin: $spacing-md 0;
+      line-height: 1.6;
+      padding: $spacing-md;
+      border-left: 3px solid rgba($primary-color, 0.4);
+      text-align: left;
+      background: rgba($primary-color, 0.03);
+      border-radius: $border-radius-sm;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    .share-container {
+      margin: $spacing-md 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      .copy-button {
+        background: linear-gradient(135deg, $primary-color, lighten($primary-color, 15%));
+        color: white;
+        border: none;
+        padding: 0 $spacing-md;
+        height: 40px;
+        border-radius: 20px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba($primary-color, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transform: translateZ(0);
+        will-change: transform;
+        
+        &:hover {
+          transform: translateY(-2px) translateZ(0);
+          box-shadow: 0 3px 6px rgba($primary-color, 0.3);
+        }
+        
+        &:active {
+          transform: translateY(1px) translateZ(0);
+          box-shadow: 0 1px 3px rgba($primary-color, 0.2);
+        }
+      }
+    }
+    
+    .close-button {
+      margin-top: $spacing-sm;
+      width: 180px;
+      height: 45px;
+      border-radius: 22px;
+      font-weight: 600;
+      background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%)) !important;
+      border: none;
+      box-shadow: 0 3px 6px rgba($primary-color, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform: translateZ(0);
+      will-change: transform;
+      
+      &:hover {
+        transform: translateY(-2px) translateZ(0);
+        box-shadow: 0 4px 8px rgba($primary-color, 0.3);
+      }
+      
+      &:active {
+        transform: translateY(1px) translateZ(0);
+        box-shadow: 0 2px 4px rgba($primary-color, 0.2);
+      }
+    }
+  }
+}
+
+@keyframes smoke {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0);
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(-50%) translateY(-15px);
+  }
+  75% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px);
+  }
+}
+
+@keyframes simple-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// 祝福按钮容器样式
+.merit-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.merit-button {
+  min-width: 120px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 20px;
+} 

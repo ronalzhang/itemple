@@ -1,0 +1,72 @@
+// 颜色变量
+$primary-color: #d4af37;
+$secondary-color: #9c27b0;
+$accent-color: #8d6e63;
+$text-color: #333333;
+$text-color-light: #ffffff;
+$text-color-dark: #111111;
+$background-color: #f8f5e4;
+$background-dark: #272727;
+$background-light: #f8f8f8;
+$success-color: #4caf50;
+$warning-color: #ff9800;
+$error-color: #f44336;
+$info-color: #2196f3;
+
+// 字体变量
+$font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+$title-font: 'Noto Serif SC', serif;
+$special-font: 'Ma Shan Zheng', cursive;
+$base-font-size: 16px;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-md: 1rem;
+$font-size-lg: 1.25rem;
+$font-size-xl: 1.5rem;
+$font-size-xxl: 2rem;
+$font-size-xxxl: 3rem;
+$line-height: 1.6;
+
+// 层级变量
+$z-index-header: 1000;
+$z-index-modal: 2000;
+$z-index-tooltip: 3000;
+$z-index-top: 9999;
+
+// 尺寸变量
+$header-height: 70px;
+$footer-height: 60px;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$border-radius-sm: 4px;
+$button-radius: 30px;
+
+// 间距变量
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 1.5rem;
+$spacing-lg: 2rem;
+$spacing-xl: 3rem;
+$spacing-xxl: 4rem;
+
+// 盒阴影
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$box-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
+$box-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2);
+$box-shadow-md: 0 6px 12px rgba(0, 0, 0, 0.12);
+$box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+
+// 过渡时间
+$transition-fast: 0.2s;
+$transition-normal: 0.3s;
+$transition-slow: 0.5s;
+
+// 栅格系统
+$grid-columns: 12;
+$grid-gutter: 1rem;
+
+// 断点
+$mobile-width: 576px;
+$tablet-width: 768px;
+$desktop-width: 992px;
+$large-desktop-width: 1200px; 

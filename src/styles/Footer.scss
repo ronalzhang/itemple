@@ -1,0 +1,69 @@
+@use 'variables' as *;
+
+.site-footer {
+  background-color: $background-dark;
+  color: $primary-color;
+  padding: $spacing-lg 0;
+  margin-top: $spacing-xxl;
+  border-top: 3px solid $primary-color;
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    padding: $spacing-md $spacing-md $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    
+    .footer-links {
+      margin-bottom: $spacing-sm;
+      
+      a {
+        color: $primary-color;
+        text-decoration: none;
+        font-family: $font-family;
+        font-size: 1rem;
+        transition: color 0.3s;
+        
+        &:hover {
+          color: lighten($primary-color, 15%);
+          text-decoration: underline;
+        }
+      }
+      
+      .ant-divider {
+        background-color: rgba($primary-color, 0.3);
+      }
+    }
+    
+    .footer-legal {
+      font-size: 0.9rem;
+      color: rgba($primary-color, 0.8);
+      
+      a {
+        color: rgba($primary-color, 0.8);
+        transition: color 0.3s;
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+  
+  // 添加佛教装饰元素
+  /* 暂时注释掉，等待lotus-border.png图片文件添加
+  &::before {
+    content: '';
+    display: block;
+    height: 30px;
+    background-image: url('/images/lotus-border.png');
+    background-size: 30px;
+    background-repeat: repeat-x;
+    background-position: top center;
+    margin-top: -20px;
+    opacity: 0.5;
+  }
+  */
+} 

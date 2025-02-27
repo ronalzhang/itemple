@@ -1,0 +1,193 @@
+{
+  "site": {
+    "title": "Drikhung Rinpoche Monastery",
+    "subtitle": "Tibetan Buddhist Gelug Tradition",
+    "description": "A sacred place for global Buddhist followers",
+    "motto": "Illuminating Hearts, Blessing Lives",
+    "loading": "Divine Light Shining...",
+    "footer": "© 2025 Drikhung Rinpoche Monastery. All Rights Reserved | Sacred Site of Tibetan Buddhism Gelug Tradition"
+  },
+  "header": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "donate": "Donate",
+    "language": "Language"
+  },
+  "stats": {
+    "title": "Prayer Merit Statistics",
+    "today": "Today's Blessings",
+    "total": "Eternal Blessings",
+    "chart": {
+      "title": "Global Devotion",
+      "subtitle": "Prayers from around the world"
+    },
+    "todayCount": "Today's Devotees",
+    "totalCount": "Accumulated Blessings",
+    "globalDistribution": "Global Devotee Distribution",
+    "asia": "Asian Devotees",
+    "europe": "European Devotees",
+    "america": "American Devotees",
+    "others": "Other Regions",
+    "people": "devotees",
+    "noData": "No data available"
+  },
+  "statistics": {
+    "globalDistribution": "Global Devotee Distribution"
+  },
+  "prayer": {
+    "button": "Light Incense & Pray",
+    "buttonText": "Light Incense & Pray",
+    "loading": "Praying...",
+    "explanation": "Sincere prayers eliminate obstacles and increase wisdom and merits",
+    "congratulations": "Congratulations! Your prayer is complete!",
+    "prayerRank": "You are the {{rank}}th devotee today",
+    "prayerId": "Prayer ID: {{id}}",
+    "success": {
+      "title": "Prayer Successful",
+      "description": "Your prayer has been sent to the temple. The monks will chant sutras for you. May you be blessed with peace and wisdom!",
+      "message1": "Your sincere devotion has blossomed like a luminous lotus before Buddha.",
+      "message2": "May Buddha's compassionate blessings remove obstacles, increase your wisdom and merit, and bring peace and auspiciousness.",
+      "specialDays": "On every 1st and 15th day of the lunar month, 108 monks at our monastery will chant sutras and mantras specially for your longevity and prosperity. Your accumulated merit and all wholesome wishes shall continue uninterrupted, like the eternal lamp.",
+      "next_ceremony": "The next ceremony day will be on {{month}}/{{day}}/{{year}} (Lunar Calendar: {{lunarMonth}}{{lunarDay}}), in {{daysAway}} days.",
+      "today_ceremony": "Today ({{month}}/{{day}}/{{year}}) is a ceremony day (Lunar Calendar: {{lunarMonth}}{{lunarDay}})!",
+      "tomorrow_ceremony": "Tomorrow ({{month}}/{{day}}/{{year}}) is a ceremony day (Lunar Calendar: {{lunarMonth}}{{lunarDay}})!",
+      "dayafter_ceremony": "The day after tomorrow ({{month}}/{{day}}/{{year}}) is a ceremony day (Lunar Calendar: {{lunarMonth}}{{lunarDay}})!",
+      "close": "Rejoice in Merit",
+      "note": "The 1st and 15th day of each lunar month are traditional Buddhist ceremony days, the best time for prayers.",
+      "error": "Unable to retrieve the next ceremony date. The 1st and 15th days of each lunar month are traditional ceremony days."
+    },
+    "error": {
+      "title": "Prayer Interrupted",
+      "description": "We couldn't complete your prayer. Please try again with a peaceful mind."
+    },
+    "timeout": {
+      "title": "Connection Delayed",
+      "description": "The monastery connection is slow. Your intention is what matters most."
+    },
+    "nextCeremony": "The next Grand Prayer Ceremony led by His Holiness Rinpoche will be held in {{days}} days ({{year}}/{{month}}/{{day}}, Lunar Calendar: {{lunarMonth}}{{lunarDay}}, the {{dayType}} day). On this auspicious day, 108 monks will chant the sacred Kangyur texts for your blessing.",
+    "dayType": {
+      "firstDay": "1st",
+      "fifteenthDay": "15th"
+    },
+    "moreBlessings": "For greater merit and divine blessings, consider making a sacred offering. The merit of such actions is immeasurable."
+  },
+  "temple": {
+    "title": "Drikhung Rinpoche Monastery",
+    "subtitle": "A Sacred Haven of Peace and Enlightenment",
+    "description": "Nestled in the Himalayan foothills, Drikhung Rinpoche Monastery stands as a beacon of Tibetan Buddhist tradition. Founded in the 14th century, this sacred site preserves ancient wisdom while embracing global spirituality. The monastery's golden roofs and intricate mandalas represent the path to enlightenment, inspiring visitors from across the world.",
+    "info": "The monastery is home to a community of dedicated monks who maintain daily rituals, scholarly pursuits, and meditation practices. Visitors are welcome to witness prayer ceremonies, explore the ancient libraries, and experience the profound spiritual atmosphere that has remained unchanged for centuries.",
+    "hours": {
+      "title": "Visiting Hours",
+      "content": "Daily from 9:00 AM to 5:00 PM, extended to 8:00 PM on ceremony days (1st and 15th day of lunar month)"
+    },
+    "history": "Drikhung Rinpoche Monastery was established in the Wood Horse Year of the 7th Rabjung Cycle (1234 CE), consecrated by the great Jonang master Töndrub Rinpoche. It stands as one of the most sacred monasteries of the Gelug tradition of Tibetan Buddhism. Through nearly 800 years of history, including three major reconstructions, the monastery has faithfully guarded six extraordinary sacred treasures: an authentic relic of Buddha Shakyamuni, the Thousand-Year Eternal Butter Lamp, the Seven-Colored Vajra, the Speaking Tara Thangka, the Never-Wilting Lotus, and the world-renowned Pure Gold Buddha—a 9.8-meter tall Maitreya Buddha statue crafted from 8.6 tons of pure gold, one of the largest pure gold Buddha statues in the world.",
+    "location": "The monastery is nestled in the sacred eastern region of the Himalayas at an altitude of 4,527 meters. With Mount Kailash (Gang Rinpoche) at its back and the sacred Lake Manasarovar (Mapam Yumtso) before it, surrounded by majestic peaks, it is perpetually enveloped in spiritual energy and renowned as 'The Land of Spiritual Veins'—a truly sacred site of Buddhist dharma.",
+    "monks": "The monastery is currently home to 1 Living Buddha, 3 Rinpoches, 5 Khenpos, and 189 practicing monks who engage in daily chanting, worship, and spiritual practice without interruption. Pilgrims from around the world continuously visit to seek blessings, wisdom, peace, and prosperity.",
+    "image1Alt": "Monastery's golden roof front view",
+    "image2Alt": "Buddha statue inside the monastery",
+    "image3Alt": "Snow mountains surrounding the monastery",
+    "image4Alt": "Monastery at dawn",
+    "image5Alt": "Monks chanting prayers",
+    "image6Alt": "Ancient scripture library in the monastery",
+    "image7Alt": "Colorful wall paintings in the monastery",
+    "image8Alt": "High Lama performing ceremony"
+  },
+  "templeSection": {
+    "title": "Sacred Monastery",
+    "tabs": {
+      "introduction": "Introduction",
+      "significance": "Spiritual Significance",
+      "location": "Location"
+    },
+    "introduction": {
+      "highlight": "Drikhung Rinpoche Monastery is a significant sacred site of the Gelug lineage of Tibetan Buddhism with over 600 years of rich history.",
+      "p1": "Founded in 1387 by Jamyang Choje, an eminent disciple of Je Tsongkhapa, the monastery is renowned for its magnificent architecture, rich collection of Buddhist texts, and rigorous spiritual lineage. The golden roofs glitter in the sunlight, symbolizing the luminosity of Buddha's wisdom.",
+      "p2": "The monastery houses thousands of precious Buddhist scriptures and thangkas, including rare treasures. Most notable is a 15-foot pure gold statue of Buddha Shakyamuni that draws countless devotees daily. The walls are adorned with exquisite murals depicting Buddha's life and the essence of Buddhist teachings."
+    },
+    "significance": {
+      "p1": "Drikhung Rinpoche Monastery serves as a vital center for Buddhist practice, where monks engage in continuous rituals and spiritual practices day and night. The monastery hosts several major ceremonies throughout the year, particularly the Tibetan New Year blessing ceremony that attracts devotees from around the world.",
+      "p2": "In Tibetan Buddhism, this monastery holds a special position and is believed to possess extraordinary blessing power. It is said that praying once at this monastery equals praying a hundred times at other temples. Many aspire to make at least one pilgrimage to this sacred site in their lifetime to absorb its spiritual energy."
+    },
+    "location": {
+      "p1": "Drikhung Rinpoche Monastery is situated in the sacred eastern region of the Himalayas at an altitude of 4,527 meters. With Mount Kailash at its back and Lake Manasarovar at its front, it is naturally positioned at a spiritual nexus.",
+      "p2": "Surrounded by majestic mountains, the scenery is breathtaking and the atmosphere is perpetually charged with spiritual energy. The best time to visit is from May to October when the weather is clear and roads are accessible. Winter visits, though challenging due to road conditions, offer a more serene and mystical experience."
+    },
+    "quote": {
+      "text": "When the mind is pure, all lands in the ten directions become pure lands; when the mind is defiled, even sitting on a golden lotus cannot bring liberation. Drikhung Rinpoche Monastery is a place for purifying the mind; with a pure mind, Buddha's land becomes pure.",
+      "author": "The 7th Kyabje Rinpoche of Drikhung Lineage"
+    }
+  },
+  "donate": {
+    "title": "Sacred Offerings",
+    "subtitle": "Cultivating Merit through Generosity",
+    "description": "Every offering supports the preservation of sacred texts, maintenance of holy structures, and continuation of daily rituals. According to Buddha's teachings, the act of giving (Dana) not only benefits others but cultivates positive karma and spiritual merit for one's path to enlightenment.",
+    "options": {
+      "btc": "Bitcoin",
+      "eth": "Ethereum",
+      "usdt": "USDT"
+    },
+    "copy": "Copy Address",
+    "copied": "Copied",
+    "copyFailed": "Copy failed, please copy manually",
+    "thankyou": "We rejoice in your virtuous generosity",
+    "methods": "Offering Methods",
+    "currency": {
+      "btc": "Bitcoin (BTC)",
+      "eth": "Ethereum (ETH)",
+      "usdt": "Tether (USDT)"
+    },
+    "click": "Click to copy address",
+    "note": "All offerings support the monastery's operations, sustenance of the sangha, restoration of sacred texts, and dharma propagation. Of all offerings, the offering of dharma is supreme. Your compassionate generosity, like nectar nourishing the Bodhi tree, brings immeasurable merit.",
+    "thanks": "We are deeply grateful for your compassionate gesture. May Buddha bless you with inner peace, auspicious circumstances, wisdom and merit in equal measure, and six-fold prosperity."
+  },
+  "language": {
+    "zh": "中文",
+    "en": "English"
+  },
+  "about": {
+    "title": "About Drikhung Rinpoche Monastery",
+    "history": {
+      "title": "Rich Heritage",
+      "content": "Established in 1387 during the peak of Tibetan Buddhist expansion, Drikhung Rinpoche Monastery represents the unbroken lineage of the Gelug tradition. Founded by the revered master Jamyang Choje, a direct disciple of Je Tsongkhapa, the monastery houses rare scriptures, ancient relics, and sacred artifacts that survived through centuries. Its distinctive architecture features intricate wood carvings, gold-leafed roofs, and vibrant thangka paintings that depict Buddhist cosmology and spiritual teachings. The monastery's main prayer hall can accommodate over 300 monks during grand ceremonies and contains a 15-foot gold-plated statue of Buddha Shakyamuni."
+    },
+    "mission": {
+      "title": "Spiritual Purpose",
+      "content": "Drikhung Rinpoche Monastery serves as a center for spiritual practice, education, and the preservation of Tibetan Buddhist wisdom. The resident monastic community maintains daily rituals that have continued uninterrupted for over six centuries, including dawn prayers, meditation sessions, philosophical debates, and butter lamp offerings. Our monastery is committed to making these ancient practices accessible to modern practitioners worldwide through both traditional teachings and digital platforms. We believe in the universal applicability of Buddhist principles of compassion, wisdom, and mindfulness as tools for cultivating inner peace and harmonious societies."
+    },
+    "community": {
+      "title": "Global Sangha",
+      "content": "Today, our monastery connects with devotees across continents through this digital platform, allowing sincere practitioners to participate in prayers, make offerings, and receive blessings regardless of physical distance. The monastery hosts annual retreats, empowerment ceremonies, and teaching sessions led by venerated lamas and realized practitioners. Our online prayer system enables the global Buddhist community to request prayers for special occasions, healing, or remembrance of loved ones. These digital prayers are printed on traditional prayer flags and raised during special ceremonies at the monastery, creating a bridge between ancient tradition and modern technology. Join our global community in preserving and practicing these precious teachings for the benefit of all beings."
+    }
+  },
+  "contact": {
+    "title": "Contact the Monastery",
+    "subtitle": "We welcome your inquiries and prayer requests",
+    "form": {
+      "name": "Your Name",
+      "email": "Email Address",
+      "message": "Message or Prayer Request",
+      "submit": "Send Message",
+      "success": "Message sent successfully",
+      "error": "Failed to send message"
+    },
+    "address": {
+      "title": "Monastery Address",
+      "content": "Drikhung Rinpoche Monastery, Himalayan Region, Tibet Autonomous Region"
+    },
+    "electronic": {
+      "title": "Electronic Contact",
+      "email": "info@drikhungrinpoche.org",
+      "phone": "+86 891 XXX XXX"
+    },
+    "hours": {
+      "title": "Office Hours",
+      "content": "Daily from 10:00 AM to 4:00 PM (Tibet Standard Time)"
+    }
+  },
+  "footer": {
+    "rights": "© 2023 Drikhung Rinpoche Monastery. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  }
+} 
