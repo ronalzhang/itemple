@@ -127,10 +127,10 @@ node scripts/dbDataGenerator.js 5000
 npm install
 
 # 使用默认数量(3000)生成
-node src/scripts/startAndGenerate.js
+node src/scripts/startAndGenerate.cjs
 
 # 指定生成数量
-node src/scripts/startAndGenerate.js 5000
+node src/scripts/startAndGenerate.cjs 5000
 ```
 
 此工具会：

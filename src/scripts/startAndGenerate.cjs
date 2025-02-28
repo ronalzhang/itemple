@@ -167,7 +167,7 @@ async function main() {
     await runGenerator(count);
     
     console.log('\n数据生成完成!');
-    console.log('\n服务器仍在运行。您可以在浏览器中访问 http://localhost:3000 查看结果。');
+    console.log('\n服务器仍在运行。您可以在浏览器中访问 http://localhost:7001 查看结果。');
     console.log('按下 Ctrl+C 可以停止服务器。');
     
     // 保持进程运行，直到用户手动终止

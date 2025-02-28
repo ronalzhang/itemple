@@ -10,7 +10,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') });
 
 // 配置
-const SERVER_PORT = process.env.PORT || 3001; // 默认使用3001端口
+const SERVER_PORT = process.env.PORT || 7001; // 默认使用7001端口
 const API_URL = process.env.NODE_ENV === 'production' 
   ? '/api/prayer'
   : `http://localhost:${SERVER_PORT}/api/prayer`;
