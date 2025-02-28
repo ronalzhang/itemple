@@ -98,6 +98,7 @@ export default defineConfig({
     strictPort: false,
     // 添加history API回退支持
     middlewareMode: false,
+    // 添加API代理配置
     proxy: {
       "/api": {
         target: "http://localhost:3000",

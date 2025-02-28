@@ -12,7 +12,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 中间件配置
-app.use(cors());
+app.use(cors({
+  origin: ['http://47.236.39.134:7070', 'http://localhost:7070'],
+  credentials: true
+}));
 app.use(helmet({
   contentSecurityPolicy: false, // 为了简化开发，在生产环境应该配置适当的CSP
 }));
@@ -69,7 +72,7 @@ const startServer = async () => {
     }
     
     // 启动HTTP服务器
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`服务器已启动，端口: ${PORT}`);
       console.log(`环境: ${process.env.NODE_ENV || 'development'}`);
       console.log(`API地址: http://localhost:${PORT}/api`);
