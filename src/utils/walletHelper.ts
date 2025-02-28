@@ -13,66 +13,60 @@ declare global {
 
 /**
  * 检测并处理钱包扩展冲突
- * 在多个钱包扩展同时存在时（如MetaMask和TokenPocket），
- * 它们会尝试在window上注入ethereum对象，导致冲突
+ * 此功能已禁用，防止与浏览器扩展冲突
  */
 export const handleWalletConflicts = (): void => {
-  try {
-    // 检查是否已存在ethereum对象
-    if (window.ethereum) {
-      // 检测是否已经有多个钱包
-      if (!window.ethereum.isMetaMask && !window.ethereum._walletLinkExtension) {
-        console.log('检测到多个钱包扩展，避免冲突');
-        // 备份现有ethereum对象
-        window._ethereum = window.ethereum;
-        
-        // 移除现有的ethereum属性
-        delete window.ethereum;
-        
-        // 创建延迟加载的getter，防止property redefinition错误
-        Object.defineProperty(window, 'ethereum', {
-          configurable: true,
-          enumerable: true,
-          get() {
-            return window._ethereum;
-          }
-        });
-      }
-    }
-  } catch (error) {
-    console.error('处理钱包冲突时出错:', error);
-  }
+  // 完全禁用钱包功能处理
+  console.log('钱包功能已禁用，避免浏览器冲突');
 };
 
 /**
  * 检查用户是否安装了钱包扩展
+ * 此功能已禁用，始终返回false
  */
 export const checkWalletInstalled = (): boolean => {
-  return !!window.ethereum;
+  // 始终返回false，表示未安装钱包
+  return false;
 };
 
 /**
  * 获取用户钱包地址
- * @returns 钱包地址数组的Promise
+ * 此功能已禁用，始终返回空数组
  */
 export const getWalletAddress = async (): Promise<string[]> => {
-  if (!window.ethereum) {
-    throw new Error('未检测到钱包扩展');
-  }
-  
-  try {
-    // 请求用户连接钱包
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    return accounts;
-  } catch (error) {
-    console.error('获取钱包地址失败:', error);
-    throw error;
-  }
+  // 直接返回空数组，不访问window.ethereum
+  return [];
+};
+
+/**
+ * 连接到用户钱包
+ * 此功能已禁用，返回空对象
+ */
+export const connectWallet = async (): Promise<{success: boolean, address?: string, error?: string}> => {
+  // 返回成功连接状态，但无地址
+  return {
+    success: false,
+    error: '钱包功能已禁用'
+  };
+};
+
+/**
+ * 发送交易
+ * 此功能已禁用，返回失败结果
+ */
+export const sendTransaction = async (params: any): Promise<{success: boolean, hash?: string, error?: string}> => {
+  // 返回失败结果
+  return {
+    success: false,
+    error: '钱包功能已禁用'
+  };
 };
 
 // 导出默认对象，包含所有功能
 export default {
   handleWalletConflicts,
   checkWalletInstalled,
-  getWalletAddress
+  getWalletAddress,
+  connectWallet,
+  sendTransaction
 }; 

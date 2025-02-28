@@ -33,8 +33,8 @@ const BLESSING_EFFECTS = [
 ];
 
 // 生成随机IP地址，模拟来自不同地区的用户
-const generateRandomIP = () => {
-  // 根据不同地区生成不同范围的IP
+const generateRandomIP = (() => {
+  // 缓存区域范围，避免每次重新创建
   const regions = [
     // 亚洲IP段
     { min: [58, 0, 0, 0], max: [60, 255, 255, 255], weight: 50 },
@@ -51,33 +51,38 @@ const generateRandomIP = () => {
     { min: [197, 0, 0, 0], max: [201, 255, 255, 255], weight: 10 },
   ];
   
-  // 根据权重随机选择一个区域
+  // 计算总权重一次，避免重复计算
   const totalWeight = regions.reduce((sum, region) => sum + region.weight, 0);
-  let randomWeight = Math.random() * totalWeight;
-  let selectedRegion;
   
-  for (const region of regions) {
-    randomWeight -= region.weight;
-    if (randomWeight <= 0) {
-      selectedRegion = region;
-      break;
+  // 返回实际函数
+  return () => {
+    // 根据权重随机选择一个区域
+    let randomWeight = Math.random() * totalWeight;
+    let selectedRegion;
+    
+    for (const region of regions) {
+      randomWeight -= region.weight;
+      if (randomWeight <= 0) {
+        selectedRegion = region;
+        break;
+      }
     }
-  }
-  
-  if (!selectedRegion) {
-    selectedRegion = regions[0]; // 默认选择第一个区域
-  }
-  
-  // 在选定的区域范围内生成随机IP
-  const ip = [];
-  for (let i = 0; i < 4; i++) {
-    const min = selectedRegion.min[i];
-    const max = selectedRegion.max[i];
-    ip[i] = Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  
-  return ip.join('.');
-};
+    
+    if (!selectedRegion) {
+      selectedRegion = regions[0]; // 默认选择第一个区域
+    }
+    
+    // 在选定的区域范围内生成随机IP
+    const ip = [];
+    for (let i = 0; i < 4; i++) {
+      const min = selectedRegion.min[i];
+      const max = selectedRegion.max[i];
+      ip[i] = Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    return ip.join('.');
+  };
+})(); // 立即执行函数，缓存regions和totalWeight
 
 const PrayerButton: React.FC = () => {
   const { t } = useTranslation();
@@ -120,57 +125,64 @@ const PrayerButton: React.FC = () => {
     return BLESSING_EFFECTS[randomIndex];
   }, []);
   
+  // 优化：分离模态框数据准备逻辑到单独的函数
+  const prepareModalData = useCallback(() => {
+    try {
+      // 不使用requestIdleCallback，直接执行
+      // 生成随机唯一ID (格式: 年月日-随机数)
+      const date = new Date();
+      const dateStr = `${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}`;
+      const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+      setPrayerId(`${dateStr}-${randomNum}`);
+      
+      // 修正排名计算，确保不为0
+      // 根据当前统计，加1表示用户是最新的祈福者
+      const todayCount = stats?.todayCount || 0;
+      setPrayerRank(todayCount + 1);
+      
+      // 优化随机文案生成 - 使用预定义的较少文案
+      setBlessingEffect(getRandomBlessingEffect());
+      
+      // 确保下一个法会日期数据正确设置
+      try {
+        const ceremonyData = getNextCeremonyDate();
+        setNextCeremony({
+          ...ceremonyData,
+          success: true
+        });
+      } catch (error) {
+        console.error('计算下一个法会日期出错:', error);
+        // 设置一个默认值确保显示
+        setNextCeremony({
+          diffDays: 15, // 默认最多15天后有法会
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+          day: date.getDate() + 15,
+          lunarMonth: 1, // 假设是正月
+          lunarDay: 15, // 假设是十五
+          solarDate: `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${(date.getDate()+15).toString().padStart(2, '0')}`,
+          success: true
+        });
+      }
+    } catch (error) {
+      console.error('设置祈福数据出错:', error);
+    }
+  }, [stats, getRandomBlessingEffect]);
+  
   // 优化：仅在模态框显示时才执行这些计算
   useEffect(() => {
     if (!isModalVisible) return;
     
-    // 使用requestIdleCallback在浏览器空闲时执行
-    // 如果不支持，则降级使用setTimeout
-    const runIdleTask = window.requestIdleCallback || 
-      ((cb) => setTimeout(cb, 1));
-    
-    const idleId = runIdleTask(() => {
-      try {
-        // 生成随机唯一ID (格式: 年月日-随机数)
-        const date = new Date();
-        const dateStr = `${date.getFullYear()}${(date.getMonth()+1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}`;
-        const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-        setPrayerId(`${dateStr}-${randomNum}`);
-        
-        // 修正排名计算，确保不为0
-        // 根据当前统计，加1表示用户是最新的祈福者
-        const todayCount = stats?.todayCount || 0;
-        setPrayerRank(todayCount + 1);
-        
-        // 优化随机文案生成 - 使用预定义的较少文案
-        setBlessingEffect(getRandomBlessingEffect());
-        
-        // 使用预先计算的日期
-        console.log('设置下一个法会日期:', ceremonyDate);
-        setNextCeremony(ceremonyDate);
-      } catch (error) {
-        console.error('设置祈福数据出错:', error);
-      }
-    });
-    
-    return () => {
-      // 如果支持cancelIdleCallback，则在清理时取消
-      if (window.cancelIdleCallback) {
-        window.cancelIdleCallback(idleId as any);
-      } else {
-        clearTimeout(idleId as any);
-      }
-    };
-  }, [isModalVisible, stats, getRandomBlessingEffect, ceremonyDate]);
+    prepareModalData();
+  }, [isModalVisible, prepareModalData]); // 依赖简化
   
   // 处理点击祈福按钮
-  const handlePrayClick = async () => {
+  const handlePrayClick = useCallback(async () => {
     try {
       setIsLoading(true);
       
       // 生成随机IP地址，模拟全球用户
       const randomIP = generateRandomIP();
-      console.log('用户IP (模拟):', randomIP);
       
       // 调用祈福API，传入随机IP
       const response = await recordPrayer(randomIP);
@@ -197,11 +209,10 @@ const PrayerButton: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [t, reloadStats, lunarDate]); // 添加依赖
   
   // 普通关闭（点击空白处或右上角X）- 不跳转
   const handleModalClose = useCallback(() => {
-    console.log('普通关闭模态框 - 不导航到捐赠部分');
     setIsModalVisible(false);
     setIsSubmitting(false);
     setCopied(false);
@@ -210,18 +221,15 @@ const PrayerButton: React.FC = () => {
   // 随喜功德按钮关闭 - 跳转到捐赠部分
   const handleMeritClose = useCallback(() => {
     // 首先关闭模态框
-    console.log('随喜功德按钮点击 - 准备关闭模态框并导航');
     setIsModalVisible(false);
     setIsSubmitting(false);
     setCopied(false);
     
-    // 延迟执行滚动，确保模态框完全关闭
-    setTimeout(() => {
+    // 优化滚动逻辑，使用requestAnimationFrame代替setTimeout
+    requestAnimationFrame(() => {
       try {
-        console.log('开始查找和滚动到#donation元素');
         const donationSection = document.getElementById('donation');
         if (donationSection) {
-          console.log('找到#donation元素，开始滚动');
           // 平滑滚动到捐赠区域
           window.scrollTo({
             top: donationSection.offsetTop - 50, // 减去50px顶部间距
@@ -230,26 +238,21 @@ const PrayerButton: React.FC = () => {
           
           // 添加焦点，提高可访问性
           donationSection.focus({ preventScroll: true });
-          console.log('滚动和焦点设置完成');
         } else {
-          console.warn('未找到捐赠部分元素(#donation)');
           // 尝试使用备用方法滚动
           const donationElements = document.getElementsByClassName('donation-section');
           if (donationElements.length > 0) {
-            console.log('使用className=donation-section作为备用');
             const element = donationElements[0] as HTMLElement;
             window.scrollTo({
               top: element.offsetTop - 50,
               behavior: 'smooth'
             });
-          } else {
-            console.error('无法找到任何捐赠相关元素');
           }
         }
       } catch (error) {
         console.error('滚动到捐赠部分失败:', error);
       }
-    }, 300); // 添加300ms延迟，确保模态框完全关闭
+    });
   }, []);
 
   // 优化复制功能
@@ -288,13 +291,13 @@ const PrayerButton: React.FC = () => {
   
   // 优化日期文本生成 - 使用memo缓存结果
   const nextCeremonyText = useMemo(() => {
-    if (isSubmitting || !nextCeremony || !nextCeremony.success) {
-      console.log('提前返回，不生成文本，原因:', { isSubmitting, nextCeremony });
-      return '';
+    // 确保nextCeremony有数据，即使在加载中也要提供一个有意义的消息
+    if (!nextCeremony) {
+      return '寺庙每月农历初一、十五举行祈福法会，您的祈愿将在最近的法会中得到加持。';
     }
 
     try {
-      // 获取当前农历日期
+      // 获取当前农历日期 - 只在需要时计算
       const today = new Date();
       const solar = Solar.fromDate(today);
       const lunar = solar.getLunar();
@@ -303,129 +306,55 @@ const PrayerButton: React.FC = () => {
       // 检查今天是否是法会日
       const isTodayCeremony = currentDay === 1 || currentDay === 15;
       
-      console.log('当前农历日期:', lunar.getYear(), '年', lunar.getMonth(), '月', lunar.getDay(), '日');
-      console.log('下一个法会信息:', nextCeremony);
-      console.log('今天是法会日？', isTodayCeremony ? '是' : '否');
+      // 正确获取农历月份名称和日期名称 - 提前计算并缓存
+      const lunarMonth = LUNAR_MONTHS[(lunar.getMonth() - 1) % 12]; 
+      const nextCeremonyMonth = LUNAR_MONTHS[(nextCeremony.lunarMonth - 1) % 12] || lunarMonth;
       
-      // 正确获取农历月份名称和日期名称
-      const lunarMonth = LUNAR_MONTHS[(nextCeremony.lunarMonth - 1) % 12] || LUNAR_MONTHS[(nextCeremony.month - 1) % 12];
       // 确保使用正确的农历日名称
-      const lunarDay = nextCeremony.lunarDay === 1 ? '初一' : '十五';
-      const dayType = nextCeremony.lunarDay === 1 ? t('prayer.dayType.firstDay') : t('prayer.dayType.fifteenthDay');
-      
-      console.log('农历月日:', { lunarMonth, lunarDay, originalMonth: nextCeremony.lunarMonth || nextCeremony.month });
+      const lunarDay = currentDay === 1 ? '初一' : (currentDay === 15 ? '十五' : '');
+      const nextCeremonyDay = nextCeremony.lunarDay === 1 ? '初一' : '十五';
       
       // 格式化日期参数
-      const dateParts = nextCeremony.solarDate ? nextCeremony.solarDate.split('-') : [];
-      const year = dateParts.length > 0 ? dateParts[0] : new Date().getFullYear();
-      const month = dateParts.length > 1 ? dateParts[1] : (new Date().getMonth() + 1);
-      const day = dateParts.length > 2 ? dateParts[2] : new Date().getDate();
-      const daysAway = nextCeremony.diffDays;
-      
-      console.log('格式化的日期参数:', {
-        year, month, day, lunarMonth, lunarDay, dayType, daysAway
-      });
+      const daysAway = nextCeremony.diffDays || 0;
       
       let resultText = '';
       
+      // 使用单个函数来格式化日期，避免重复计算
+      const formatDate = (dateObj: Date): string => {
+        return `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+      };
+      
       if (isTodayCeremony) {
-        console.log('生成今天是法会日的文本');
         // 今天是法会日
-        resultText = t('prayer.success.today_ceremony', {
-          year: today.getFullYear(),
-          month: today.getMonth() + 1,
-          day: today.getDate(),
-          lunarMonth: LUNAR_MONTHS[lunar.getMonth() - 1],
-          lunarDay: lunar.getDay() === 1 ? '初一' : '十五',
-        });
-        console.log('使用翻译键:', 'prayer.success.today_ceremony');
-      } else if (nextCeremony.diffDays === 0) {
-        console.log('生成今天是法会日（根据计算结果）的文本');
-        // 今天是法会日
-        resultText = t('prayer.success.today_ceremony', {
-          year: today.getFullYear(),
-          month: today.getMonth() + 1,
-          day: today.getDate(),
-          lunarMonth: lunarMonth,
-          lunarDay: lunarDay,
-        });
-        
-        if (!resultText || resultText.includes('法会日（农历')) {
-          // 手动构建今天是法会日的文本
-          resultText = `今天（${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日）是法会日（农历${lunarMonth}${lunarDay}）！`;
-        }
-        
-        console.log('使用翻译键:', 'prayer.success.today_ceremony', '生成文本:', resultText);
-      } else if (nextCeremony.diffDays === 1) {
-        console.log('生成明天是法会日的文本');
+        resultText = `今天（${formatDate(today)}）是农历${lunarMonth}${lunarDay}，是寺庙举行盛大法会的吉祥日！108位高僧大德将为您诵经持咒，增福延寿，消灾免难。您的祈福功德将在本日法会中得到最大加持！`;
+      } else if (daysAway === 0) {
+        // 今天是法会日（根据计算）
+        resultText = `今天（${formatDate(today)}）是农历${nextCeremonyMonth}${nextCeremonyDay}，是寺庙举行盛大法会的吉祥日！108位高僧大德将为您诵经持咒，增福延寿，消灾免难。您的祈福功德将在本日法会中得到最大加持！`;
+      } else if (daysAway === 1) {
         // 明天是法会日
-        const tomorrow = new Date();
+        const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
-        resultText = t('prayer.success.tomorrow_ceremony', {
-          year: tomorrow.getFullYear(),
-          month: tomorrow.getMonth() + 1,
-          day: tomorrow.getDate(),
-          lunarMonth: lunarMonth,
-          lunarDay: lunarDay,
-        });
-        
-        if (!resultText || resultText.includes('法会日（农历')) {
-          // 手动构建明天是法会日的文本
-          resultText = `明天（${tomorrow.getFullYear()}年${tomorrow.getMonth() + 1}月${tomorrow.getDate()}日）是法会日（农历${lunarMonth}${lunarDay}）！`;
-        }
-        
-        console.log('使用翻译键:', 'prayer.success.tomorrow_ceremony', '生成文本:', resultText);
-      } else if (nextCeremony.diffDays === 2) {
-        console.log('生成后天是法会日的文本');
+        resultText = `明天（${formatDate(tomorrow)}）是农历${nextCeremonyMonth}${nextCeremonyDay}，寺庙将举行盛大法会！届时，108位高僧大德将为您诵经持咒，增福延寿，消灾免难。您今日的祈福功德将在明日法会中得到最大加持！`;
+      } else if (daysAway === 2) {
         // 后天是法会日
-        const dayAfter = new Date();
+        const dayAfter = new Date(today);
         dayAfter.setDate(today.getDate() + 2);
-        resultText = t('prayer.success.dayafter_ceremony', {
-          year: dayAfter.getFullYear(),
-          month: dayAfter.getMonth() + 1,
-          day: dayAfter.getDate(),
-          lunarMonth: lunarMonth,
-          lunarDay: lunarDay,
-        });
-        
-        if (!resultText || resultText.includes('法会日（农历')) {
-          // 手动构建后天是法会日的文本
-          resultText = `后天（${dayAfter.getFullYear()}年${dayAfter.getMonth() + 1}月${dayAfter.getDate()}日）是法会日（农历${lunarMonth}${lunarDay}）！`;
-        }
-        
-        console.log('使用翻译键:', 'prayer.success.dayafter_ceremony', '生成文本:', resultText);
+        resultText = `后天（${formatDate(dayAfter)}）是农历${nextCeremonyMonth}${nextCeremonyDay}，寺庙将举行盛大法会！届时，108位高僧大德将为您诵经持咒，增福延寿，消灾免难。您今日的祈福功德将在法会中得到最大加持！`;
       } else {
-        console.log('生成下一个法会日期的文本');
         // 其他情况，显示下一个法会日期
-        resultText = t('prayer.nextCeremony', {
-          year,
-          month,
-          day,
-          lunarMonth,
-          lunarDay,
-          days: daysAway,
-          dayType
-        });
+        // 计算下一个法会日期
+        const nextDate = new Date(today);
+        nextDate.setDate(today.getDate() + daysAway);
         
-        // 修复：检查和处理天数显示异常的情况（如空值）
-        if (!resultText || resultText.includes('天后（')) {
-          console.log('检测到天数显示异常，尝试修复');
-          // 确保将 {{days}} 替换为实际天数
-          const daysText = daysAway ? `${daysAway}` : '未知';
-          // 手动构建文本，确保日期格式正确
-          resultText = `下一次大喇嘛仁波切的「祈愿法会」将在${daysText}天后（公历${year}年${month}月${day}日，农历${lunarMonth}${lunarDay}）隆重举行。届时，108位喇嘛将诵读《甘珠尔》经文为您祈福。`;
-        }
-        
-        console.log('使用翻译键:', 'prayer.nextCeremony', '生成文本:', resultText);
+        resultText = `下一次寺庙的盛大祈福法会将在${daysAway}天后（公历${formatDate(nextDate)}，农历${nextCeremonyMonth}${nextCeremonyDay}）隆重举行。届时，108位高僧大德将诵读经文为您祈福。您今日所做功德将在法会中得到加持，消灾免难，福慧增长，一切善愿，皆如无尽灯，相续不断。`;
       }
       
-      console.log('生成的文本:', resultText);
       return resultText;
     } catch (error) {
-      console.error('生成法会日期文本出错：', error);
-      return t('prayer.success.error');
+      console.error('生成法会日期文本出错:', error);
+      return '寺庙每月农历初一、十五举行祈福法会，您的祈福功德将在最近的法会中得到加持。108位高僧大德将为您和您的家人诵经持咒，增福延寿，消灾免难。';
     }
-  }, [isSubmitting, nextCeremony, t]);
+  }, [nextCeremony]);
   
   // 使用React.memo优化渲染性能
   return (
@@ -449,31 +378,47 @@ const PrayerButton: React.FC = () => {
       </div>
       
       <Modal
-        title={t('prayer.blessingTitle')}
+        title={t('prayer.success.title')}
         open={isModalVisible}
         onCancel={handleModalClose}
         footer={null}
-        className="blessing-modal"
+        className="prayer-success-modal"
+        destroyOnClose={true}
       >
-        <div className="blessing-content">
+        <div className="success-content">
           <div className="temple-image">
             <img src="/images/incense.png" alt={t('temple.image2Alt')} className="buddha-image" />
           </div>
           <div className="success-message">
             {t('prayer.congratulations')}
           </div>
-          <p>{blessing}</p>
+          <p className="blessing-description">{t('prayer.success.description')}</p>
           <div className="prayer-achievement">
             <div className="prayer-rank">
               {t('prayer.prayerRank', { rank: prayerRank })}
             </div>
             <div className="prayer-id">
-              {t('prayer.prayerId', { id: prayerId })}
+              {/* 调试信息 */}
+              <div style={{ display: 'none' }}>
+                {`Debug: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}-${prayerId}`}
+              </div>
+              {t('prayer.ceremony_id', { 
+                year: new Date().getFullYear(), 
+                month: String(new Date().getMonth() + 1).padStart(2, '0'), 
+                day: String(new Date().getDate()).padStart(2, '0'), 
+                id: prayerId 
+              })}
             </div>
           </div>
           <div className="success-date">
-            {nextCeremonyText}
-            <p className="ceremony-note">{t('prayer.success.specialDays')}</p>
+            {nextCeremonyText || t('prayer.specialDays')}
+            <p className="ceremony-note">{t('prayer.success.note')}</p>
+            <p className="blessing-promise">
+              {t('prayer.success.message2')}
+            </p>
+          </div>
+          <div className="blessing-effect">
+            {blessingEffect}
           </div>
           <div className="merit-button-container">
             <Button key="merit" type="primary" onClick={handleMeritClose} className="merit-button">

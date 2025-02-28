@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'sass-helpers' as helper;
 
 .app {
   min-height: 100vh;
@@ -110,8 +111,8 @@
     border-color: $primary-color;
     
     &:hover, &:focus {
-      background-color: lighten($primary-color, 10%);
-      border-color: lighten($primary-color, 10%);
+      background-color: helper.lighten-color($primary-color, 10%);
+      border-color: helper.lighten-color($primary-color, 10%);
     }
   }
   
@@ -120,8 +121,8 @@
     color: $primary-color;
     
     &:hover, &:focus {
-      color: lighten($primary-color, 10%);
-      border-color: lighten($primary-color, 10%);
+      color: helper.lighten-color($primary-color, 10%);
+      border-color: helper.lighten-color($primary-color, 10%);
     }
   }
 }

@@ -1,0 +1,7 @@
+{
+  "name": "itemple-server",
+  "version": "1.0.0",
+  "description": "一键拜佛网站后端服务",
+  "type": "commonjs",
+  "private": true
+} 

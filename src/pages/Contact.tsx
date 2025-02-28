@@ -29,7 +29,7 @@ const Contact: React.FC = () => {
         </Col>
         
         <Col xs={24} md={12}>
-          <Card className="contact-card" variant="borderless">
+          <Card className="contact-card">
             <Title level={3} className="card-title">
               {t('contact.form.title')}
             </Title>

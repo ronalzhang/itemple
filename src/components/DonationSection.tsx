@@ -188,7 +188,7 @@ const DonationSection: React.FC = () => {
             <div className="crypto-item">
               <div className="crypto-header">
                 <div className="crypto-icon usdt-icon"></div>
-                <h3>Tether (USDT-TRC20)</h3>
+                <h3>USDT(TRC20)</h3>
               </div>
               
               <div className="crypto-content">

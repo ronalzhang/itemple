@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'sass-helpers' as helper;
 
 .donation-section {
   margin: $spacing-md 0;
@@ -236,7 +237,7 @@
       white-space: nowrap;
       
       &:hover {
-        color: darken($primary-color, 10%);
+        color: helper.darken-color($primary-color, 10%);
         background-color: rgba($primary-color, 0.1);
       }
       

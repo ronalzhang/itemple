@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'sass-helpers' as helper;
 
 .prayer-button-container {
   display: flex;
@@ -49,7 +50,7 @@
 }
 
 .prayer-button {
-  background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%)) !important;
+  background: linear-gradient(135deg, $primary-color, helper.darken-color($primary-color, 10%)) !important;
   border: none !important;
   height: 70px !important;
   width: 280px !important;
@@ -70,7 +71,7 @@
   &:hover {
     transform: translateY(-4px) scale(1.02) translateZ(0) !important;
     box-shadow: 0 8px 16px rgba($primary-color, 0.5) !important;
-    background: linear-gradient(135deg, lighten($primary-color, 5%), darken($primary-color, 5%)) !important;
+    background: linear-gradient(135deg, helper.lighten-color($primary-color, 5%), helper.darken-color($primary-color, 5%)) !important;
   }
   
   &:active {
@@ -284,7 +285,7 @@
       margin-bottom: $spacing-xs;
       padding: $spacing-xs $spacing-sm;
       border-radius: 15px;
-      background: linear-gradient(135deg, lighten($primary-color, 10%), $primary-color);
+      background: linear-gradient(135deg, helper.lighten-color($primary-color, 10%), $primary-color);
       color: $text-color-dark;
       font-weight: bold;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -323,11 +324,23 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     
     .ceremony-note {
-      font-size: 0.8rem !important;
-      margin-top: $spacing-xs !important;
-      margin-bottom: 0 !important;
-      padding: $spacing-xs !important;
-      line-height: 1.3 !important;
+      font-size: 0.9rem;
+      margin-top: $spacing-xs;
+      margin-bottom: $spacing-xs;
+      padding: $spacing-xs;
+      line-height: 1.4;
+      color: $primary-color;
+      font-weight: 500;
+      border-top: 1px dashed rgba($primary-color, 0.2);
+      padding-top: $spacing-xs;
+    }
+    
+    .blessing-promise {
+      font-size: 0.85rem;
+      margin-top: $spacing-xs;
+      margin-bottom: 0;
+      font-style: italic;
+      color: $text-color;
     }
   }
   
@@ -367,7 +380,7 @@
     margin-top: $spacing-xs;
     
     .merit-button {
-      background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+      background: linear-gradient(135deg, $primary-color, helper.darken-color($primary-color, 10%));
       border: none;
       border-radius: 20px;
       padding: 0 $spacing-md;
@@ -408,6 +421,7 @@
         text-align: center;
         font-size: $font-size-xl;
         padding: $spacing-sm 0;
+        font-weight: bold;
       }
     }
     
@@ -436,201 +450,85 @@
     text-align: center;
     transform: translateZ(0);
     
-    .incense-animation {
-      width: 100px;
-      height: 150px;
-      background-image: url('/images/incense.png');
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      margin-bottom: $spacing-md;
-      position: relative;
-      transform: translateZ(0);
-      will-change: transform;
-      
-      &::after {
-        content: '';
-        position: absolute;
-        top: 5px;
-        left: 50%;
-        width: 8px;
-        height: 30px;
-        background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.8));
-        border-radius: 50%;
-        filter: blur(2px);
-        transform: translateX(-50%);
-        animation: smoke 4s ease-out infinite;
-        will-change: opacity, transform;
-      }
-    }
-    
-    .prayer-achievement {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .temple-image {
       margin-bottom: $spacing-md;
       
-      .prayer-rank {
-        font-size: $font-size-md;
-        margin-bottom: $spacing-xs;
-        padding: $spacing-xs $spacing-sm;
-        border-radius: 15px;
-        background: linear-gradient(135deg, #f7d358, $primary-color);
-        border: none;
-        color: $text-color-dark;
-        font-weight: bold;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        animation: simple-pulse 3s ease-in-out infinite;
-        will-change: transform;
-      }
-      
-      .prayer-id {
-        font-family: $title-font;
-        color: $text-color;
-        font-size: $font-size-sm;
-        background: rgba($primary-color, 0.1);
-        padding: 2px 10px;
-        border-radius: 10px;
-        margin-top: $spacing-xs;
+      img {
+        max-width: 120px;
+        opacity: 0.85;
       }
     }
     
     .success-message {
-      font-size: $font-size-lg;
+      font-size: $font-size-xl;
       color: $primary-color;
+      font-weight: bold;
       margin-bottom: $spacing-sm;
-      font-weight: 600;
-      font-family: $special-font;
-      position: relative;
-      padding: 0 $spacing-md;
-      
-      &::before, &::after {
-        content: '☸';
-        position: absolute;
-        color: rgba($primary-color, 0.2);
-        font-size: 1.5rem;
-        top: 0;
-      }
-      
-      &::before {
-        left: 0;
-      }
-      
-      &::after {
-        right: 0;
-      }
+      font-family: $title-font;
     }
     
-    .blessing-effect {
-      font-size: 1.25rem;
-      color: $accent-color;
-      margin: $spacing-md 0;
-      font-family: $special-font;
-      font-weight: 500;
+    .blessing-description {
+      font-size: $font-size-md;
+      color: $text-color;
+      margin-bottom: $spacing-md;
       line-height: 1.6;
-      position: relative;
-      background: linear-gradient(rgba($primary-color, 0.03), rgba($primary-color, 0.08));
-      padding: $spacing-md $spacing-lg;
-      border-radius: $border-radius;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
-      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
-      
-      &::before, &::after {
-        content: '"';
-        font-size: 2em;
-        position: absolute;
-        color: rgba($primary-color, 0.4);
-      }
-      
-      &::before {
-        left: 5px;
-        top: -5px;
-      }
-      
-      &::after {
-        right: 5px;
-        bottom: -20px;
-      }
-      
-      animation: gentle-glow 4s ease-in-out infinite;
     }
     
-    @keyframes gentle-glow {
-      0%, 100% {
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-      }
-      50% {
-        box-shadow: 0 3px 15px rgba($primary-color, 0.15);
+    .prayer-achievement {
+      background-color: rgba($primary-color, 0.08);
+      border: 1px solid rgba($primary-color, 0.15);
+      border-radius: $border-radius-sm;
+      padding: $spacing-md;
+      margin-bottom: $spacing-md;
+      width: 100%;
+      
+      .prayer-rank, .prayer-id {
+        font-size: $font-size-md;
+        color: rgba($text-color, 0.7);
+        margin-bottom: $spacing-xs;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
     }
     
     .success-date {
       font-size: $font-size-sm;
       color: $text-color;
-      margin: $spacing-md 0;
-      line-height: 1.6;
-      padding: $spacing-md;
-      border-left: 3px solid rgba($primary-color, 0.4);
-      text-align: left;
-      background: rgba($primary-color, 0.03);
+      margin-bottom: $spacing-md;
+      padding: $spacing-sm;
+      background-color: rgba($primary-color, 0.05);
       border-radius: $border-radius-sm;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-    }
-    
-    .share-container {
-      margin: $spacing-md 0;
       width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      line-height: 1.6;
       
-      .copy-button {
-        background: linear-gradient(135deg, $primary-color, lighten($primary-color, 15%));
-        color: white;
-        border: none;
-        padding: 0 $spacing-md;
-        height: 40px;
-        border-radius: 20px;
-        font-weight: 600;
-        box-shadow: 0 2px 4px rgba($primary-color, 0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        transform: translateZ(0);
-        will-change: transform;
-        
-        &:hover {
-          transform: translateY(-2px) translateZ(0);
-          box-shadow: 0 3px 6px rgba($primary-color, 0.3);
-        }
-        
-        &:active {
-          transform: translateY(1px) translateZ(0);
-          box-shadow: 0 1px 3px rgba($primary-color, 0.2);
-        }
+      .ceremony-note {
+        margin-top: $spacing-sm;
+        font-size: $font-size-sm;
+        color: rgba($text-color, 0.7);
+      }
+      
+      .blessing-promise {
+        margin-top: $spacing-sm;
+        font-weight: 500;
+        color: $text-color;
       }
     }
     
-    .close-button {
+    .blessing-effect {
+      font-size: $font-size-sm;
+      color: $primary-color;
+      font-style: italic;
+      margin-bottom: $spacing-md;
+      line-height: 1.6;
+    }
+    
+    .merit-button-container {
       margin-top: $spacing-sm;
-      width: 180px;
-      height: 45px;
-      border-radius: 22px;
-      font-weight: 600;
-      background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%)) !important;
-      border: none;
-      box-shadow: 0 3px 6px rgba($primary-color, 0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      transform: translateZ(0);
-      will-change: transform;
       
-      &:hover {
-        transform: translateY(-2px) translateZ(0);
-        box-shadow: 0 4px 8px rgba($primary-color, 0.3);
-      }
-      
-      &:active {
-        transform: translateY(1px) translateZ(0);
-        box-shadow: 0 2px 4px rgba($primary-color, 0.2);
+      .merit-button {
+        min-width: 120px;
       }
     }
   }

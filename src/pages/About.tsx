@@ -20,7 +20,7 @@ const About: React.FC = () => {
         </Col>
         
         <Col xs={24} md={12}>
-          <Card className="about-card" variant="borderless">
+          <Card className="about-card">
             <Space direction="vertical" size="large">
               <div className="icon-title">
                 <HistoryOutlined className="about-icon" />
@@ -34,7 +34,7 @@ const About: React.FC = () => {
         </Col>
         
         <Col xs={24} md={12}>
-          <Card className="about-card" variant="borderless">
+          <Card className="about-card">
             <Space direction="vertical" size="large">
               <div className="icon-title">
                 <HeartOutlined className="about-icon" />
@@ -48,7 +48,7 @@ const About: React.FC = () => {
         </Col>
         
         <Col xs={24}>
-          <Card className="about-card" variant="borderless">
+          <Card className="about-card">
             <Space direction="vertical" size="large">
               <div className="icon-title">
                 <GlobalOutlined className="about-icon" />

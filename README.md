@@ -61,3 +61,89 @@ npm run build
 ## 证书 | License
 
 MIT
+
+## 数据模拟工具
+
+为便于测试和演示，本项目提供了数据模拟工具，可快速生成祈福记录。
+
+在项目目录下运行：
+node src/server/scripts/directDBGenerator.cjs 5000
+
+
+### 服务端模拟器（需要后端支持）
+
+如果已部署后端API，可使用服务端模拟器：
+
+```bash
+# 安装依赖
+npm install node-fetch perf_hooks
+
+# 使用默认数量(3000)生成
+node src/scripts/dataSimulator.js
+
+# 指定生成数量
+node src/scripts/dataSimulator.js 5000
+
+# 生成随机数量(3000-5000)
+node src/scripts/dataSimulator.js 0
+```
+
+### 数据库数据生成器（持久化存储）
+
+此工具通过直接调用后端API生成祈福记录，并将数据持久化存储到数据库中。这是最推荐的生成方式，因为：
+
+1. 数据将持久化保存在数据库中
+2. 每次网站访问都会显示正确的统计数据
+3. 模拟更真实的用户行为模式
+
+使用方法：
+
+```bash
+# 进入服务器目录
+cd src/server
+
+# 安装依赖
+npm install axios dotenv
+
+# 使用默认数量(3000)生成
+node scripts/dbDataGenerator.js
+
+# 指定生成数量
+node scripts/dbDataGenerator.js 5000
+```
+
+此工具会模拟真实的用户访问，包括：
+- 根据真实分布生成不同地区的IP地址
+- 模拟不同浏览器和设备的User-Agent
+- 添加合理的HTTP头信息
+- 按批次发送请求，避免服务器过载
+
+### 一键启动服务器并生成数据（推荐使用）
+
+为了进一步简化操作，我们提供了一键启动服务器并生成数据的工具：
+
+```bash
+# 安装依赖
+npm install
+
+# 使用默认数量(3000)生成
+node src/scripts/startAndGenerate.js
+
+# 指定生成数量
+node src/scripts/startAndGenerate.js 5000
+```
+
+此工具会：
+1. 自动启动后端服务器
+2. 等待服务器完全初始化
+3. 运行数据生成器生成指定数量的祈福记录
+4. 保持服务器运行，直到手动终止
+
+完成后，您可以直接访问 http://localhost:3000 查看结果。
+
+## 注意事项
+
+1. 数据模拟工具仅用于测试和演示目的
+2. 在生产环境中，建议移除或禁用这些模拟工具
+3. 默认情况下，模拟数据按照真实分布生成，亚洲60%，美洲20%，欧洲15%，其他地区5%
+4. 数据库数据生成器会直接写入数据库，请谨慎在生产环境使用

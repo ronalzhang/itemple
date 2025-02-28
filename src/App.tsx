@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,12 @@ const App: React.FC = () => {
   return (
     <ConfigProvider locale={currentLocale}>
       <StatsProvider>
-        <Router>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+          }}
+        >
           <div className="app">
             {/* <BackgroundEffect /> */}
             <Header />
@@ -39,7 +44,7 @@ const App: React.FC = () => {
             </main>
             <Footer />
           </div>
-        </Router>
+        </BrowserRouter>
       </StatsProvider>
     </ConfigProvider>
   );

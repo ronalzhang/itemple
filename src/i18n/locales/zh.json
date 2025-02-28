@@ -54,15 +54,16 @@
     "explanation": "诚心祈福，消业障、增福慧",
     "specialDaysNote": "每逢农历初一、十五，寺院108位僧众将特别为您及家人诵经持咒，增福延寿。",
     "success": {
-      "title": "祈福成功",
-      "description": "您的祈福已送达寺庙，僧人将为您诵经持咒。祝您平安吉祥，福慧双修！",
-      "message1": "您的至诚祈愿犹如光明莲花，已在佛前绽放。",
-      "message2": "愿佛陀慈悲加持，消除障碍，福慧双增，平安吉祥。",
-      "specialDays": "届时，寺院108位僧众将特别为您及家人诵经持咒，增福延寿。您的功德与一切善愿，皆如无尽灯，相续不断。",
+      "title": "祈福圆满成就",
+      "description": "愿菩萨护佑，消灾延寿，增福添财，善缘广结。",
+      "message1": "您的至诚祈愿如莲花绽放，佛光已将其接引。",
+      "message2": "佛陀慈悲加持，消除一切障碍，福慧双增，吉祥如意。",
+      "specialDays": "每逢农历初一、十五，寺院108位高僧大德将特别为您和您的家人诵经持咒，增福延寿，消灾免难。您的功德与一切善愿，将如无尽灯，相续不断。",
       "next_ceremony": "下一个法会日是{{year}}年{{month}}月{{day}}日（农历{{lunarMonth}}{{lunarDay}}），距今{{daysAway}}天。",
-      "today_ceremony": "今天（{{year}}年{{month}}月{{day}}日）是法会日（农历{{lunarMonth}}{{lunarDay}}）！",
-      "tomorrow_ceremony": "明天（{{year}}年{{month}}月{{day}}日）是法会日（农历{{lunarMonth}}{{lunarDay}}）！",
-      "dayafter_ceremony": "后天（{{year}}年{{month}}月{{day}}日）是法会日（农历{{lunarMonth}}{{lunarDay}}）！",
+      "today_ceremony": "今天（{{year}}年{{month}}月{{day}}日）是农历{{lunarMonth}}{{lunarDay}}，是寺庙举行盛大法会的吉祥日！108位高僧大德将为您诵经持咒，增福延寿，消灾免难。您的祈福功德将在本日法会中得到最大加持！",
+      "tomorrow_ceremony": "明天（{{year}}年{{month}}月{{day}}日）是农历{{lunarMonth}}{{lunarDay}}，是寺庙举行盛大法会的吉祥日！108位高僧大德将为您诵经持咒，增福延寿，消灾免难。",
+      "dayafter_ceremony": "后天（{{year}}年{{month}}月{{day}}日）是农历{{lunarMonth}}{{lunarDay}}，是寺庙举行盛大法会的吉祥日！108位高僧大德将为您诵经持咒，增福延寿，消灾免难。",
+      "ceremony_id": "祈福编号：{{year}}{{month}}{{day}}-{{id}}",
       "blessingEffects": [
         "此次祈福将为您消除三灾八难，增添福慧资粮，福德无量。",
         "您此次虔诚祈愿，将助您事业顺遂，财源广进，六时吉祥。",
@@ -157,7 +158,7 @@
     "options": {
       "btc": "比特币",
       "eth": "以太坊",
-      "usdt": "泰达币"
+      "usdt": "USDT(TRC20)"
     },
     "copy": "复制地址",
     "copied": "已复制",
@@ -167,7 +168,7 @@
     "currency": {
       "btc": "比特币 (BTC)",
       "eth": "以太坊 (ETH)",
-      "usdt": "泰达币 (USDT)"
+      "usdt": "USDT(TRC20)"
     },
     "click": "点击复制地址",
     "note": "一切供养将用于寺院日常运营、僧众生活、经藏修复及佛法弘扬。诸供养中，法供养为最。您的善心布施，如同甘露滋养菩提，福报无量。"

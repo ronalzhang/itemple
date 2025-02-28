@@ -1,0 +1,17 @@
+@use "sass:color";
+@use "sass:math";
+
+// 替代lighten()函数
+@function lighten-color($color, $percent) {
+  @return color.adjust($color, $lightness: $percent);
+}
+
+// 替代darken()函数
+@function darken-color($color, $percent) {
+  @return color.adjust($color, $lightness: -$percent);
+}
+
+// 使用除法
+@function divide($dividend, $divisor) {
+  @return math.div($dividend, $divisor);
+} 

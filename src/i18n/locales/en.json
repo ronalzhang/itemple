@@ -7,6 +7,10 @@
     "loading": "Divine Light Shining...",
     "footer": "© 2025 Drikhung Rinpoche Monastery. All Rights Reserved | Sacred Site of Tibetan Buddhism Gelug Tradition"
   },
+  "common": {
+    "lunarDate": "Today's Lunar Date: {{date}}",
+    "close": "Close"
+  },
   "header": {
     "home": "Home",
     "about": "About",
@@ -43,6 +47,7 @@
     "congratulations": "Congratulations! Your prayer is complete!",
     "prayerRank": "You are the {{rank}}th devotee today",
     "prayerId": "Prayer ID: {{id}}",
+    "ceremony_id": "Prayer ID: {{year}}{{month}}{{day}}-{{id}}",
     "success": {
       "title": "Prayer Successful",
       "description": "Your prayer has been sent to the temple. The monks will chant sutras for you. May you be blessed with peace and wisdom!",
@@ -135,7 +140,7 @@
     "currency": {
       "btc": "Bitcoin (BTC)",
       "eth": "Ethereum (ETH)",
-      "usdt": "Tether (USDT)"
+      "usdt": "USDT(TRC20)"
     },
     "click": "Click to copy address",
     "note": "All offerings support the monastery's operations, sustenance of the sangha, restoration of sacred texts, and dharma propagation. Of all offerings, the offering of dharma is supreme. Your compassionate generosity, like nectar nourishing the Bodhi tree, brings immeasurable merit.",
