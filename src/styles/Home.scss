@@ -10,6 +10,10 @@
 
 .main-content {
   padding-top: $spacing-sm;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .full-page-container {
@@ -18,11 +22,14 @@
   padding: $spacing-sm;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: $spacing-sm;
+  width: 100%;
   
   @media (max-width: $mobile-width) {
     padding: $spacing-xs;
     gap: $spacing-xs;
+    width: 100%;
   }
 }
 
@@ -49,6 +56,7 @@
   @media (max-width: $mobile-width) {
     font-size: 1.3rem;
     margin-bottom: $spacing-xs;
+    padding: 0 10px;
     
     &::after {
       bottom: -4px;
@@ -61,12 +69,31 @@ section {
   scroll-margin-top: 60px;
   animation: fadeIn 0.6s ease-out;
   margin-bottom: $spacing-sm;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  @media (max-width: $mobile-width) {
+    margin-bottom: $spacing-xs;
+  }
 }
 
 /* 今日祈福人数 */
 .today-stats-section {
   width: 100%;
   padding-top: $spacing-sm;
+  display: flex;
+  justify-content: center;
+  
+  @media (max-width: $mobile-width) {
+    padding-top: $spacing-xs;
+  }
+  
+  .statistics-card {
+    width: 100%;
+    max-width: 800px;
+  }
 }
 
 /* 祈福按钮 */
@@ -88,23 +115,38 @@ section {
   padding: $spacing-xs 0;
   background-color: $background-light;
   border-radius: $border-radius;
+  display: flex;
+  justify-content: center;
   
   @media (max-width: $mobile-width) {
     padding: 0;
+    border-radius: 0;
+  }
+  
+  .temple-section-container {
+    width: 100%;
+    max-width: 1100px;
   }
 }
 
 /* 全球祈福人数分布图 */
 .global-stats-section {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   
   .stats-chart-card {
     border-radius: $border-radius;
     box-shadow: $box-shadow;
     padding: $spacing-xs;
+    width: 100%;
+    max-width: 900px;
     
     @media (max-width: $mobile-width) {
       padding: 0;
+      border-radius: $border-radius-sm;
+      margin: 0 10px;
     }
   }
 }
@@ -114,9 +156,21 @@ section {
   width: 100%;
   margin-bottom: $spacing-lg;
   scroll-margin-top: 100px;
+  display: flex;
+  justify-content: center;
   
   &#donation {
-    display: block;
+    display: flex;
+    justify-content: center;
+  }
+  
+  @media (max-width: $mobile-width) {
+    margin-bottom: $spacing-md;
+  }
+  
+  .donation-container {
+    width: 100%;
+    max-width: 1000px;
   }
 }
 
@@ -130,6 +184,26 @@ section {
   p {
     line-height: 1.5;
     margin-bottom: $spacing-sm;
+  }
+  
+  .ant-chart-wrapper, .ant-statistic {
+    width: 100% !important;
+    margin: 0 auto;
+  }
+  
+  .ant-table-wrapper {
+    overflow-x: auto;
+    
+    .ant-table {
+      min-width: 500px;
+    }
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
   }
 }
 

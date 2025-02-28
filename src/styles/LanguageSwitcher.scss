@@ -12,10 +12,25 @@
   z-index: 100;
   
   @media (max-width: $mobile-width) {
-    position: relative;
-    top: 0;
-    right: 0;
-    margin: $spacing-sm 0;
-    justify-content: center;
+    position: absolute;
+    top: auto;
+    bottom: $spacing-xs;
+    right: 50%;
+    transform: translateX(50%);
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0 6px;
+    
+    .ant-btn {
+      padding: 0 6px;
+      font-size: 10px;
+      height: 20px;
+      min-width: 28px;
+    }
+    
+    .ant-space {
+      gap: 2px !important;
+    }
   }
 } 

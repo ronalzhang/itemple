@@ -2,14 +2,34 @@
 @use 'sass-helpers' as helper;
 
 .donation-section {
-  margin: $spacing-md 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: $spacing-lg 0;
+  
+  .donation-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+  }
+  
+  .error-message {
+    color: $error-color;
+    text-align: center;
+    margin-bottom: $spacing-md;
+    padding: $spacing-sm;
+    background-color: rgba($error-color, 0.05);
+    border-radius: $border-radius;
+    border: 1px solid rgba($error-color, 0.2);
+  }
   
   .section-title {
     text-align: center;
     font-family: $title-font;
     font-size: $font-size-xl;
     color: $primary-color;
-    margin-bottom: $spacing-sm;
+    margin-bottom: $spacing-lg;
     position: relative;
     
     &::after {
@@ -36,7 +56,7 @@
   .donation-description {
     text-align: center;
     max-width: 800px;
-    margin: 0 auto $spacing-md;
+    margin: 0 auto $spacing-lg;
     color: $text-color;
     font-size: $font-size-md;
     line-height: 1.6;
@@ -53,74 +73,44 @@
   }
   
   .donation-card {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
-    transition: all $transition-normal ease;
-    margin: 0 auto;
-    max-width: 1000px;
-    padding: $spacing-md;
-    
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: $box-shadow-hover;
-    }
-    
-    @media (max-width: $mobile-width) {
-      padding: $spacing-sm;
-    }
+    margin-top: $spacing-lg;
+    border-radius: $border-radius-lg;
+    box-shadow: $box-shadow-md;
+    background-color: $background-light;
   }
   
   .card-subtitle {
+    color: $secondary-color;
     text-align: center;
-    color: $text-color;
-    margin-bottom: $spacing-xs;
+    margin-bottom: $spacing-md;
   }
   
   .decorative-divider {
-    position: relative;
-    border-color: rgba($primary-color, 0.3);
-    margin-bottom: $spacing-md;
-    
-    &::before {
-      content: '☸';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: 0 $spacing-sm;
-      color: $primary-color;
-      font-size: $font-size-md;
-    }
+    border-top: 2px solid $accent-color;
+    width: 80px;
+    margin: $spacing-md auto $spacing-lg;
   }
   
   .crypto-container {
-    margin-bottom: $spacing-md;
-    
-    @media (max-width: $mobile-width) {
-      row-gap: $spacing-md;
-    }
+    display: flex;
+    justify-content: center;
+    margin-bottom: $spacing-lg;
   }
   
   .crypto-item {
-    background-color: rgba($primary-color, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $spacing-md;
     border-radius: $border-radius;
-    padding: $spacing-sm;
+    background-color: $text-color-light;
     height: 100%;
-    transition: all $transition-normal ease;
-    border: 1px solid rgba($primary-color, 0.1);
+    box-shadow: $box-shadow-sm;
+    transition: transform $transition-normal, box-shadow $transition-normal;
     
     &:hover {
-      background-color: rgba($primary-color, 0.1);
-      border-color: rgba($primary-color, 0.3);
-    }
-    
-    @media (max-width: $mobile-width) {
-      padding: $spacing-xs;
-      margin-bottom: $spacing-sm;
-      margin-bottom: 0;
-      box-shadow: $box-shadow-sm;
+      transform: translateY(-5px);
+      box-shadow: $box-shadow-lg;
     }
   }
   
@@ -130,10 +120,9 @@
     margin-bottom: $spacing-sm;
     
     h3 {
-      margin: 0;
-      color: $text-color;
+      margin: 0 0 0 $spacing-sm;
       font-size: $font-size-md;
-      font-weight: 500;
+      color: $text-color;
     }
   }
   
@@ -141,64 +130,47 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    margin-right: $spacing-sm;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-color-light;
+    font-weight: bold;
     
-    @media (max-width: $mobile-width) {
-      width: 28px;
-      height: 28px;
+    &.btc-icon {
+      background-color: #f7931a;
+      &::before {
+        content: '₿';
+      }
     }
-  }
-  
-  .btc-icon {
-    background-color: #f7931a;
-    background-image: url('/images/crypto/btc.png');
-  }
-  
-  .eth-icon {
-    background-color: #627eea;
-    background-image: url('/images/crypto/eth.png');
-  }
-  
-  .usdt-icon {
-    background-color: #26a17b;
-    background-image: url('/images/crypto/usdt.png');
+    
+    &.eth-icon {
+      background-color: #627eea;
+      &::before {
+        content: 'Ξ';
+      }
+    }
+    
+    &.usdt-icon {
+      background-color: #26a17b;
+      &::before {
+        content: 'T';
+      }
+    }
   }
   
   .crypto-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-    @media (max-width: $mobile-width) {
-      margin-top: $spacing-xs;
-    }
+    width: 100%;
   }
   
   .crypto-qrcode {
     margin-bottom: $spacing-sm;
-    padding: $spacing-xs;
-    background-color: white;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow-sm;
-    display: flex;
-    justify-content: center;
-    
-    .ant-qrcode {
-      position: relative;
-      z-index: 1;
-      border: none !important;
-    }
-    
-    @media (max-width: $mobile-width) {
-      .ant-qrcode {
-        width: 120px !important;
-        height: 120px !important;
-      }
-    }
+    padding: $spacing-sm;
+    background-color: $text-color-light;
+    border-radius: $border-radius-sm;
+    border: 1px solid $accent-color;
   }
   
   .crypto-address-container {
@@ -206,142 +178,96 @@
   }
   
   .crypto-address {
-    cursor: pointer;
-    padding: $spacing-xs;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: $border-radius-sm;
-    transition: all $transition-fast ease;
-    margin: 0;
-    word-break: break-all;
-    font-size: $font-size-sm;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $background-light;
+    border-radius: $border-radius-sm;
+    border: 1px dashed $primary-color;
+    cursor: pointer;
+    margin-bottom: 0;
+    min-height: 36px;
     
     &:hover {
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba($primary-color, 0.05);
     }
+  }
+  
+  .copy-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: $spacing-sm;
+    padding: 0;
+    color: $primary-color;
     
-    .ant-typography-copy {
-      color: $primary-color;
-    }
-    
-    .copy-button {
-      margin-left: $spacing-xs;
-      padding: 0 $spacing-xs;
-      font-size: $font-size-sm;
-      height: auto;
-      color: $primary-color;
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-      
-      &:hover {
-        color: helper.darken-color($primary-color, 10%);
-        background-color: rgba($primary-color, 0.1);
-      }
-      
-      .anticon {
-        margin-right: 4px;
-      }
-    }
-    
-    @media (max-width: $mobile-width) {
-      padding: $spacing-xs;
-      font-size: $font-size-xs;
-      
-      .copy-button {
-        padding: 0 4px;
-        font-size: $font-size-xs;
-        
-        .anticon {
-          margin-right: 2px;
-        }
-      }
-      
-      @media (max-width: 360px) {
-        .copy-button {
-          span:not(.anticon) {
-            display: none;
-          }
-          
-          .anticon {
-            margin-right: 0;
-          }
-        }
-      }
+    &:hover {
+      color: darken($primary-color, 10%);
     }
   }
   
   .donation-note {
-    margin-top: $spacing-md;
+    margin-top: $spacing-lg;
+    padding: $spacing-md;
+    background-color: rgba($primary-color, 0.05);
+    border-radius: $border-radius;
     text-align: center;
-    font-style: italic;
-    color: $text-color;
-    border-top: 1px solid rgba($primary-color, 0.2);
-    padding-top: $spacing-sm;
     
     p {
-      font-size: $font-size-sm;
-      line-height: 1.6;
       margin-bottom: $spacing-sm;
+      font-size: $font-size-sm;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
     
     .donation-thankyou {
-      font-size: $font-size-md;
+      font-weight: bold;
       color: $primary-color;
-      font-weight: 500;
-      font-family: $special-font;
-      margin-top: $spacing-sm;
-    }
-    
-    @media (max-width: $mobile-width) {
-      margin-top: $spacing-sm;
-      padding-top: $spacing-xs;
-      
-      p {
-        font-size: $font-size-xs;
-        line-height: 1.5;
-        margin-bottom: $spacing-xs;
-      }
-      
-      .donation-thankyou {
-        font-size: $font-size-sm;
-        margin-top: $spacing-xs;
-      }
+      font-size: $font-size-md;
     }
   }
   
-  @media (max-width: $tablet-width) {
-    .crypto-item {
-      margin-bottom: $spacing-sm;
+  @media (max-width: $desktop-width) {
+    .crypto-container {
+      margin-bottom: $spacing-md;
     }
     
-    .crypto-content {
-      flex-direction: column;
+    .crypto-item {
+      margin-bottom: $spacing-md;
     }
     
     .crypto-qrcode {
-      margin-bottom: $spacing-sm;
-      margin-right: 0;
+      transform: scale(0.9);
     }
   }
   
   @media (max-width: $mobile-width) {
-    .ant-row {
-      margin-bottom: 0 !important;
+    padding: $spacing-md 0;
+    
+    .donation-container {
+      padding: 0 $spacing-sm;
     }
     
-    .ant-col {
-      padding: $spacing-xs !important;
+    .donation-card {
+      margin-top: $spacing-md;
     }
     
-    .ant-row-responsive {
-      flex-flow: row wrap;
-      
-      .ant-col {
-        flex: 0 0 100%;
-      }
+    .section-title {
+      margin-bottom: $spacing-md;
+    }
+    
+    .donation-description {
+      margin-bottom: $spacing-md;
+    }
+    
+    .crypto-qrcode {
+      transform: scale(0.8);
     }
   }
 } 

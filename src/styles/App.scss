@@ -7,30 +7,38 @@
   flex-direction: column;
   background-color: $background-light;
   position: relative;
+  width: 100%;
+  overflow-x: hidden; // 防止水平滚动
+  align-items: center; // 确保内容居中
 }
 
 .main-content {
   flex: 1;
   padding: 40px 0;
-  width: 95%;
-  max-width: 90%;
+  width: 100%;
+  max-width: 1280px; // 设置最大宽度
   margin: 0 auto;
   animation: fadeIn 0.8s ease-in-out;
   position: relative;
   z-index: 1;
+  display: flex; // 添加flex显示
+  flex-direction: column; // 垂直方向排列
+  align-items: center; // 水平居中
   
   @media (min-width: $large-desktop-width) {
-    max-width: 85%;
+    max-width: 1280px;
   }
   
   @media (max-width: $tablet-width) {
     padding: 30px 0;
-    width: 92%;
+    width: 100%;
+    max-width: 100%;
   }
   
   @media (max-width: $mobile-width) {
     padding: 20px 0;
-    width: 94%;
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -92,12 +100,17 @@
     padding: 24px;
     
     @media (max-width: $mobile-width) {
-      padding: 16px;
+      padding: 12px;
     }
   }
   
   &:hover {
     box-shadow: $box-shadow;
+  }
+  
+  @media (max-width: $mobile-width) {
+    border-radius: $border-radius-sm;
+    margin: 0 10px;
   }
 }
 
@@ -248,9 +261,52 @@ img {
 .section-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 $spacing-md;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   
   @media (max-width: $mobile-width) {
-    padding: 0 $spacing-sm;
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+
+// 移动端特定优化
+@media (max-width: $mobile-width) {
+  // 确保所有容器在移动端都有合理的边距
+  .container, .ant-row, .ant-col {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  // 优化移动端的图片显示
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  // 移动端文本居中显示
+  .text-center-mobile {
+    text-align: center;
+  }
+  
+  // 缩小移动端的页面间距
+  section {
+    margin-bottom: 15px;
+  }
+  
+  // 修复移动端页面显示不完整问题
+  .app, body, html, #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .full-page-container, .main-content {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
   }
 } 

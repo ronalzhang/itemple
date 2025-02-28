@@ -7,6 +7,12 @@
   padding: $spacing-lg 0;
   margin-top: $spacing-xxl;
   border-top: 3px solid $primary-color;
+  width: 100%; // 确保宽度为100%
+  
+  @media (max-width: $mobile-width) {
+    padding: $spacing-md 0; // 减小内边距
+    margin-top: $spacing-xl; // 减小顶部外边距
+  }
   
   .footer-content {
     max-width: 1200px;
@@ -17,8 +23,21 @@
     flex-direction: column;
     gap: $spacing-md;
     
+    @media (max-width: $mobile-width) {
+      padding: $spacing-sm;
+      gap: $spacing-sm;
+      width: 100%;
+    }
+    
     .footer-links {
       margin-bottom: $spacing-sm;
+      
+      @media (max-width: $mobile-width) {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+        margin-bottom: $spacing-xs;
+      }
       
       a {
         color: $primary-color;
@@ -26,6 +45,12 @@
         font-family: $font-family;
         font-size: 1rem;
         transition: color 0.3s;
+        
+        @media (max-width: $mobile-width) {
+          font-size: 0.9rem;
+          display: inline-block;
+          padding: 5px 0;
+        }
         
         &:hover {
           color: helper.lighten-color($primary-color, 15%);
@@ -35,12 +60,22 @@
       
       .ant-divider {
         background-color: rgba($primary-color, 0.3);
+        
+        @media (max-width: $mobile-width) {
+          margin: 0 5px;
+          height: 12px;
+        }
       }
     }
     
     .footer-legal {
       font-size: 0.9rem;
       color: rgba($primary-color, 0.8);
+      
+      @media (max-width: $mobile-width) {
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
       
       a {
         color: rgba($primary-color, 0.8);
