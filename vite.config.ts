@@ -83,7 +83,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 3001,
+    port: 7070,
     open: true,
     // 配置开发服务器HMR
     hmr: {
@@ -94,8 +94,8 @@ export default defineConfig({
     host: '0.0.0.0',
     // 禁用CORS限制
     cors: true,
-    // 允许网络访问
-    strictPort: true,
+    // 端口被占用时允许使用下一个可用端口
+    strictPort: false,
     // 添加history API回退支持
     middlewareMode: false
   },
