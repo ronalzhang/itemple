@@ -84,7 +84,7 @@ export default defineConfig({
   },
   server: {
     port: 7070,
-    open: true,
+    open: false,
     // 配置开发服务器HMR
     hmr: {
       // 热更新优化
