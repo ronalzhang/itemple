@@ -14,6 +14,7 @@ const DEFAULT_COUNT = 3000; // 默认生成3000条记录
 const SERVER_DIR = path.resolve(__dirname, '../../src/server');
 const GENERATOR_PATH = path.join(SERVER_DIR, 'scripts/dbDataGenerator.cjs');
 const SERVER_STARTUP_TIMEOUT = 10000; // 10秒超时
+const SERVER_PORT = 7001; // 修改端口为3001，避免与现有服务冲突
 
 // 显示欢迎界面
 function showWelcome() {
@@ -55,11 +56,12 @@ function startServer() {
     // 切换到服务器目录
     process.chdir(SERVER_DIR);
     
-    // 启动服务器进程
+    // 启动服务器进程，设置PORT环境变量
     const serverProcess = spawn('node', ['index.js'], {
       cwd: SERVER_DIR,
       stdio: ['ignore', 'pipe', 'pipe'],
-      detached: false // 保持附加到当前进程
+      detached: false, // 保持附加到当前进程
+      env: { ...process.env, PORT: SERVER_PORT } // 设置自定义端口
     });
     
     // 设置超时

@@ -10,9 +10,10 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') });
 
 // 配置
+const SERVER_PORT = process.env.PORT || 3001; // 默认使用3001端口
 const API_URL = process.env.NODE_ENV === 'production' 
   ? '/api/prayer'
-  : `http://localhost:${process.env.PORT || 3000}/api/prayer`;
+  : `http://localhost:${SERVER_PORT}/api/prayer`;
 
 const DEFAULT_COUNT = 3000; // 默认生成3000条记录
 const BATCH_SIZE = 50; // 每批次发送50条请求
