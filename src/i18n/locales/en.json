@@ -47,7 +47,7 @@
     "congratulations": "Congratulations! Your prayer is complete!",
     "prayerRank": "You are the {{rank}}th devotee today",
     "prayerId": "Prayer ID: {{id}}",
-    "ceremony_id": "Prayer ID: {{year}}{{month}}{{day}}-{{id}}",
+    "ceremony_id": "Prayer ID: {{id}}",
     "success": {
       "title": "Prayer Successful",
       "description": "Your prayer has been sent to the temple. The monks will chant sutras for you. May you be blessed with peace and wisdom!",
@@ -74,6 +74,11 @@
     "dayType": {
       "firstDay": "1st",
       "fifteenthDay": "15th"
+    },
+    "share": {
+      "generate": "Create Share Card",
+      "success": "Share card generated",
+      "fail": "Failed to generate share card"
     },
     "moreBlessings": "For greater merit and divine blessings, consider making a sacred offering. The merit of such actions is immeasurable."
   },

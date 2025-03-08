@@ -63,7 +63,7 @@
       "today_ceremony": "今天（{{year}}年{{month}}月{{day}}日）是农历{{lunarMonth}}{{lunarDay}}，是寺庙举行盛大法会的吉祥日！108位高僧大德将为您诵经持咒，增福延寿，消灾免难。您的祈福功德将在本日法会中得到最大加持！",
       "tomorrow_ceremony": "明天（{{year}}年{{month}}月{{day}}日）是农历{{lunarMonth}}{{lunarDay}}，是寺庙举行盛大法会的吉祥日！108位高僧大德将为您诵经持咒，增福延寿，消灾免难。",
       "dayafter_ceremony": "后天（{{year}}年{{month}}月{{day}}日）是农历{{lunarMonth}}{{lunarDay}}，是寺庙举行盛大法会的吉祥日！108位高僧大德将为您诵经持咒，增福延寿，消灾免难。",
-      "ceremony_id": "祈福编号：{{year}}{{month}}{{day}}-{{id}}",
+      "ceremony_id": "祈福编号：{{id}}",
       "blessingEffects": [
         "此次祈福将为您消除三灾八难，增添福慧资粮，福德无量。",
         "您此次虔诚祈愿，将助您事业顺遂，财源广进，六时吉祥。",
@@ -104,7 +104,12 @@
       "firstDay": "初一",
       "fifteenthDay": "十五"
     },
-    "moreBlessings": "若欲获更多无量功德，可随缘供养，福报无量。"
+    "moreBlessings": "若欲获更多无量功德，可随缘供养，福报无量。",
+    "share": {
+      "generate": "生成分享卡片",
+      "success": "分享卡片已生成",
+      "fail": "生成分享卡片失败"
+    }
   },
   "temple": {
     "title": "直贡仁波钦寺",

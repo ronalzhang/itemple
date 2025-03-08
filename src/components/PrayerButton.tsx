@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Button, Modal, message, Tag, Tooltip, Row, Col, Space, Typography, Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { CopyOutlined, CheckOutlined, CloseOutlined, SendOutlined } from '@ant-design/icons';
@@ -11,6 +11,7 @@ import { generateRandomBlessing } from '../utils/blessingGenerator';
 import '../styles/PrayerButton.scss';
 import { Solar } from 'lunar-javascript';
 import dayjs from 'dayjs';
+import html2canvas from 'html2canvas';
 
 // 缓存祝福文案数组，避免多次重建
 const BLESSING_EFFECTS = [
@@ -87,6 +88,10 @@ const generateRandomIP = (() => {
 const PrayerButton: React.FC = () => {
   const { t } = useTranslation();
   const { reloadStats, stats } = useStatsContext();
+  
+  // 检测是否为移动设备
+  const isMobile = window.innerWidth <= 768;
+  
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [prayerId, setPrayerId] = useState('');
@@ -96,6 +101,10 @@ const PrayerButton: React.FC = () => {
   const [nextCeremony, setNextCeremony] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [blessing, setBlessing] = useState('');
+  const [shareImage, setShareImage] = useState<string | null>(null);
+  
+  // 添加对成功模态框内容的引用
+  const successContentRef = useRef<HTMLDivElement>(null);
   
   // 使用useMemo预先计算日期，避免频繁计算
   const ceremonyDate = useMemo(() => {
@@ -225,34 +234,68 @@ const PrayerButton: React.FC = () => {
     setIsSubmitting(false);
     setCopied(false);
     
-    // 优化滚动逻辑，使用requestAnimationFrame代替setTimeout
-    requestAnimationFrame(() => {
+    console.log('随喜功德按钮被点击，尝试滚动到捐赠部分');
+    
+    // 使用更长的延迟确保DOM完全更新和重排
+    setTimeout(() => {
       try {
-        const donationSection = document.getElementById('donation');
-        if (donationSection) {
-          // 平滑滚动到捐赠区域
-          window.scrollTo({
-            top: donationSection.offsetTop - 50, // 减去50px顶部间距
-            behavior: 'smooth'
-          });
+        const scrollToDonation = () => {
+          // 1. 首先尝试使用ID查找
+          let targetElement = document.getElementById('donation');
+          console.log('通过ID找到的元素:', targetElement);
           
-          // 添加焦点，提高可访问性
-          donationSection.focus({ preventScroll: true });
-        } else {
-          // 尝试使用备用方法滚动
-          const donationElements = document.getElementsByClassName('donation-section');
-          if (donationElements.length > 0) {
-            const element = donationElements[0] as HTMLElement;
+          // 2. 如果找不到，尝试使用类名查找
+          if (!targetElement) {
+            const elements = document.getElementsByClassName('donation-section');
+            console.log('通过class找到的元素数量:', elements.length);
+            if (elements.length > 0) {
+              targetElement = elements[0] as HTMLElement;
+            }
+          }
+          
+          // 3. 如果仍然找不到，尝试直接定位DonationSection的标题
+          if (!targetElement) {
+            const sectionTitles = document.getElementsByClassName('section-title');
+            for (let i = 0; i < sectionTitles.length; i++) {
+              const title = sectionTitles[i] as HTMLElement;
+              if (title.textContent && title.textContent.includes('功德布施')) {
+                targetElement = title.closest('.donation-section') as HTMLElement || title.parentElement;
+                break;
+              }
+            }
+          }
+          
+          // 如果找到目标元素，滚动到该位置
+          if (targetElement) {
+            const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 50;
+            console.log('滚动到位置:', offsetTop);
+            
             window.scrollTo({
-              top: element.offsetTop - 50,
+              top: offsetTop,
               behavior: 'smooth'
             });
+            
+            // 额外保障：如果第一次滚动不成功，500ms后再尝试一次
+            setTimeout(() => {
+              const currentOffset = targetElement?.getBoundingClientRect().top || 0;
+              if (Math.abs(currentOffset - (-50)) > 10) { // 如果元素不在视口顶部附近
+                window.scrollTo({
+                  top: targetElement.getBoundingClientRect().top + window.pageYOffset - 50,
+                  behavior: 'smooth'
+                });
+              }
+            }, 500);
+          } else {
+            console.error('无法找到捐赠部分元素');
           }
-        }
+        };
+        
+        // 执行滚动函数
+        scrollToDonation();
       } catch (error) {
         console.error('滚动到捐赠部分失败:', error);
       }
-    });
+    }, 300); // 增加延迟，确保DOM已经完全更新
   }, []);
 
   // 优化复制功能
@@ -356,6 +399,250 @@ const PrayerButton: React.FC = () => {
     }
   }, [nextCeremony]);
   
+  // 生成分享图片
+  const generateShareImage = useCallback(async () => {
+    try {
+      message.loading('正在生成分享图片...', 0);
+      
+      // 检测是否为移动设备
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      // 1. 找到整个模态框而不仅仅是内容部分
+      const modalElement = document.querySelector('.prayer-success-modal .ant-modal-content') as HTMLElement;
+      const shareButtonContainer = document.querySelector('.share-button-container') as HTMLElement;
+      
+      // 2. 找到关闭按钮
+      const closeButton = document.querySelector('.prayer-success-modal .ant-modal-close') as HTMLElement;
+      
+      if (!modalElement) {
+        message.error('无法找到祈福内容');
+        return;
+      }
+      
+      // 保存原始状态
+      const originalVisibility = shareButtonContainer?.style.display || '';
+      const originalCloseButtonVisibility = closeButton?.style.display || '';
+      
+      // 3. 临时隐藏分享按钮和关闭按钮
+      if (shareButtonContainer) {
+        shareButtonContainer.style.display = 'none';
+      }
+      
+      if (closeButton) {
+        closeButton.style.display = 'none';
+      }
+      
+      // 4. 等待一些时间确保DOM更新
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // 5. 使用html2canvas对整个模态框进行截图
+      const canvas = await html2canvas(modalElement, {
+        scale: isMobileDevice ? 1.5 : 2, // 移动设备使用稍小的缩放以减少内存使用
+        useCORS: true,
+        backgroundColor: '#fffcf0',
+        allowTaint: true,
+        logging: false,
+        onclone: (clonedDoc) => {
+          // 在克隆的文档中也隐藏关闭按钮
+          const clonedCloseButton = clonedDoc.querySelector('.prayer-success-modal .ant-modal-close');
+          if (clonedCloseButton) {
+            (clonedCloseButton as HTMLElement).style.display = 'none';
+          }
+          
+          const style = clonedDoc.createElement('style');
+          style.innerHTML = `
+            .ant-modal-content * {
+              color: inherit !important;
+              font-family: inherit !important;
+              visibility: visible !important;
+              opacity: 1 !important;
+            }
+            .ant-modal-close {
+              display: none !important;
+            }
+          `;
+          clonedDoc.head.appendChild(style);
+        }
+      });
+      
+      // 6. 恢复原始状态
+      if (shareButtonContainer) {
+        shareButtonContainer.style.display = originalVisibility;
+      }
+      
+      if (closeButton) {
+        closeButton.style.display = originalCloseButtonVisibility;
+      }
+      
+      // 7. 创建一个新的Canvas用于添加精美边框
+      const finalCanvas = document.createElement('canvas');
+      const borderWidth = isMobileDevice ? 15 : 20; // 移动设备使用稍窄的边框
+      const padding = isMobileDevice ? 10 : 15; // 移动设备使用稍小的内边距
+      const totalPadding = borderWidth + padding;
+      finalCanvas.width = canvas.width + totalPadding * 2;
+      finalCanvas.height = canvas.height + totalPadding * 2;
+      
+      const ctx = finalCanvas.getContext('2d');
+      if (!ctx) {
+        throw new Error('无法创建Canvas上下文');
+      }
+      
+      // 8. 创建精美的边框
+      
+      // 先绘制整体背景
+      ctx.fillStyle = '#fffcf0';
+      ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+      
+      // 绘制外边框 - 渐变金边
+      const borderGradient = ctx.createLinearGradient(0, 0, finalCanvas.width, finalCanvas.height);
+      borderGradient.addColorStop(0, 'rgba(212, 175, 55, 0.9)'); // 金色
+      borderGradient.addColorStop(0.5, 'rgba(230, 190, 138, 0.9)'); // 浅金色
+      borderGradient.addColorStop(1, 'rgba(212, 175, 55, 0.9)'); // 金色
+      
+      ctx.fillStyle = borderGradient;
+      ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+      
+      // 绘制内部背景
+      ctx.fillStyle = '#fffcf0';
+      ctx.fillRect(
+        borderWidth, 
+        borderWidth, 
+        finalCanvas.width - borderWidth * 2, 
+        finalCanvas.height - borderWidth * 2
+      );
+      
+      // 添加装饰角落
+      const cornerSize = isMobileDevice ? 25 : 30; // 移动设备使用稍小的角装饰
+      
+      // 创建在角落的装饰图案
+      ctx.fillStyle = 'rgba(175, 145, 65, 0.3)';
+      
+      // 左上角装饰
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(cornerSize, 0);
+      ctx.lineTo(0, cornerSize);
+      ctx.closePath();
+      ctx.fill();
+      
+      // 右上角装饰
+      ctx.beginPath();
+      ctx.moveTo(finalCanvas.width, 0);
+      ctx.lineTo(finalCanvas.width - cornerSize, 0);
+      ctx.lineTo(finalCanvas.width, cornerSize);
+      ctx.closePath();
+      ctx.fill();
+      
+      // 左下角装饰
+      ctx.beginPath();
+      ctx.moveTo(0, finalCanvas.height);
+      ctx.lineTo(cornerSize, finalCanvas.height);
+      ctx.lineTo(0, finalCanvas.height - cornerSize);
+      ctx.closePath();
+      ctx.fill();
+      
+      // 右下角装饰
+      ctx.beginPath();
+      ctx.moveTo(finalCanvas.width, finalCanvas.height);
+      ctx.lineTo(finalCanvas.width - cornerSize, finalCanvas.height);
+      ctx.lineTo(finalCanvas.width, finalCanvas.height - cornerSize);
+      ctx.closePath();
+      ctx.fill();
+      
+      // 绘制内层装饰边框
+      ctx.strokeStyle = 'rgba(175, 145, 65, 0.5)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(
+        borderWidth + 5, 
+        borderWidth + 5, 
+        finalCanvas.width - (borderWidth + 5) * 2, 
+        finalCanvas.height - (borderWidth + 5) * 2
+      );
+      
+      // 绘制原始图像
+      ctx.drawImage(
+        canvas, 
+        totalPadding, 
+        totalPadding, 
+        canvas.width, 
+        canvas.height
+      );
+      
+      // 绘制更大的水印在右下角
+      const fontSize = isMobileDevice ? 20 : 24; // 移动设备使用稍小的字体
+      ctx.font = `bold ${fontSize}px Arial`;
+      ctx.fillStyle = 'rgba(175, 145, 65, 0.7)';
+      ctx.textAlign = 'right';
+      ctx.fillText('eTemple.live', finalCanvas.width - borderWidth - 15, finalCanvas.height - borderWidth - 15);
+      
+      // 9. 转换为图片URL
+      const imageUrl = finalCanvas.toDataURL('image/png');
+      
+      // 10. 移动设备和桌面设备使用不同的保存方法
+      if (isMobileDevice) {
+        // 移动设备：显示图片并提供保存指导
+        Modal.info({
+          title: '长按图片保存',
+          width: 'min(90vw, 500px)',
+          centered: true,
+          icon: null,
+          maskClosable: true,
+          content: (
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ marginBottom: '15px' }}>长按下方图片，选择"保存图片"或"添加到相册"</p>
+              <div style={{ 
+                overflow: 'auto', 
+                maxHeight: '60vh',
+                padding: '10px',
+                border: '1px solid #f0f0f0',
+                borderRadius: '4px',
+                backgroundColor: '#fff',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+              }}>
+                <img 
+                  src={imageUrl} 
+                  alt="祈福记录" 
+                  style={{ 
+                    width: '100%', 
+                    height: 'auto', 
+                    objectFit: 'contain',
+                    touchAction: 'manipulation' // 优化触摸操作
+                  }} 
+                />
+              </div>
+            </div>
+          ),
+          okText: '关闭',
+        });
+      } else {
+        // 桌面设备：直接下载
+        const link = document.createElement('a');
+        link.download = `祈福记录_${prayerId}.png`;
+        link.href = imageUrl;
+        link.click();
+      }
+      
+      message.destroy();
+      message.success(t('prayer.share.success'));
+    } catch (error) {
+      console.error('生成分享图片失败:', error);
+      message.destroy();
+      message.error(t('prayer.share.fail'));
+      
+      // 确保重置UI状态
+      const shareButtonContainer = document.querySelector('.share-button-container') as HTMLElement;
+      if (shareButtonContainer) {
+        shareButtonContainer.style.display = '';
+      }
+      
+      // 恢复关闭按钮
+      const closeButton = document.querySelector('.prayer-success-modal .ant-modal-close') as HTMLElement;
+      if (closeButton) {
+        closeButton.style.display = '';
+      }
+    }
+  }, [prayerId, t]);
+  
   // 使用React.memo优化渲染性能
   return (
     <div className="prayer-button-container">
@@ -380,12 +667,25 @@ const PrayerButton: React.FC = () => {
       <Modal
         title={t('prayer.success.title')}
         open={isModalVisible}
-        onCancel={handleModalClose}
         footer={null}
-        className="prayer-success-modal"
+        onCancel={handleModalClose}
+        width={isMobile ? "90%" : 600}
+        centered
         destroyOnClose={true}
+        className="prayer-success-modal"
       >
-        <div className="success-content">
+        <div className="share-button-container">
+          <Button 
+            type="primary" 
+            ghost 
+            icon={<span role="img" aria-label="share" style={{ marginRight: '4px' }}>📷</span>} 
+            onClick={generateShareImage}
+            className="share-button"
+          >
+            {t('prayer.share.generate')}
+          </Button>
+        </div>
+        <div className="success-content" ref={successContentRef}>
           <div className="temple-image">
             <img src="/images/incense.png" alt={t('temple.image2Alt')} className="buddha-image" />
           </div>

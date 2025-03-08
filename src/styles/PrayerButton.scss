@@ -581,4 +581,42 @@
   font-size: 16px;
   font-weight: 500;
   border-radius: 20px;
+}
+
+// 分享按钮样式
+.share-button-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.share-button {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  border-radius: 50px;
+  padding: 6px 14px;
+  box-shadow: 0 3px 10px rgba($primary-color, 0.15);
+  background: linear-gradient(120deg, rgba($primary-color, 0.05), rgba($primary-color, 0.1)) !important;
+  border-color: rgba($primary-color, 0.3) !important;
+  color: $primary-color !important;
+  font-weight: 500;
+  transition: all 0.3s ease !important;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba($primary-color, 0.2);
+    background: linear-gradient(120deg, rgba($primary-color, 0.08), rgba($primary-color, 0.15)) !important;
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba($primary-color, 0.1);
+  }
+  
+  .anticon, span[role="img"] {
+    margin-right: 6px;
+    font-size: 15px;
+  }
 } 
