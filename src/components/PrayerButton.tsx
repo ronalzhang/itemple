@@ -258,7 +258,7 @@ const PrayerButton: React.FC = () => {
             const sectionTitles = document.getElementsByClassName('section-title');
             for (let i = 0; i < sectionTitles.length; i++) {
               const title = sectionTitles[i] as HTMLElement;
-              if (title.textContent && title.textContent.includes('功德布施')) {
+              if (title.textContent && title.textContent.includes('供养方式')) {
                 targetElement = title.closest('.donation-section') as HTMLElement || title.parentElement;
                 break;
               }
@@ -420,7 +420,7 @@ const PrayerButton: React.FC = () => {
       }
       
       // 保存原始状态
-      const originalVisibility = shareButtonContainer?.style.display || '';
+      const originalShareButtonVisibility = shareButtonContainer?.style.display || '';
       const originalCloseButtonVisibility = closeButton?.style.display || '';
       
       // 3. 临时隐藏分享按钮和关闭按钮
@@ -437,7 +437,7 @@ const PrayerButton: React.FC = () => {
       
       // 5. 使用html2canvas对整个模态框进行截图
       const canvas = await html2canvas(modalElement, {
-        scale: isMobileDevice ? 1.5 : 2, // 移动设备使用稍小的缩放以减少内存使用
+        scale: isMobileDevice ? 2 : 2, // 提高移动设备的缩放率以获得更清晰的图像
         useCORS: true,
         backgroundColor: '#fffcf0',
         allowTaint: true,
@@ -449,16 +449,140 @@ const PrayerButton: React.FC = () => {
             (clonedCloseButton as HTMLElement).style.display = 'none';
           }
           
+          // 获取关键元素
+          const successMessage = clonedDoc.querySelector('.success-message') as HTMLElement;
+          const prayerRank = clonedDoc.querySelector('.prayer-rank') as HTMLElement;
+          const prayerId = clonedDoc.querySelector('.prayer-id') as HTMLElement;
+          const meritButton = clonedDoc.querySelector('.merit-button-container') as HTMLElement;
+          
+          // 直接在DOM上应用垂直居中样式
+          if (successMessage) {
+            successMessage.style.display = 'flex';
+            successMessage.style.alignItems = 'center';
+            successMessage.style.justifyContent = 'center';
+            successMessage.style.minHeight = isMobileDevice ? '50px' : '40px';
+            successMessage.style.lineHeight = '1.5';
+          }
+          
+          if (prayerRank) {
+            prayerRank.style.display = 'flex';
+            prayerRank.style.alignItems = 'center';
+            prayerRank.style.justifyContent = 'center';
+            prayerRank.style.minHeight = isMobileDevice ? '40px' : '30px';
+            prayerRank.style.lineHeight = '1.5';
+          }
+          
+          if (prayerId) {
+            prayerId.style.display = 'flex';
+            prayerId.style.alignItems = 'center';
+            prayerId.style.justifyContent = 'center';
+            prayerId.style.minHeight = isMobileDevice ? '40px' : '30px';
+            prayerId.style.lineHeight = '1.5';
+          }
+          
+          if (meritButton) {
+            meritButton.style.display = 'flex';
+            meritButton.style.alignItems = 'center';
+            meritButton.style.justifyContent = 'center';
+            meritButton.style.margin = '15px auto';
+            // 增加移动端按钮文字大小
+            if (isMobileDevice) {
+              const meritButtonElement = meritButton.querySelector('.merit-button') as HTMLElement;
+              if (meritButtonElement) {
+                meritButtonElement.style.fontSize = '18px';
+                meritButtonElement.style.padding = '8px 24px';
+                meritButtonElement.style.height = 'auto';
+                meritButtonElement.style.lineHeight = '1.5';
+              }
+            }
+          }
+          
+          // 创建一个CSS样式表，只添加垂直居中所需的样式
           const style = clonedDoc.createElement('style');
           style.innerHTML = `
-            .ant-modal-content * {
-              color: inherit !important;
-              font-family: inherit !important;
-              visibility: visible !important;
-              opacity: 1 !important;
-            }
+            /* 隐藏关闭按钮 */
             .ant-modal-close {
               display: none !important;
+            }
+            
+            /* 模态框标题样式 */
+            .ant-modal-title {
+              text-align: center !important;
+              display: flex !important;
+              justify-content: center !important;
+              align-items: center !important;
+              line-height: 1.5 !important;
+            }
+            
+            /* 成功消息标题 */
+            .success-message {
+              text-align: center !important;
+              display: flex !important;
+              justify-content: center !important;
+              align-items: center !important;
+              line-height: 1.5 !important;
+              min-height: ${isMobileDevice ? '50px' : '40px'} !important;
+            }
+            
+            /* 祈福成就容器 */
+            .prayer-achievement {
+              display: flex !important;
+              flex-direction: column !important;
+              justify-content: center !important;
+              align-items: center !important;
+              padding: 15px 10px !important;
+            }
+            
+            /* 祈福排名和ID */
+            .prayer-rank, .prayer-id {
+              text-align: center !important;
+              display: flex !important;
+              justify-content: center !important;
+              align-items: center !important;
+              min-height: ${isMobileDevice ? '40px' : '30px'} !important;
+              line-height: 1.5 !important;
+            }
+            
+            /* 功德按钮容器 */
+            .merit-button-container {
+              display: flex !important;
+              justify-content: center !important;
+              align-items: center !important;
+              margin: 15px auto !important;
+              min-height: ${isMobileDevice ? '50px' : '40px'} !important;
+            }
+            
+            /* 功德按钮 */
+            .merit-button {
+              display: flex !important;
+              justify-content: center !important;
+              align-items: center !important;
+              ${isMobileDevice ? `
+                font-size: 18px !important;
+                padding: 8px 24px !important;
+                height: auto !important;
+                line-height: 1.5 !important;
+              ` : ''}
+            }
+            
+            /* 移动设备特定样式 */
+            @media (max-width: 768px) {
+              .success-message {
+                min-height: 50px !important;
+                line-height: 1.5 !important;
+              }
+              
+              .prayer-rank, .prayer-id {
+                min-height: 40px !important;
+                line-height: 1.5 !important;
+              }
+
+              .merit-button {
+                font-size: 18px !important;
+                padding: 8px 24px !important;
+                height: auto !important;
+                line-height: 1.5 !important;
+              }
             }
           `;
           clonedDoc.head.appendChild(style);
@@ -467,7 +591,7 @@ const PrayerButton: React.FC = () => {
       
       // 6. 恢复原始状态
       if (shareButtonContainer) {
-        shareButtonContainer.style.display = originalVisibility;
+        shareButtonContainer.style.display = originalShareButtonVisibility;
       }
       
       if (closeButton) {
@@ -476,9 +600,10 @@ const PrayerButton: React.FC = () => {
       
       // 7. 创建一个新的Canvas用于添加精美边框
       const finalCanvas = document.createElement('canvas');
-      const borderWidth = isMobileDevice ? 15 : 20; // 移动设备使用稍窄的边框
-      const padding = isMobileDevice ? 10 : 15; // 移动设备使用稍小的内边距
+      const borderWidth = isMobileDevice ? 22 : 20; // 大幅增加移动设备边框宽度，使整体比例更接近桌面版
+      const padding = isMobileDevice ? 15 : 15; // 与桌面端保持相同的内边距
       const totalPadding = borderWidth + padding;
+      
       finalCanvas.width = canvas.width + totalPadding * 2;
       finalCanvas.height = canvas.height + totalPadding * 2;
       
@@ -487,22 +612,11 @@ const PrayerButton: React.FC = () => {
         throw new Error('无法创建Canvas上下文');
       }
       
-      // 8. 创建精美的边框
-      
-      // 先绘制整体背景
-      ctx.fillStyle = '#fffcf0';
+      // 绘制金色边框背景 - 保持不透明度一致
+      ctx.fillStyle = 'rgba(175, 145, 65, 0.15)';
       ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
       
-      // 绘制外边框 - 渐变金边
-      const borderGradient = ctx.createLinearGradient(0, 0, finalCanvas.width, finalCanvas.height);
-      borderGradient.addColorStop(0, 'rgba(212, 175, 55, 0.9)'); // 金色
-      borderGradient.addColorStop(0.5, 'rgba(230, 190, 138, 0.9)'); // 浅金色
-      borderGradient.addColorStop(1, 'rgba(212, 175, 55, 0.9)'); // 金色
-      
-      ctx.fillStyle = borderGradient;
-      ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
-      
-      // 绘制内部背景
+      // 绘制内层白色背景
       ctx.fillStyle = '#fffcf0';
       ctx.fillRect(
         borderWidth, 
@@ -511,11 +625,9 @@ const PrayerButton: React.FC = () => {
         finalCanvas.height - borderWidth * 2
       );
       
-      // 添加装饰角落
-      const cornerSize = isMobileDevice ? 25 : 30; // 移动设备使用稍小的角装饰
-      
-      // 创建在角落的装饰图案
+      // 添加四角装饰
       ctx.fillStyle = 'rgba(175, 145, 65, 0.3)';
+      const cornerSize = isMobileDevice ? 30 : 30; // 移动设备与桌面端使用相同的角落装饰尺寸
       
       // 左上角装饰
       ctx.beginPath();
@@ -549,7 +661,7 @@ const PrayerButton: React.FC = () => {
       ctx.closePath();
       ctx.fill();
       
-      // 绘制内层装饰边框
+      // 绘制内层装饰边框 - 保持边框线粗细不变
       ctx.strokeStyle = 'rgba(175, 145, 65, 0.5)';
       ctx.lineWidth = 2;
       ctx.strokeRect(
@@ -568,8 +680,8 @@ const PrayerButton: React.FC = () => {
         canvas.height
       );
       
-      // 绘制更大的水印在右下角
-      const fontSize = isMobileDevice ? 20 : 24; // 移动设备使用稍小的字体
+      // 绘制水印在右下角 - 增加移动设备字体大小
+      const fontSize = isMobileDevice ? 22 : 24; 
       ctx.font = `bold ${fontSize}px Arial`;
       ctx.fillStyle = 'rgba(175, 145, 65, 0.7)';
       ctx.textAlign = 'right';

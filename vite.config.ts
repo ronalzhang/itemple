@@ -1,41 +1,48 @@
-import { defineConfig } from 'vite'
+import { defineConfig, Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { compression } from 'vite-plugin-compression2'
 
+// 准备插件数组
+const plugins: any[] = [react()];
+
+// 添加压缩插件
+plugins.push(
+  // 生成gzip文件
+  compression({
+    include: [/\.(js|css|html|svg|json)$/],
+    algorithm: 'gzip',
+    deleteOriginalAssets: false
+  }),
+  // 生成brotli文件
+  compression({
+    include: [/\.(js|css|html|svg|json)$/],
+    algorithm: 'brotliCompress',
+    deleteOriginalAssets: false
+  })
+);
+
+// 如果启用了分析，添加visualizer插件
+if (process.env.ANALYZE === 'true') {
+  plugins.push(
+    visualizer({
+      open: true, // 自动打开分析报告
+      filename: 'dist/stats.html',
+      gzipSize: true,
+      template: 'treemap' // 使用树形图更直观地显示模块大小
+    })
+  );
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    // 添加压缩插件，生成gzip文件
-    compression({
-      include: [/\.(js|css|html|svg|json)$/],
-      // 使用gzip算法，不要使用数组
-      algorithm: 'gzip',
-      // 删除原始文件
-      deleteOriginalAssets: false
-    }),
-    // 添加brotli压缩插件
-    compression({
-      include: [/\.(js|css|html|svg|json)$/],
-      // 使用brotli算法
-      algorithm: 'brotliCompress',
-      // 删除原始文件
-      deleteOriginalAssets: false
-    }),
-    // 添加可视化工具，在构建后生成报告
-    visualizer({
-      open: false,
-      filename: 'dist/stats.html',
-      gzipSize: true
-    })
-  ],
+  plugins,
   base: '/',
   build: {
     outDir: 'dist',
     minify: 'terser',
     sourcemap: false,
-    chunkSizeWarningLimit: 1600,
+    chunkSizeWarningLimit: 2000, // 提高警告限制
     // 启用CSS代码分割
     cssCodeSplit: true,
     // terser优化配置
@@ -43,6 +50,8 @@ export default defineConfig({
       compress: {
         drop_console: true, // 删除console语句
         drop_debugger: true, // 删除debugger语句
+        pure_funcs: ['console.log', 'console.info', 'console.debug'], // 移除额外的控制台函数
+        passes: 2, // 多次压缩以获得更好的结果
       },
       format: {
         comments: false, // 删除注释
@@ -51,16 +60,16 @@ export default defineConfig({
     // 打包优化配置
     rollupOptions: {
       output: {
-        // 按类型分块
+        // 恢复到原来的简单分块策略
         manualChunks: {
           // 将React相关库打包在一起
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           // 将Ant Design相关库打包在一起
-          'vendor-antd': ['antd', '@ant-design/icons'],
+          'vendor-antd': ['antd', '@ant-design/icons', '@ant-design/charts'],
           // 将i18n相关库打包在一起
           'vendor-i18n': ['i18next', 'react-i18next'],
           // 将工具库打包在一起
-          'vendor-utils': ['axios', 'lunar-javascript'],
+          'vendor-utils': ['axios', 'lunar-javascript', 'html2canvas'],
         },
         // 自定义chunk名称格式
         chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -85,6 +94,10 @@ export default defineConfig({
   server: {
     port: 7070,
     open: false,
+    
+    // 允许跨域访问
+    allowedHosts: ['etemple.live', 'www.etemple.live'],
+    
     // 配置开发服务器HMR
     hmr: {
       // 热更新优化
@@ -120,15 +133,30 @@ export default defineConfig({
   // 优化预构建和缓存
   optimizeDeps: {
     // 强制预构建这些依赖
-    include: ['react', 'react-dom', 'antd', '@ant-design/icons', 'i18next', 'react-i18next'],
+    include: [
+      'react', 
+      'react-dom', 
+      'antd', 
+      '@ant-design/icons', 
+      'i18next', 
+      'react-i18next',
+      'html2canvas'
+    ],
     // 缓存配置
     esbuildOptions: {
-      target: 'es2020'
+      target: 'es2020',
+      // 启用tree-shaking优化
+      treeShaking: true
     }
   },
   // 提高首屏加载速度
   esbuild: {
     legalComments: 'none', // 删除注释
     drop: ['console', 'debugger'], // 删除console和debugger语句
+    // 启用更多优化
+    treeShaking: true,
+    minifyWhitespace: true,
+    minifyIdentifiers: true,
+    minifySyntax: true
   }
 });

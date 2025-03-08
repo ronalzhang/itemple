@@ -275,73 +275,45 @@
   }
   
   .prayer-achievement {
+    background-color: rgba($primary-color, 0.08);
+    border: 1px solid rgba($primary-color, 0.15);
+    border-radius: $border-radius-sm;
+    padding: $spacing-md;
+    margin-bottom: $spacing-md;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: $spacing-xs 0;
+    text-align: center;
     
-    .prayer-rank {
+    .prayer-rank, .prayer-id {
       font-size: $font-size-md;
-      margin-bottom: $spacing-xs;
-      padding: $spacing-xs $spacing-sm;
-      border-radius: 15px;
-      background: linear-gradient(135deg, helper.lighten-color($primary-color, 10%), $primary-color);
-      color: $text-color-dark;
-      font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      animation: pulsate 2s ease-in-out infinite;
-    }
-    
-    @keyframes pulsate {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.03);
-      }
-    }
-    
-    .prayer-id {
-      font-family: $font-family;
       color: rgba($text-color, 0.7);
-      font-size: $font-size-sm;
-      background: rgba($primary-color, 0.07);
-      padding: 2px 10px;
-      border-radius: 10px;
+      margin-bottom: $spacing-xs;
+      width: 100%;
+      text-align: center;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    @media (max-width: $mobile-width) {
+      .prayer-rank, .prayer-id {
+        text-align: center;
+        width: 100%;
+        display: block;
+      }
     }
   }
   
   .success-date {
     font-size: $font-size-sm;
     color: $text-color;
-    margin: $spacing-xs 0;
-    line-height: 1.4;
-    padding: $spacing-xs;
-    border-left: 3px solid rgba($primary-color, 0.4);
-    text-align: left;
-    background: rgba($primary-color, 0.03);
-    border-radius: $border-radius-sm;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-    
-    .ceremony-note {
-      font-size: 0.9rem;
-      margin-top: $spacing-xs;
-      margin-bottom: $spacing-xs;
-      padding: $spacing-xs;
-      line-height: 1.4;
-      color: $primary-color;
-      font-weight: 500;
-      border-top: 1px dashed rgba($primary-color, 0.2);
-      padding-top: $spacing-xs;
-    }
-    
-    .blessing-promise {
-      font-size: 0.85rem;
-      margin-top: $spacing-xs;
-      margin-bottom: 0;
-      font-style: italic;
-      color: $text-color;
-    }
+    margin-bottom: $spacing-md;
+    padding: $spacing-sm;
+    text-align: center;
+    width: 100%;
   }
   
   p {
@@ -422,6 +394,10 @@
         font-size: $font-size-xl;
         padding: $spacing-sm 0;
         font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
       }
     }
     
@@ -452,10 +428,14 @@
     
     .temple-image {
       margin-bottom: $spacing-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       
       img {
         max-width: 120px;
         opacity: 0.85;
+        margin: 0 auto;
       }
     }
     
@@ -465,6 +445,13 @@
       font-weight: bold;
       margin-bottom: $spacing-sm;
       font-family: $title-font;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      width: 100%;
+      padding: 5px 0;
+      text-align: center;
     }
     
     .blessing-description {
@@ -472,6 +459,8 @@
       color: $text-color;
       margin-bottom: $spacing-md;
       line-height: 1.6;
+      width: 100%;
+      text-align: center;
     }
     
     .prayer-achievement {
@@ -481,14 +470,66 @@
       padding: $spacing-md;
       margin-bottom: $spacing-md;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       
       .prayer-rank, .prayer-id {
         font-size: $font-size-md;
         color: rgba($text-color, 0.7);
         margin-bottom: $spacing-xs;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 30px;
         
         &:last-child {
           margin-bottom: 0;
+        }
+      }
+    }
+    
+    // 移动端样式优化
+    @media (max-width: $mobile-width) {
+      .prayer-achievement {
+        padding: $spacing-sm $spacing-md;
+      }
+      
+      .success-message {
+        min-height: 50px;
+        font-size: $font-size-lg;
+        line-height: 1.5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .prayer-rank, .prayer-id {
+        min-height: 40px;
+        padding: 5px 0;
+        line-height: 1.5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .blessing-description {
+        line-height: 1.5;
+        font-size: $font-size-sm;
+      }
+      
+      .merit-button-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .merit-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
     }
@@ -526,9 +567,18 @@
     
     .merit-button-container {
       margin-top: $spacing-sm;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       
       .merit-button {
         min-width: 120px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
       }
     }
   }
@@ -565,22 +615,6 @@
   100% {
     transform: scale(1);
   }
-}
-
-// 祝福按钮容器样式
-.merit-button-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.merit-button {
-  min-width: 120px;
-  height: 40px;
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 20px;
 }
 
 // 分享按钮样式
