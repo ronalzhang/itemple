@@ -6,12 +6,13 @@ import { recordPrayer } from '../services/api';
 import { useStatsContext } from '../contexts/StatsContext';
 // 恢复农历日期计算，但优化性能
 import { getNextCeremonyDate, LUNAR_MONTHS, LUNAR_DAYS } from '../utils/lunarCalendar';
-import { calculateLunarDate } from '../utils/lunarCalendar';
+import { calculateLunarDate, getLunarDate } from '../utils/lunarCalendar';
 import { generateRandomBlessing } from '../utils/blessingGenerator';
 import '../styles/PrayerButton.scss';
 import { Solar } from 'lunar-javascript';
 import dayjs from 'dayjs';
 import html2canvas from 'html2canvas';
+import AudioPlayer from './AudioPlayer';
 
 // 缓存祝福文案数组，避免多次重建
 const BLESSING_EFFECTS = [
@@ -102,6 +103,7 @@ const PrayerButton: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [blessing, setBlessing] = useState('');
   const [shareImage, setShareImage] = useState<string | null>(null);
+  const [audioError, setAudioError] = useState<Error | null>(null);
   
   // 添加对成功模态框内容的引用
   const successContentRef = useRef<HTMLDivElement>(null);
@@ -124,9 +126,7 @@ const PrayerButton: React.FC = () => {
   }, []);
   
   // 同样对农历日期使用useMemo缓存
-  const lunarDate = useMemo(() => {
-    return calculateLunarDate();
-  }, []); // 空依赖数组表示只计算一次
+  const lunarDate = getLunarDate();
   
   // 简化祝福文案选择逻辑，减少不必要的状态更新
   const getRandomBlessingEffect = useCallback(() => {
@@ -218,7 +218,7 @@ const PrayerButton: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [t, reloadStats, lunarDate]); // 添加依赖
+  }, [t, reloadStats, lunarDate]);
   
   // 普通关闭（点击空白处或右上角X）- 不跳转
   const handleModalClose = useCallback(() => {
@@ -236,66 +236,40 @@ const PrayerButton: React.FC = () => {
     
     console.log('随喜功德按钮被点击，尝试滚动到捐赠部分');
     
-    // 使用更长的延迟确保DOM完全更新和重排
+    // 增加延迟时间到500ms，确保DOM完全更新
     setTimeout(() => {
       try {
-        const scrollToDonation = () => {
-          // 1. 首先尝试使用ID查找
-          let targetElement = document.getElementById('donation');
-          console.log('通过ID找到的元素:', targetElement);
-          
-          // 2. 如果找不到，尝试使用类名查找
-          if (!targetElement) {
-            const elements = document.getElementsByClassName('donation-section');
-            console.log('通过class找到的元素数量:', elements.length);
-            if (elements.length > 0) {
-              targetElement = elements[0] as HTMLElement;
-            }
-          }
-          
-          // 3. 如果仍然找不到，尝试直接定位DonationSection的标题
-          if (!targetElement) {
-            const sectionTitles = document.getElementsByClassName('section-title');
-            for (let i = 0; i < sectionTitles.length; i++) {
-              const title = sectionTitles[i] as HTMLElement;
-              if (title.textContent && title.textContent.includes('供养方式')) {
-                targetElement = title.closest('.donation-section') as HTMLElement || title.parentElement;
-                break;
-              }
-            }
-          }
-          
-          // 如果找到目标元素，滚动到该位置
-          if (targetElement) {
-            const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 50;
-            console.log('滚动到位置:', offsetTop);
-            
-            window.scrollTo({
-              top: offsetTop,
-              behavior: 'smooth'
-            });
-            
-            // 额外保障：如果第一次滚动不成功，500ms后再尝试一次
-            setTimeout(() => {
-              const currentOffset = targetElement?.getBoundingClientRect().top || 0;
-              if (Math.abs(currentOffset - (-50)) > 10) { // 如果元素不在视口顶部附近
-                window.scrollTo({
-                  top: targetElement.getBoundingClientRect().top + window.pageYOffset - 50,
-                  behavior: 'smooth'
-                });
-              }
-            }, 500);
-          } else {
-            console.error('无法找到捐赠部分元素');
-          }
-        };
+        // 直接使用ID选择器，因为它是最外层的标识符
+        const targetElement = document.getElementById('donation');
         
-        // 执行滚动函数
-        scrollToDonation();
+        if (targetElement) {
+          // 获取目标元素的位置
+          const rect = targetElement.getBoundingClientRect();
+          const offsetTop = rect.top + window.pageYOffset;
+          
+          // 平滑滚动到目标位置，并留出50px的顶部空间
+          window.scrollTo({
+            top: offsetTop - 50,
+            behavior: 'smooth'
+          });
+          
+          // 添加一个额外的检查，确保滚动成功
+          setTimeout(() => {
+            const newRect = targetElement.getBoundingClientRect();
+            if (Math.abs(newRect.top - 50) > 10) {
+              window.scrollTo({
+                top: targetElement.getBoundingClientRect().top + window.pageYOffset - 50,
+                behavior: 'smooth'
+              });
+            }
+          }, 1000); // 1秒后检查滚动位置
+        } else {
+          console.error('无法找到捐赠部分元素 (id: donation)');
+        }
       } catch (error) {
         console.error('滚动到捐赠部分失败:', error);
       }
-    }, 300); // 增加延迟，确保DOM已经完全更新
+    }, 500);
   }, []);
 
   // 优化复制功能
@@ -804,7 +778,7 @@ const PrayerButton: React.FC = () => {
           <div className="success-message">
             {t('prayer.congratulations')}
           </div>
-          <p className="blessing-description">{t('prayer.success.description')}</p>
+          <p className="blessing-description">{blessing}</p>
           <div className="prayer-achievement">
             <div className="prayer-rank">
               {t('prayer.prayerRank', { rank: prayerRank })}

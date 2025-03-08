@@ -40,6 +40,54 @@ const SPECIAL_DAY_BLESSINGS = [
   '身心康泰，百病不侵，延年益寿。'
 ];
 
+// 加密货币相关的常规祝福
+const CRYPTO_REGULAR_BLESSINGS = [
+  {
+    zh: "愿您福如比特，智慧如链，源源不断。",
+    en: "May your fortune grow like Bitcoin, your wisdom flow like blockchain."
+  },
+  {
+    zh: "愿您智慧如以太，福报如链，生生不竭。",
+    en: "May your wisdom shine like Ethereum, your blessings chain forever."
+  },
+  {
+    zh: "福如比特永恒，智慧如链坚固。",
+    en: "Fortune eternal as Bitcoin, wisdom solid as blockchain."
+  },
+  {
+    zh: "愿您钱包稳固，以太长明，平安喜乐。",
+    en: "May your wallet be secure, Ethereum shine bright, bringing peace and joy."
+  },
+  {
+    zh: "福似比特增值，智慧如链相连。",
+    en: "Fortune rising like Bitcoin, wisdom connecting like chains."
+  }
+];
+
+// 加密货币相关的特殊日子祝福
+const CRYPTO_SPECIAL_DAY_BLESSINGS = [
+  {
+    zh: "良辰吉日，愿福如比特增长，智慧如链永续。",
+    en: "On this blessed day, may your fortune rise like Bitcoin, wisdom flow like chain."
+  },
+  {
+    zh: "殊胜之日，愿以太光明，链上福报永驻。",
+    en: "Sacred moment, may Ethereum light your path, blessings chain eternal."
+  },
+  {
+    zh: "佛日吉祥，愿比特高升，智慧如链不断。",
+    en: "Auspicious day, Bitcoin soaring high, wisdom chaining endless."
+  },
+  {
+    zh: "殊胜因缘，愿以太永恒，福慧双链增长。",
+    en: "Blessed time, Ethereum shining bright, dual chains of fortune growing."
+  },
+  {
+    zh: "吉祥之日，愿比特高照，链上福报广增。",
+    en: "Special day, Bitcoin lighting way, chain blessings multiplying."
+  }
+];
+
 // 特定场景的祝福语（例如事业、健康、感情等）
 const SPECIFIC_BLESSINGS = {
   career: [
@@ -67,20 +115,38 @@ const SPECIFIC_BLESSINGS = {
 /**
  * 根据农历日期生成随机祝福语
  * @param lunarDate 农历日期
+ * @param lang 语言（'zh' 或 'en'）
  * @returns 随机祝福语
  */
-export const generateRandomBlessing = (lunarDate: string): string => {
+export const generateRandomBlessing = (lunarDate: string, lang: 'zh' | 'en' = 'zh'): string => {
   // 判断是否为特殊日子（初一或十五）
   const isSpecialDay = lunarDate.includes('初一') || lunarDate.includes('十五');
   
+  // 20%的概率使用加密货币相关祝福
+  const useCrypto = Math.random() < 0.2;
+  
+  if (useCrypto) {
+    if (isSpecialDay) {
+      const cryptoSpecial = CRYPTO_SPECIAL_DAY_BLESSINGS[
+        Math.floor(Math.random() * CRYPTO_SPECIAL_DAY_BLESSINGS.length)
+      ];
+      return cryptoSpecial[lang];
+    } else {
+      const cryptoRegular = CRYPTO_REGULAR_BLESSINGS[
+        Math.floor(Math.random() * CRYPTO_REGULAR_BLESSINGS.length)
+      ];
+      return cryptoRegular[lang];
+    }
+  }
+  
+  // 如果不使用加密货币祝福，则使用传统祝福
   // 随机选择一个前缀
   const prefix = BLESSING_PREFIXES[Math.floor(Math.random() * BLESSING_PREFIXES.length)];
   
-  // 随机选择一个祝福语内容
-  let blessing = '';
-  
   // 增加health类别祝福被选中的概率
-  const useHealth = Math.random() < 0.3; // 30%的概率直接使用健康祝福
+  const useHealth = Math.random() < 0.3;
+  
+  let blessing = '';
   
   if (useHealth) {
     // 直接使用健康祝福
