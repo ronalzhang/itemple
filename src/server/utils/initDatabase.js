@@ -11,10 +11,23 @@ const getTodayDate = () => {
 // 初始化数据库
 const initDatabase = async () => {
   try {
-    // 同步数据库模型 - 使用force:false避免重建表和清除数据
     console.log('开始同步数据库模型...');
-    await sequelize.sync({ force: false });
-    console.log('数据库模型同步成功');
+    
+    // 删除可能存在的问题索引
+    try {
+      await sequelize.query('DROP INDEX IF EXISTS daily_stats_idx');
+      console.log('已删除问题索引 daily_stats_idx（如果存在）');
+    } catch (error) {
+      console.log('删除索引时出现错误（可能索引不存在）:', error.message);
+    }
+    
+    // 同步所有模型到数据库，不强制重建表
+    await sequelize.sync({ 
+      force: false, // 不删除现有表
+      alter: false  // 不自动修改表结构
+    });
+    
+    console.log('数据库模型同步完成');
     
     // 检查是否有今日统计记录
     const today = getTodayDate();

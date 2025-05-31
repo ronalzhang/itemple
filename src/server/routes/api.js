@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const prayerController = require('../controllers/prayerController');
+const { logVisit } = require('../controllers/adminController');
 
 // 获取客户端真实IP的中间件
 const getRealIP = (req, res, next) => {
@@ -14,6 +15,7 @@ const getRealIP = (req, res, next) => {
 
 // 应用中间件
 router.use(getRealIP);
+router.use(logVisit); // 添加访问日志记录
 
 // API路由定义
 router.post('/prayer', prayerController.recordPrayer);

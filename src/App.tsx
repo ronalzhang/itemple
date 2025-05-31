@@ -9,6 +9,8 @@ import './styles/App.scss';
 import Home from './components/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 
 // 组件
 import Header from './components/Header';
@@ -34,15 +36,40 @@ const App: React.FC = () => {
         >
           <div className="app">
             {/* <BackgroundEffect /> */}
-            <Header />
-            <main className="main-content">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-              </Routes>
-            </main>
-            <Footer />
+            <Routes>
+              {/* 前台路由 */}
+              <Route path="/" element={
+                <>
+                  <Header />
+                  <main className="main-content">
+                    <Home />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/about" element={
+                <>
+                  <Header />
+                  <main className="main-content">
+                    <About />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              <Route path="/contact" element={
+                <>
+                  <Header />
+                  <main className="main-content">
+                    <Contact />
+                  </main>
+                  <Footer />
+                </>
+              } />
+              
+              {/* 后台管理路由 */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            </Routes>
           </div>
         </BrowserRouter>
       </StatsProvider>

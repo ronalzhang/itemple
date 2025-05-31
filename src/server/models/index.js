@@ -7,6 +7,7 @@ const sequelize = require('../db/config');
 const Prayer = require('./Prayer');
 const Stats = require('./Stats');
 const Statistic = require('./Statistic');
+const VisitLog = require('./VisitLog');
 
 // 同步所有模型到数据库
 // 在开发环境中，可以使用 {force: true} 来重建表
@@ -43,6 +44,7 @@ module.exports = {
   sequelize,
   Prayer,
   Stats,
-  syncDatabase,
-  Statistic
+  Statistic,
+  VisitLog,
+  syncDatabase
 }; 

@@ -5,14 +5,12 @@ import { CopyOutlined, CheckOutlined, CloseOutlined, SendOutlined } from '@ant-d
 import { recordPrayer } from '../services/api';
 import { useStatsContext } from '../contexts/StatsContext';
 // 恢复农历日期计算，但优化性能
-import { getNextCeremonyDate, LUNAR_MONTHS, LUNAR_DAYS } from '../utils/lunarCalendar';
-import { calculateLunarDate, getLunarDate } from '../utils/lunarCalendar';
+import { getNextCeremonyDate, LUNAR_MONTHS, LUNAR_DAYS, calculateLunarDate } from '../utils/lunarCalendar';
 import { generateRandomBlessing } from '../utils/blessingGenerator';
 import '../styles/PrayerButton.scss';
 import { Solar } from 'lunar-javascript';
 import dayjs from 'dayjs';
 import html2canvas from 'html2canvas';
-import AudioPlayer from './AudioPlayer';
 
 // 缓存祝福文案数组，避免多次重建
 const BLESSING_EFFECTS = [
@@ -126,7 +124,7 @@ const PrayerButton: React.FC = () => {
   }, []);
   
   // 同样对农历日期使用useMemo缓存
-  const lunarDate = getLunarDate();
+  const lunarDate = calculateLunarDate();
   
   // 简化祝福文案选择逻辑，减少不必要的状态更新
   const getRandomBlessingEffect = useCallback(() => {
