@@ -175,12 +175,12 @@ const AdminDashboard: React.FC = () => {
       data.push({
         time: item.time,
         value: item.totalVisits,
-        type: '访问次数'
+        category: '访问次数'
       });
       data.push({
         time: item.time,
         value: item.uniqueIPs,
-        type: '独立IP'
+        category: '独立IP'
       });
     });
     return data;
@@ -191,38 +191,48 @@ const AdminDashboard: React.FC = () => {
     data: prepareChartData(),
     xField: 'time',
     yField: 'value',
-    seriesField: 'type',
+    seriesField: 'category',
     smooth: true,
-    animation: {
-      appear: {
-        animation: 'path-in',
-        duration: 1000,
-      },
-    },
     color: ['#1890ff', '#52c41a'],
     lineStyle: {
-      lineWidth: 2,
+      lineWidth: 3,
     },
     point: {
-      size: 4,
+      size: 5,
       shape: 'circle',
       style: {
         fill: 'white',
-        stroke: '#1890ff',
-        lineWidth: 2,
+        strokeWidth: 2,
       },
     },
     legend: {
       position: 'top' as const,
+      offsetY: -20,
     },
     xAxis: {
       type: 'cat' as const,
-      tickCount: timeRange === '24h' ? 6 : undefined,
+      label: {
+        style: {
+          fontSize: 12,
+        },
+      },
     },
     yAxis: {
       min: 0,
+      label: {
+        style: {
+          fontSize: 12,
+        },
+      },
     },
     height: 300,
+    padding: [20, 20, 60, 50],
+    animation: {
+      appear: {
+        animation: 'path-in',
+        duration: 2000,
+      },
+    },
   };
 
   // 访问详情表格列定义
@@ -379,10 +389,16 @@ const AdminDashboard: React.FC = () => {
             >
               <div className="chart-container">
                 {statsData?.chartData && statsData.chartData.length > 0 ? (
-                  <Line {...chartConfig} />
+                  <>
+                    <div style={{ marginBottom: '16px', textAlign: 'center', color: '#666' }}>
+                      {timeRange === '24h' ? '2025-06-03 24小时统计' : '访问趋势'}
+                    </div>
+                    <Line {...chartConfig} />
+                  </>
                 ) : (
-                  <div style={{ textAlign: 'center', padding: '50px', color: '#999' }}>
-                    暂无数据
+                  <div style={{ textAlign: 'center', padding: '100px 20px', color: '#999' }}>
+                    <div style={{ fontSize: '16px', marginBottom: '8px' }}>暂无数据</div>
+                    <div style={{ fontSize: '12px' }}>请稍后刷新页面重试</div>
                   </div>
                 )}
               </div>
