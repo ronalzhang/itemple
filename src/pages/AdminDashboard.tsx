@@ -182,27 +182,49 @@ const AdminDashboard: React.FC = () => {
     animation: {
       appear: {
         animation: 'path-in',
-        duration: 1000,
+        duration: 1500,
       },
     },
     color: ['#1890ff', '#52c41a'],
     legend: {
       position: 'top' as const,
+      itemName: {
+        style: {
+          fill: '#666',
+          fontSize: 12,
+        },
+      },
     },
     tooltip: {
-      formatter: (datum: any) => {
-        return {
-          name: datum.type,
-          value: datum.value,
-        };
+      showCrosshairs: true,
+      shared: true,
+      crosshairs: {
+        type: 'x',
       },
     },
     point: {
-      size: 3,
+      size: 4,
       shape: 'circle',
+      style: {
+        fill: 'white',
+        stroke: '#1890ff',
+        lineWidth: 2,
+      },
     },
     lineStyle: {
-      lineWidth: 3,
+      lineWidth: 2,
+    },
+    theme: 'light',
+    autoFit: true,
+    renderer: 'canvas',
+    meta: {
+      value: {
+        alias: '数量',
+        min: 0,
+      },
+      time: {
+        alias: '时间',
+      },
     },
   };
 
@@ -295,9 +317,10 @@ const AdminDashboard: React.FC = () => {
               <Statistic
                 title="增长率"
                 value={statsData?.summary.growthRate || '0%'}
-                prefix={<RiseOutlined />}
                 valueStyle={{ 
-                  color: statsData?.summary.growthRate?.startsWith('+') ? '#52c41a' : '#f5222d' 
+                  color: statsData?.summary.growthRate?.startsWith('+') ? '#52c41a' : '#f5222d',
+                  fontSize: '20px',
+                  fontWeight: 'bold'
                 }}
               />
             </Card>

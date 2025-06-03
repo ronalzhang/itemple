@@ -59,28 +59,48 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       border: none;
       transition: all 0.3s;
+      height: 120px;
+      display: flex;
+      align-items: center;
 
       &:hover {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         transform: translateY(-2px);
       }
 
+      .ant-card-body {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 20px;
+      }
+
       .ant-statistic {
+        width: 100%;
+        
         .ant-statistic-title {
           color: #666;
           font-weight: 500;
           margin-bottom: 8px;
+          font-size: 14px;
         }
 
         .ant-statistic-content {
+          display: flex;
+          align-items: center;
+          
           .ant-statistic-content-value {
             font-weight: 600;
-            font-size: 32px;
+            font-size: 28px;
+            line-height: 1;
+            word-break: break-all;
+            overflow-wrap: break-word;
           }
 
           .ant-statistic-content-prefix {
             margin-right: 8px;
-            font-size: 24px;
+            font-size: 20px;
+            flex-shrink: 0;
           }
         }
       }
