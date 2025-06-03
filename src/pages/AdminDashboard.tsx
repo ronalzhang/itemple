@@ -166,8 +166,8 @@ const AdminDashboard: React.FC = () => {
     }
   }, [customDateRange]);
 
-  // 准备图表数据
-  const prepareChartData = () => {
+  // 准备图表数据 - 简化版本
+  const chartData = React.useMemo(() => {
     if (!statsData?.chartData) return [];
     
     const data: any[] = [];
@@ -175,103 +175,55 @@ const AdminDashboard: React.FC = () => {
       data.push({
         time: item.time,
         value: item.totalVisits,
-        category: '访问次数'
+        type: '访问次数'
       });
       data.push({
         time: item.time,
         value: item.uniqueIPs,
-        category: '独立IP'
+        type: '独立IP'
       });
     });
     return data;
-  };
+  }, [statsData]);
 
-  // 图表配置
-  const chartConfig = {
-    data: prepareChartData(),
-    xField: 'time',
-    yField: 'value',
-    seriesField: 'category',
-    smooth: true,
-    color: ['#1890ff', '#52c41a'],
-    lineStyle: {
-      lineWidth: 3,
-    },
-    point: {
-      size: 5,
-      shape: 'circle',
-      style: {
-        fill: 'white',
-        strokeWidth: 2,
-      },
-    },
-    legend: {
-      position: 'top' as const,
-      offsetY: -20,
-    },
-    xAxis: {
-      type: 'cat' as const,
-      label: {
-        style: {
-          fontSize: 12,
-        },
-      },
-    },
-    yAxis: {
-      min: 0,
-      label: {
-        style: {
-          fontSize: 12,
-        },
-      },
-    },
-    height: 300,
-    padding: [20, 20, 60, 50],
-    animation: {
-      appear: {
-        animation: 'path-in',
-        duration: 2000,
-      },
-    },
-  };
-
-  // 访问详情表格列定义
+  // 访问详情表格列定义 - 简化版本
   const columns = [
     {
       title: 'IP地址',
       dataIndex: 'ip_address',
       key: 'ip_address',
-      width: 120,
+      width: 130,
     },
     {
       title: '时间',
       dataIndex: 'visit_time',
       key: 'visit_time',
-      width: 140,
+      width: 120,
       render: (time: string) => dayjs(time).format('MM-DD HH:mm'),
     },
     {
       title: '路径',
       dataIndex: 'url_path',
       key: 'url_path',
+      width: 150,
       ellipsis: true,
       render: (path: string) => (
         <span title={path}>
-          {path.length > 20 ? `${path.substring(0, 20)}...` : path}
+          {path.length > 15 ? `${path.substring(0, 15)}...` : path}
         </span>
       ),
     },
     {
-      title: '设备信息',
+      title: '浏览器',
       dataIndex: 'user_agent',
       key: 'user_agent',
-      ellipsis: true,
+      width: 100,
       render: (agent: string) => {
-        // 简化显示设备信息
-        if (agent.includes('Mobile')) return '移动设备';
+        if (agent.includes('Mobile')) return '移动端';
         if (agent.includes('Chrome')) return 'Chrome';
         if (agent.includes('Safari')) return 'Safari';
         if (agent.includes('Firefox')) return 'Firefox';
+        if (agent.includes('Edge')) return 'Edge';
         return '其他';
       },
     },
@@ -351,7 +303,7 @@ const AdminDashboard: React.FC = () => {
         <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
           <Col span={24}>
             <Card 
-              title={`${timeRange === '24h' ? '2025-06-03 24小时统计' : '访问趋势图表'}`}
+              title="访问趋势图表"
               bordered={false}
               className="chart-card"
               extra={
@@ -375,30 +327,58 @@ const AdminDashboard: React.FC = () => {
                     size="small"
                     onClick={() => handleTimeRangeChange('30d')}
                   >
-                    月度
+                    30天
                   </Button>
                   <Button 
                     type={timeRange === '365d' ? 'primary' : 'default'}
                     size="small"
                     onClick={() => handleTimeRangeChange('365d')}
                   >
-                    历史
+                    全年
                   </Button>
                 </Space>
               }
             >
-              <div className="chart-container">
-                {statsData?.chartData && statsData.chartData.length > 0 ? (
-                  <>
-                    <div style={{ marginBottom: '16px', textAlign: 'center', color: '#666' }}>
-                      {timeRange === '24h' ? '2025-06-03 24小时统计' : '访问趋势'}
-                    </div>
-                    <Line {...chartConfig} />
-                  </>
+              <div style={{ height: '400px', width: '100%' }}>
+                {chartData && chartData.length > 0 ? (
+                  <Line
+                    data={chartData}
+                    xField="time"
+                    yField="value"
+                    seriesField="type"
+                    height={360}
+                    color={['#1890ff', '#52c41a']}
+                    smooth={true}
+                    point={{
+                      size: 4,
+                    }}
+                    legend={{
+                      position: 'top'
+                    }}
+                    tooltip={{
+                      showMarkers: true,
+                    }}
+                    xAxis={{
+                      label: {
+                        autoRotate: false,
+                      },
+                    }}
+                    yAxis={{
+                      min: 0,
+                    }}
+                  />
                 ) : (
-                  <div style={{ textAlign: 'center', padding: '100px 20px', color: '#999' }}>
-                    <div style={{ fontSize: '16px', marginBottom: '8px' }}>暂无数据</div>
-                    <div style={{ fontSize: '12px' }}>请稍后刷新页面重试</div>
+                  <div style={{ 
+                    height: '360px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    color: '#999'
+                  }}>
+                    <div>
+                      <div style={{ fontSize: '16px', marginBottom: '8px' }}>暂无图表数据</div>
+                      <div style={{ fontSize: '12px' }}>请点击刷新按钮重新加载</div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -423,7 +403,7 @@ const AdminDashboard: React.FC = () => {
                     showTotal: (total, range) =>
                       `第 ${range[0]}-${range[1]} 条，共 ${total} 条`,
                   }}
-                  scroll={{ x: 400, y: 400 }}
+                  scroll={{ x: 500, y: 400 }}
                   size="small"
                 />
               </div>
