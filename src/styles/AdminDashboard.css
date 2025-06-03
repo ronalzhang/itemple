@@ -179,22 +179,40 @@
     padding: 12px;
   }
 }
+.admin-dashboard .details-card .table-container {
+  overflow-x: auto;
+}
+.admin-dashboard .details-card .table-container .ant-table {
+  min-width: 400px;
+}
 .admin-dashboard .details-card .table-container .ant-table .ant-table-thead > tr > th {
   background: #fafafa;
   font-weight: 600;
   color: #262626;
   border-bottom: 2px solid #f0f0f0;
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .admin-dashboard .details-card .table-container .ant-table .ant-table-thead > tr > th {
     font-size: 12px;
-    padding: 8px;
+    padding: 8px 4px;
+  }
+}
+@media (max-width: 480px) {
+  .admin-dashboard .details-card .table-container .ant-table .ant-table-thead > tr > th {
+    font-size: 11px;
+    padding: 6px 2px;
+  }
+}
+@media (max-width: 768px) {
+  .admin-dashboard .details-card .table-container .ant-table .ant-table-tbody > tr > td {
+    font-size: 12px;
+    padding: 8px 4px;
   }
 }
 @media (max-width: 480px) {
   .admin-dashboard .details-card .table-container .ant-table .ant-table-tbody > tr > td {
-    font-size: 12px;
-    padding: 8px;
+    font-size: 11px;
+    padding: 6px 2px;
   }
 }
 .admin-dashboard .details-card .table-container .ant-table .ant-table-pagination {
@@ -207,6 +225,22 @@
 }
 @media (max-width: 480px) {
   .admin-dashboard .details-card .table-container .ant-table .ant-table-pagination .ant-pagination-options {
+    display: none;
+  }
+  .admin-dashboard .details-card .table-container .ant-table .ant-table-pagination .ant-pagination-jump-prev,
+  .admin-dashboard .details-card .table-container .ant-table .ant-table-pagination .ant-pagination-jump-next {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .admin-dashboard .details-card .table-container .ant-table-thead > tr > th:last-child,
+  .admin-dashboard .details-card .table-container .ant-table-tbody > tr > td:last-child {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .admin-dashboard .details-card .table-container .ant-table-thead > tr > th:nth-child(3),
+  .admin-dashboard .details-card .table-container .ant-table-tbody > tr > td:nth-child(3) {
     display: none;
   }
 }

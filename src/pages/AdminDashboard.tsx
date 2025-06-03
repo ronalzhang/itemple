@@ -231,26 +231,39 @@ const AdminDashboard: React.FC = () => {
       title: 'IP地址',
       dataIndex: 'ip_address',
       key: 'ip_address',
-      width: 150,
+      width: 120,
     },
     {
-      title: '访问时间',
+      title: '时间',
       dataIndex: 'visit_time',
       key: 'visit_time',
-      width: 180,
-      render: (time: string) => dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
+      width: 140,
+      render: (time: string) => dayjs(time).format('MM-DD HH:mm'),
     },
     {
-      title: '访问路径',
+      title: '路径',
       dataIndex: 'url_path',
       key: 'url_path',
-      width: 200,
+      ellipsis: true,
+      render: (path: string) => (
+        <span title={path}>
+          {path.length > 20 ? `${path.substring(0, 20)}...` : path}
+        </span>
+      ),
     },
     {
-      title: '用户代理',
+      title: '设备信息',
       dataIndex: 'user_agent',
       key: 'user_agent',
       ellipsis: true,
+      render: (agent: string) => {
+        // 简化显示设备信息
+        if (agent.includes('Mobile')) return '移动设备';
+        if (agent.includes('Chrome')) return 'Chrome';
+        if (agent.includes('Safari')) return 'Safari';
+        if (agent.includes('Firefox')) return 'Firefox';
+        return '其他';
+      },
     },
   ];
 
@@ -394,7 +407,7 @@ const AdminDashboard: React.FC = () => {
                     showTotal: (total, range) =>
                       `第 ${range[0]}-${range[1]} 条，共 ${total} 条`,
                   }}
-                  scroll={{ x: 600 }}
+                  scroll={{ x: 400, y: 400 }}
                   size="small"
                 />
               </div>
