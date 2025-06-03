@@ -15,6 +15,7 @@ import AdminDashboard from './pages/AdminDashboard';
 // 组件
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
 // import BackgroundEffect from './components/BackgroundEffect';
 
 // 上下文提供者
@@ -68,7 +69,11 @@ const App: React.FC = () => {
               
               {/* 后台管理路由 */}
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/dashboard" element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } />
             </Routes>
           </div>
         </BrowserRouter>
