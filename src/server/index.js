@@ -46,7 +46,7 @@ app.use(getRealIP);
 
 // 静态文件服务 - 指向构建后的前端文件
 // 在开发和生产环境中都启用静态文件服务
-app.use(express.static(path.join(__dirname, '../../dist')));
+  app.use(express.static(path.join(__dirname, '../../dist')));
 
 // 为前端页面添加访问日志记录
 app.use((req, res, next) => {
@@ -71,9 +71,9 @@ app.get('/health', (req, res) => {
 });
 
 // 将所有未匹配的路由重定向到前端应用
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../dist/index.html'));
-});
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../dist/index.html'));
+  });
 
 // 错误处理中间件
 app.use((err, req, res, next) => {

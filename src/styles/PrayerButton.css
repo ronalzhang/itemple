@@ -1,0 +1,584 @@
+@charset "UTF-8";
+.prayer-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  margin: 1rem 0;
+  position: relative;
+}
+.prayer-button-container::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 20px;
+  background-image: url("/images/lotus-border.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.6;
+}
+
+.lunar-date-display {
+  text-align: center;
+  font-size: 1rem;
+  color: #333333;
+  margin-bottom: 0.5rem;
+  font-family: "Ma Shan Zheng", cursive;
+  min-height: 28px;
+}
+@media (max-width: 576px) {
+  .lunar-date-display {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.prayer-explanation {
+  max-width: 600px;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: rgba(51, 51, 51, 0.8);
+  line-height: 1.4;
+}
+
+.prayer-button {
+  background: linear-gradient(135deg, #d4af37, #b29126) !important;
+  border: none !important;
+  height: 70px !important;
+  width: 280px !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  border-radius: 35px !important;
+  color: #111111 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 6px 12px rgba(212, 175, 55, 0.4) !important;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease !important;
+  transform: translateZ(0);
+  will-change: transform;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.prayer-button:hover {
+  transform: translateY(-4px) scale(1.02) translateZ(0) !important;
+  box-shadow: 0 8px 16px rgba(212, 175, 55, 0.5) !important;
+  background: linear-gradient(135deg, #d9b74c, #c7a22b) !important;
+}
+.prayer-button:active {
+  transform: translateY(2px) translateZ(0) !important;
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3) !important;
+}
+.prayer-button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
+}
+.prayer-button:hover::before {
+  opacity: 1;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+}
+
+/* 祝福成功弹窗样式 */
+.blessing-modal .ant-modal-content {
+  border-radius: 8px !important;
+  background-color: rgba(255, 252, 240, 0.98) !important;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  overflow: hidden;
+  max-width: 450px;
+  margin: 0 auto;
+}
+.blessing-modal .ant-modal-content .ant-modal-header {
+  background-color: rgba(212, 175, 55, 0.08);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  padding: 0.5rem 1rem;
+}
+.blessing-modal .ant-modal-content .ant-modal-header .ant-modal-title {
+  color: #d4af37;
+  font-family: "Noto Serif SC", serif;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.blessing-modal .ant-modal-content .ant-modal-body {
+  padding: 1rem;
+  position: relative;
+}
+.blessing-modal .ant-modal-content .ant-modal-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/images/lotus-watermark.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 120px;
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.blessing-content {
+  position: relative;
+  z-index: 1;
+}
+.blessing-content .temple-image {
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.blessing-content .temple-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.5) 100%);
+  z-index: 1;
+}
+.blessing-content .temple-image .buddha-image {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 4s ease;
+  transform-origin: center;
+}
+.blessing-content .temple-image .buddha-image:hover {
+  transform: scale(1.05);
+}
+.blessing-content .incense-animation {
+  width: 100px;
+  height: 150px;
+  background-image: url("/images/incense.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 auto 1rem;
+  position: relative;
+  transform: translateZ(0);
+  will-change: transform;
+}
+.blessing-content .incense-animation::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 8px;
+  height: 30px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.8));
+  border-radius: 50%;
+  filter: blur(2px);
+  transform: translateX(-50%);
+  animation: smoke 4s ease-out infinite;
+  will-change: opacity, transform;
+}
+@keyframes smoke {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  10% {
+    height: 10px;
+    opacity: 0.8;
+  }
+  40% {
+    height: 30px;
+    opacity: 0.5;
+  }
+  100% {
+    height: 50px;
+    opacity: 0;
+    transform: translateX(-50%) translateY(-50px);
+  }
+}
+.blessing-content .success-message {
+  font-size: 1.25rem;
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-family: "Ma Shan Zheng", cursive;
+  position: relative;
+  padding: 0 1rem;
+  text-align: center;
+}
+.blessing-content .success-message::before, .blessing-content .success-message::after {
+  content: "☸";
+  position: absolute;
+  color: rgba(212, 175, 55, 0.3);
+  font-size: 1rem;
+  top: 0;
+}
+.blessing-content .success-message::before {
+  left: 0;
+}
+.blessing-content .success-message::after {
+  right: 0;
+}
+.blessing-content .prayer-achievement {
+  background-color: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.blessing-content .prayer-achievement .prayer-rank, .blessing-content .prayer-achievement .prayer-id {
+  font-size: 1rem;
+  color: rgba(51, 51, 51, 0.7);
+  margin-bottom: 0.5rem;
+  width: 100%;
+  text-align: center;
+}
+.blessing-content .prayer-achievement .prayer-rank:last-child, .blessing-content .prayer-achievement .prayer-id:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 576px) {
+  .blessing-content .prayer-achievement .prayer-rank, .blessing-content .prayer-achievement .prayer-id {
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+}
+.blessing-content .success-date {
+  font-size: 0.875rem;
+  color: #333333;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+.blessing-content p {
+  font-size: 1rem;
+  color: #8d6e63;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-family: "Ma Shan Zheng", cursive;
+  background: rgba(212, 175, 55, 0.05);
+  padding: 0.5rem;
+  border-radius: 8px;
+  position: relative;
+}
+.blessing-content p::before, .blessing-content p::after {
+  content: '"';
+  position: absolute;
+  color: rgba(212, 175, 55, 0.4);
+  font-size: 1.5rem;
+  font-family: serif;
+}
+.blessing-content p::before {
+  left: 5px;
+  top: -3px;
+}
+.blessing-content p::after {
+  right: 5px;
+  bottom: -15px;
+}
+.blessing-content .merit-button-container {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+.blessing-content .merit-button-container .merit-button {
+  background: linear-gradient(135deg, #d4af37, #b29126);
+  border: none;
+  border-radius: 20px;
+  padding: 0 1.5rem;
+  height: 36px;
+  font-size: 0.875rem;
+  min-width: 120px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(212, 175, 55, 0.2);
+}
+.blessing-content .merit-button-container .merit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(212, 175, 55, 0.3);
+}
+.blessing-content .merit-button-container .merit-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(212, 175, 55, 0.2);
+}
+
+.prayer-success-modal .ant-modal-content {
+  border-radius: 8px !important;
+  overflow: hidden;
+  background-color: rgba(255, 252, 240, 0.95) !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+.prayer-success-modal .ant-modal-content .ant-modal-header {
+  background-color: rgba(212, 175, 55, 0.1);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+.prayer-success-modal .ant-modal-content .ant-modal-header .ant-modal-title {
+  color: #d4af37;
+  font-family: "Noto Serif SC", serif;
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 1rem 0;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+}
+.prayer-success-modal .ant-modal-content .ant-modal-body {
+  padding: 2rem;
+  background-image: url("/images/lotus-watermark.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 150px;
+  background-blend-mode: normal;
+}
+.prayer-success-modal .ant-modal-content .ant-modal-close {
+  color: rgba(212, 175, 55, 0.7);
+}
+.prayer-success-modal .ant-modal-content .ant-modal-close:hover {
+  color: #d4af37;
+}
+.prayer-success-modal .success-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateZ(0);
+}
+.prayer-success-modal .success-content .temple-image {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prayer-success-modal .success-content .temple-image img {
+  max-width: 120px;
+  opacity: 0.85;
+  margin: 0 auto;
+}
+.prayer-success-modal .success-content .success-message {
+  font-size: 1.5rem;
+  color: #d4af37;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: "Noto Serif SC", serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  width: 100%;
+  padding: 5px 0;
+  text-align: center;
+}
+.prayer-success-modal .success-content .blessing-description {
+  font-size: 1rem;
+  color: #333333;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  width: 100%;
+  text-align: center;
+}
+.prayer-success-modal .success-content .prayer-achievement {
+  background-color: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.prayer-success-modal .success-content .prayer-achievement .prayer-rank, .prayer-success-modal .success-content .prayer-achievement .prayer-id {
+  font-size: 1rem;
+  color: rgba(51, 51, 51, 0.7);
+  margin-bottom: 0.5rem;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+}
+.prayer-success-modal .success-content .prayer-achievement .prayer-rank:last-child, .prayer-success-modal .success-content .prayer-achievement .prayer-id:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 576px) {
+  .prayer-success-modal .success-content .prayer-achievement {
+    padding: 1rem 1.5rem;
+  }
+  .prayer-success-modal .success-content .success-message {
+    min-height: 50px;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .prayer-success-modal .success-content .prayer-rank, .prayer-success-modal .success-content .prayer-id {
+    min-height: 40px;
+    padding: 5px 0;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .prayer-success-modal .success-content .blessing-description {
+    line-height: 1.5;
+    font-size: 0.875rem;
+  }
+  .prayer-success-modal .success-content .merit-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .prayer-success-modal .success-content .merit-button-container .merit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.prayer-success-modal .success-content .success-date {
+  font-size: 0.875rem;
+  color: #333333;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(212, 175, 55, 0.05);
+  border-radius: 4px;
+  width: 100%;
+  line-height: 1.6;
+}
+.prayer-success-modal .success-content .success-date .ceremony-note {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: rgba(51, 51, 51, 0.7);
+}
+.prayer-success-modal .success-content .success-date .blessing-promise {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #333333;
+}
+.prayer-success-modal .success-content .blessing-effect {
+  font-size: 0.875rem;
+  color: #d4af37;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+.prayer-success-modal .success-content .merit-button-container {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prayer-success-modal .success-content .merit-button-container .merit-button {
+  min-width: 120px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+}
+
+@keyframes smoke {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0);
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(-50%) translateY(-15px);
+  }
+  75% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px);
+  }
+}
+@keyframes simple-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.share-button-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.share-button {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  border-radius: 50px;
+  padding: 6px 14px;
+  box-shadow: 0 3px 10px rgba(212, 175, 55, 0.15);
+  background: linear-gradient(120deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.1)) !important;
+  border-color: rgba(212, 175, 55, 0.3) !important;
+  color: #d4af37 !important;
+  font-weight: 500;
+  transition: all 0.3s ease !important;
+}
+.share-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+  background: linear-gradient(120deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.15)) !important;
+}
+.share-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.1);
+}
+.share-button .anticon, .share-button span[role=img] {
+  margin-right: 6px;
+  font-size: 15px;
+}/*# sourceMappingURL=PrayerButton.css.map */

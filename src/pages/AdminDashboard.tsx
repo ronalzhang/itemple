@@ -166,15 +166,29 @@ const AdminDashboard: React.FC = () => {
     }
   }, [customDateRange]);
 
-  // 转换图表数据格式
-  const chartData = statsData?.chartData.flatMap(item => [
-    { time: item.time, value: item.totalVisits, type: '总访问数' },
-    { time: item.time, value: item.uniqueIPs, type: '独立IP数' }
-  ]) || [];
+  // 准备图表数据
+  const prepareChartData = () => {
+    if (!statsData?.chartData) return [];
+    
+    const data: any[] = [];
+    statsData.chartData.forEach(item => {
+      data.push({
+        time: item.time,
+        value: item.totalVisits,
+        type: '访问次数'
+      });
+      data.push({
+        time: item.time,
+        value: item.uniqueIPs,
+        type: '独立IP'
+      });
+    });
+    return data;
+  };
 
-  // 准备图表配置
+  // 图表配置
   const chartConfig = {
-    data: chartData,
+    data: prepareChartData(),
     xField: 'time',
     yField: 'value',
     seriesField: 'type',
@@ -182,25 +196,12 @@ const AdminDashboard: React.FC = () => {
     animation: {
       appear: {
         animation: 'path-in',
-        duration: 1500,
+        duration: 1000,
       },
     },
     color: ['#1890ff', '#52c41a'],
-    legend: {
-      position: 'top' as const,
-      itemName: {
-        style: {
-          fill: '#666',
-          fontSize: 12,
-        },
-      },
-    },
-    tooltip: {
-      showCrosshairs: true,
-      shared: true,
-      crosshairs: {
-        type: 'x',
-      },
+    lineStyle: {
+      lineWidth: 2,
     },
     point: {
       size: 4,
@@ -211,21 +212,17 @@ const AdminDashboard: React.FC = () => {
         lineWidth: 2,
       },
     },
-    lineStyle: {
-      lineWidth: 2,
+    legend: {
+      position: 'top' as const,
     },
-    theme: 'light',
-    autoFit: true,
-    renderer: 'canvas',
-    meta: {
-      value: {
-        alias: '数量',
-        min: 0,
-      },
-      time: {
-        alias: '时间',
-      },
+    xAxis: {
+      type: 'cat' as const,
+      tickCount: timeRange === '24h' ? 6 : undefined,
     },
+    yAxis: {
+      min: 0,
+    },
+    height: 300,
   };
 
   // 访问详情表格列定义
@@ -265,14 +262,14 @@ const AdminDashboard: React.FC = () => {
           <Title level={2}>网站访问统计</Title>
         </div>
         <div className="header-right">
-          <Space>
-            <Button icon={<ReloadOutlined />} onClick={handleRefresh}>
+          <Space wrap>
+            <Button icon={<ReloadOutlined />} onClick={handleRefresh} size="small">
               刷新
             </Button>
-            <Button icon={<DownloadOutlined />}>
+            <Button icon={<DownloadOutlined />} size="small">
               导出数据
             </Button>
-            <Button icon={<LogoutOutlined />} onClick={handleLogout}>
+            <Button icon={<LogoutOutlined />} onClick={handleLogout} size="small">
               退出
             </Button>
           </Space>
@@ -283,7 +280,7 @@ const AdminDashboard: React.FC = () => {
         {/* 统计卡片 */}
         <Row gutter={[16, 16]} className="stats-cards">
           <Col xs={24} sm={12} lg={6}>
-            <Card bordered={false}>
+            <Card bordered={false} className="stat-card">
               <Statistic
                 title="总访问次数"
                 value={statsData?.summary.totalVisits || 0}
@@ -293,7 +290,7 @@ const AdminDashboard: React.FC = () => {
             </Card>
           </Col>
           <Col xs={24} sm={12} lg={6}>
-            <Card bordered={false}>
+            <Card bordered={false} className="stat-card">
               <Statistic
                 title="独立IP数"
                 value={statsData?.summary.uniqueIPs || 0}
@@ -303,7 +300,7 @@ const AdminDashboard: React.FC = () => {
             </Card>
           </Col>
           <Col xs={24} sm={12} lg={6}>
-            <Card bordered={false}>
+            <Card bordered={false} className="stat-card">
               <Statistic
                 title="今日访问"
                 value={statsData?.summary.todayVisits || 0}
@@ -313,13 +310,13 @@ const AdminDashboard: React.FC = () => {
             </Card>
           </Col>
           <Col xs={24} sm={12} lg={6}>
-            <Card bordered={false}>
+            <Card bordered={false} className="stat-card">
               <Statistic
                 title="增长率"
                 value={statsData?.summary.growthRate || '0%'}
                 valueStyle={{ 
                   color: statsData?.summary.growthRate?.startsWith('+') ? '#52c41a' : '#f5222d',
-                  fontSize: '20px',
+                  fontSize: '18px',
                   fontWeight: 'bold'
                 }}
               />
@@ -327,14 +324,15 @@ const AdminDashboard: React.FC = () => {
           </Col>
         </Row>
 
-        {/* 图表 */}
-        <Row gutter={[16, 16]}>
+        {/* 访问趋势图表 */}
+        <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
           <Col span={24}>
             <Card 
-              title="访问趋势图" 
+              title={`${timeRange === '24h' ? '2025-06-03 24小时统计' : '访问趋势图表'}`}
               bordered={false}
+              className="chart-card"
               extra={
-                <Space>
+                <Space wrap>
                   <Button 
                     type={timeRange === '24h' ? 'primary' : 'default'}
                     size="small"
@@ -347,48 +345,59 @@ const AdminDashboard: React.FC = () => {
                     size="small"
                     onClick={() => handleTimeRangeChange('7d')}
                   >
-                    一周
+                    7天
                   </Button>
                   <Button 
                     type={timeRange === '30d' ? 'primary' : 'default'}
                     size="small"
                     onClick={() => handleTimeRangeChange('30d')}
                   >
-                    一月
+                    月度
                   </Button>
                   <Button 
                     type={timeRange === '365d' ? 'primary' : 'default'}
                     size="small"
                     onClick={() => handleTimeRangeChange('365d')}
                   >
-                    一年
+                    历史
                   </Button>
                 </Space>
               }
             >
-              <Line {...chartConfig} height={400} />
+              <div className="chart-container">
+                {statsData?.chartData && statsData.chartData.length > 0 ? (
+                  <Line {...chartConfig} />
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '50px', color: '#999' }}>
+                    暂无数据
+                  </div>
+                )}
+              </div>
             </Card>
           </Col>
         </Row>
 
         {/* 访问详情表格 */}
-        <Row gutter={[16, 16]}>
+        <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
           <Col span={24}>
-            <Card title="最近访问记录" bordered={false}>
-              <Table
-                columns={columns}
-                dataSource={visitDetails}
-                loading={detailsLoading}
-                rowKey="id"
-                pagination={{
-                  pageSize: 20,
-                  showSizeChanger: false,
-                  showQuickJumper: true,
-                  showTotal: (total, range) =>
-                    `第 ${range[0]}-${range[1]} 条，共 ${total} 条`,
-                }}
-                scroll={{ x: 800 }}
-              />
+            <Card title="访问明细数据" bordered={false} className="details-card">
+              <div className="table-container">
+                <Table
+                  columns={columns}
+                  dataSource={visitDetails}
+                  loading={detailsLoading}
+                  rowKey="id"
+                  pagination={{
+                    pageSize: 20,
+                    showSizeChanger: false,
+                    showQuickJumper: true,
+                    showTotal: (total, range) =>
+                      `第 ${range[0]}-${range[1]} 条，共 ${total} 条`,
+                  }}
+                  scroll={{ x: 600 }}
+                  size="small"
+                />
+              </div>
             </Card>
           </Col>
         </Row>

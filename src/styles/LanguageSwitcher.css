@@ -1,0 +1,33 @@
+.language-switcher {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  z-index: 100;
+}
+@media (max-width: 576px) {
+  .language-switcher {
+    position: absolute;
+    top: auto;
+    bottom: 0.5rem;
+    right: 50%;
+    transform: translateX(50%);
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0 6px;
+  }
+  .language-switcher .ant-btn {
+    padding: 0 6px;
+    font-size: 10px;
+    height: 20px;
+    min-width: 28px;
+  }
+  .language-switcher .ant-space {
+    gap: 2px !important;
+  }
+}/*# sourceMappingURL=LanguageSwitcher.css.map */

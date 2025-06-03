@@ -1,0 +1,387 @@
+.temple-info-container {
+  padding: 2rem 0;
+}
+.temple-info-container .section-title {
+  text-align: center;
+  font-family: "Noto Serif SC", serif;
+  font-size: 2rem;
+  color: #d4af37;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.temple-info-container .section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: #d4af37;
+}
+.temple-info-container .temple-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .temple-info-container .temple-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.temple-info-container .temple-description .info-card {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.temple-info-container .temple-description .info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.temple-info-container .temple-description .info-card .ant-card-body {
+  padding: 1.5rem;
+}
+.temple-info-container .temple-description .temple-text {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.temple-info-container .temple-description .temple-text .intro-paragraph {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #8d6e63;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #d4af37;
+  padding-left: 1rem;
+}
+.temple-info-container .temple-description .temple-text p {
+  margin-bottom: 1.5rem;
+}
+.temple-info-container .temple-description .temple-text p:last-child {
+  margin-bottom: 0;
+}
+.temple-info-container .temple-gallery .gallery-card {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.temple-info-container .temple-gallery .gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.temple-info-container .temple-gallery .gallery-card .ant-card-body {
+  padding: 1rem;
+}
+.temple-info-container .temple-gallery .carousel-item {
+  height: 300px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.temple-info-container .temple-gallery .carousel-item .temple-image {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+.temple-info-container .temple-gallery .carousel-item .temple-image:hover {
+  transform: scale(1.02);
+}
+.temple-info-container .temple-gallery :global .custom-dots li button {
+  background: rgba(212, 175, 55, 0.3) !important;
+}
+.temple-info-container .temple-gallery :global .custom-dots li button:hover, .temple-info-container .temple-gallery :global .custom-dots li button:focus {
+  background: rgba(212, 175, 55, 0.5) !important;
+}
+.temple-info-container .temple-gallery :global .custom-dots li.slick-active button {
+  background: #d4af37 !important;
+}
+.temple-info-container .temple-gallery :global .ant-carousel .slick-dots-bottom {
+  bottom: 10px;
+}
+
+.temple-info {
+  margin-bottom: 30px;
+}
+.temple-info .ant-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.temple-info .ant-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+.temple-info .ant-typography {
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 576px) {
+  .temple-info .ant-typography {
+    margin-bottom: 1rem;
+  }
+}
+.temple-info h3 {
+  text-align: center;
+  color: #d4af37;
+  font-family: "Noto Serif SC", serif;
+  position: relative;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+.temple-info h3:after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #d4af37;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 1.5px;
+}
+@media (max-width: 576px) {
+  .temple-info h3 {
+    font-size: 1.4rem;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+  }
+  .temple-info h3:after {
+    width: 40px;
+    height: 2px;
+  }
+}
+.temple-info .temple-carousel-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+@media (max-width: 576px) {
+  .temple-info .temple-carousel-container {
+    margin-bottom: 15px;
+  }
+}
+.temple-info .temple-carousel {
+  flex: 1;
+  overflow: hidden;
+}
+.temple-info .temple-carousel .carousel-item {
+  height: 450px;
+  background-color: #f8f5e4;
+  overflow: hidden;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 576px) {
+  .temple-info .temple-carousel .carousel-item {
+    height: 350px;
+  }
+}
+.temple-info .temple-carousel .carousel-item .image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.temple-info .temple-carousel .carousel-item .image-container img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  border-radius: 8px;
+  transition: transform 0.5s ease;
+}
+.temple-info .temple-carousel .carousel-item .image-container img:hover {
+  transform: scale(1.05);
+}
+@media (max-width: 576px) {
+  .temple-info .temple-carousel .carousel-item .image-container img {
+    width: 90%;
+    margin: 0 auto;
+    -o-object-fit: contain;
+       object-fit: contain;
+  }
+}
+.temple-info .temple-carousel .carousel-item .image-container .fullscreen-button {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 5;
+}
+.temple-info .temple-carousel .carousel-item .image-container .fullscreen-button:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+@media (max-width: 576px) {
+  .temple-info .temple-carousel .carousel-item .image-container .fullscreen-button {
+    width: 32px;
+    height: 32px;
+    right: 10px;
+    bottom: 10px;
+    opacity: 0.8;
+  }
+}
+.temple-info .temple-carousel .carousel-item .image-container:hover .fullscreen-button {
+  opacity: 1;
+}
+.temple-info .carousel-button {
+  position: absolute;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+@media (max-width: 576px) {
+  .temple-info .carousel-button {
+    width: 32px;
+    height: 32px;
+  }
+  .temple-info .carousel-button .anticon {
+    font-size: 12px;
+  }
+}
+.temple-info .carousel-button:hover {
+  background: #fff;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
+.temple-info .carousel-button.prev-button {
+  left: 16px;
+}
+.temple-info .carousel-button.next-button {
+  right: 16px;
+}
+.temple-info .thumbnails-container {
+  margin-bottom: 20px;
+  padding: 0 15px;
+}
+.temple-info .thumbnails-container .thumbnail {
+  height: 80px;
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0.7;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+.temple-info .thumbnails-container .thumbnail img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.temple-info .thumbnails-container .thumbnail:hover {
+  opacity: 0.9;
+}
+.temple-info .thumbnails-container .thumbnail.active {
+  opacity: 1;
+  border-color: #d4af37;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+@media (max-width: 576px) {
+  .temple-info .thumbnails-container .thumbnail {
+    height: 60px;
+  }
+}
+.temple-info .temple-description {
+  padding: 15px 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.temple-info .temple-description p {
+  margin-bottom: 14px;
+  text-align: justify;
+  line-height: 1.8;
+  color: #333333;
+  text-indent: 2em;
+}
+@media (max-width: 576px) {
+  .temple-info .temple-description p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    text-indent: 1.5em;
+  }
+}
+.temple-info .fullscreen-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+.temple-info .fullscreen-preview img {
+  max-width: 90%;
+  max-height: 90%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+.temple-info .fullscreen-preview .close-fullscreen {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+.temple-info .fullscreen-preview .close-fullscreen:hover {
+  opacity: 1;
+}
+.temple-info :global(.ant-carousel .slick-dots) {
+  margin-bottom: 16px;
+}
+.temple-info :global(.ant-carousel .slick-dots) li {
+  width: 12px;
+  height: 12px;
+}
+.temple-info :global(.ant-carousel .slick-dots) li button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+}
+.temple-info :global(.ant-carousel .slick-dots) li.slick-active button {
+  background: #d4af37;
+}
+@media (max-width: 576px) {
+  .temple-info :global(.ant-carousel .slick-dots) li {
+    width: 8px;
+    height: 8px;
+  }
+  .temple-info :global(.ant-carousel .slick-dots) li button {
+    width: 8px;
+    height: 8px;
+  }
+}/*# sourceMappingURL=TempleInfo.css.map */

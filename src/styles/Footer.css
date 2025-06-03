@@ -1,0 +1,99 @@
+@charset "UTF-8";
+.site-footer {
+  background-color: #272727;
+  color: #d4af37;
+  padding: 2rem 0;
+  margin-top: 4rem;
+  border-top: 3px solid #d4af37;
+  width: 100%;
+  /* 暂时注释掉，等待lotus-border.png图片文件添加
+  &::before {
+    content: '';
+    display: block;
+    height: 30px;
+    background-image: url('/images/lotus-border.png');
+    background-size: 30px;
+    background-repeat: repeat-x;
+    background-position: top center;
+    margin-top: -20px;
+    opacity: 0.5;
+  }
+  */
+}
+@media (max-width: 576px) {
+  .site-footer {
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+  }
+}
+.site-footer .footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1.5rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+@media (max-width: 576px) {
+  .site-footer .footer-content {
+    padding: 1rem;
+    gap: 1rem;
+    width: 100%;
+  }
+}
+.site-footer .footer-content .footer-links {
+  margin-bottom: 1rem;
+}
+@media (max-width: 576px) {
+  .site-footer .footer-content .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+.site-footer .footer-content .footer-links a {
+  color: #d4af37;
+  text-decoration: none;
+  font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+@media (max-width: 576px) {
+  .site-footer .footer-content .footer-links a {
+    font-size: 0.9rem;
+    display: inline-block;
+    padding: 5px 0;
+  }
+}
+.site-footer .footer-content .footer-links a:hover {
+  color: #e2c876;
+  text-decoration: underline;
+}
+.site-footer .footer-content .footer-links .ant-divider {
+  background-color: rgba(212, 175, 55, 0.3);
+}
+@media (max-width: 576px) {
+  .site-footer .footer-content .footer-links .ant-divider {
+    margin: 0 5px;
+    height: 12px;
+  }
+}
+.site-footer .footer-content .footer-legal {
+  font-size: 0.9rem;
+  color: rgba(212, 175, 55, 0.8);
+}
+@media (max-width: 576px) {
+  .site-footer .footer-content .footer-legal {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+}
+.site-footer .footer-content .footer-legal a {
+  color: rgba(212, 175, 55, 0.8);
+  transition: color 0.3s;
+}
+.site-footer .footer-content .footer-legal a:hover {
+  color: #d4af37;
+}/*# sourceMappingURL=Footer.css.map */

@@ -1,0 +1,112 @@
+.admin-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.admin-login .login-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') repeat;
+}
+.admin-login .login-background .background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+.admin-login .login-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+.admin-login .login-card {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+.admin-login .login-card .ant-card-body {
+  padding: 40px;
+}
+.admin-login .login-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.admin-login .login-header .login-icon {
+  font-size: 48px;
+  color: #667eea;
+  margin-bottom: 16px;
+  display: block;
+}
+.admin-login .login-header .ant-typography {
+  margin-bottom: 8px;
+}
+.admin-login .login-header h2 {
+  color: #333;
+  font-weight: 600;
+}
+.admin-login .ant-form .ant-form-item-label > label {
+  font-weight: 500;
+  color: #555;
+}
+.admin-login .ant-form .ant-input {
+  border-radius: 8px;
+  border: 2px solid #f0f0f0;
+  transition: all 0.3s;
+}
+.admin-login .ant-form .ant-input:hover {
+  border-color: #667eea;
+}
+.admin-login .ant-form .ant-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+.admin-login .ant-form .ant-btn {
+  height: 48px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  transition: all 0.3s;
+}
+.admin-login .ant-form .ant-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+.admin-login .ant-form .ant-btn:active {
+  transform: translateY(0);
+}
+.admin-login .login-footer {
+  margin-top: 30px;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+.admin-login .login-footer .ant-space-item {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .admin-login {
+    padding: 20px;
+  }
+  .admin-login .login-card .ant-card-body {
+    padding: 30px 20px;
+  }
+  .admin-login .login-header .login-icon {
+    font-size: 36px;
+  }
+}/*# sourceMappingURL=AdminLogin.css.map */

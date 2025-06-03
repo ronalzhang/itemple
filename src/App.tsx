@@ -59,11 +59,11 @@ const App: React.FC = () => {
               } />
               <Route path="/contact" element={
                 <>
-                  <Header />
-                  <main className="main-content">
+            <Header />
+            <main className="main-content">
                     <Contact />
-                  </main>
-                  <Footer />
+            </main>
+            <Footer />
                 </>
               } />
               
