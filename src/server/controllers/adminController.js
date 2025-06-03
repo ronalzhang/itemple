@@ -70,6 +70,12 @@ const getVisitStats = async (req, res) => {
         groupBy = sequelize.fn('DATE_TRUNC', 'day', sequelize.col('visit_time'));
         timeFormat = 'day';
         break;
+      case '365d':
+        const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+        whereCondition.visit_time = { [Op.gte]: yearAgo };
+        groupBy = sequelize.fn('DATE_TRUNC', 'month', sequelize.col('visit_time'));
+        timeFormat = 'month';
+        break;
       case 'custom':
         if (startDate && endDate) {
           whereCondition.visit_time = {

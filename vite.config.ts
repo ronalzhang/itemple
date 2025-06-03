@@ -91,6 +91,10 @@ export default defineConfig({
       }
     }
   },
+  preview: {
+    port: 7070,
+    host: "0.0.0.0"
+  },
   server: {
     port: 7070,
     open: false,

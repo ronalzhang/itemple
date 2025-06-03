@@ -192,10 +192,17 @@ const AdminDashboard: React.FC = () => {
     tooltip: {
       formatter: (datum: any) => {
         return {
-          name: datum.type === '总访问数' ? '总访问数' : '独立IP数',
+          name: datum.type,
           value: datum.value,
         };
       },
+    },
+    point: {
+      size: 3,
+      shape: 'circle',
+    },
+    lineStyle: {
+      lineWidth: 3,
     },
   };
 
@@ -250,27 +257,6 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* 控制面板 */}
-      <div className="dashboard-controls">
-        <Space size="large">
-          <span>时间范围：</span>
-          <Select value={timeRange} onChange={handleTimeRangeChange} style={{ width: 120 }}>
-            <Option value="24h">24小时</Option>
-            <Option value="7d">7天</Option>
-            <Option value="30d">30天</Option>
-            <Option value="custom">自定义</Option>
-          </Select>
-          
-          {timeRange === 'custom' && (
-            <RangePicker
-              value={customDateRange}
-              onChange={handleDateRangeChange}
-              format="YYYY-MM-DD"
-            />
-          )}
-        </Space>
-      </div>
-
       <Spin spinning={loading}>
         {/* 统计卡片 */}
         <Row gutter={[16, 16]} className="stats-cards">
@@ -321,7 +307,42 @@ const AdminDashboard: React.FC = () => {
         {/* 图表 */}
         <Row gutter={[16, 16]}>
           <Col span={24}>
-            <Card title="访问趋势图" bordered={false}>
+            <Card 
+              title="访问趋势图" 
+              bordered={false}
+              extra={
+                <Space>
+                  <Button 
+                    type={timeRange === '24h' ? 'primary' : 'default'}
+                    size="small"
+                    onClick={() => handleTimeRangeChange('24h')}
+                  >
+                    24小时
+                  </Button>
+                  <Button 
+                    type={timeRange === '7d' ? 'primary' : 'default'}
+                    size="small"
+                    onClick={() => handleTimeRangeChange('7d')}
+                  >
+                    一周
+                  </Button>
+                  <Button 
+                    type={timeRange === '30d' ? 'primary' : 'default'}
+                    size="small"
+                    onClick={() => handleTimeRangeChange('30d')}
+                  >
+                    一月
+                  </Button>
+                  <Button 
+                    type={timeRange === '365d' ? 'primary' : 'default'}
+                    size="small"
+                    onClick={() => handleTimeRangeChange('365d')}
+                  >
+                    一年
+                  </Button>
+                </Space>
+              }
+            >
               <Line {...chartConfig} height={400} />
             </Card>
           </Col>
